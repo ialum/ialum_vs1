@@ -3,35 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ialum - Sistema de Marketing Jurídico</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            text-align: center;
-            padding: 40px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2563eb;
-        }
-    </style>
+    <title>Ialum - Automação de Marketing Jurídico com IA</title>
+    <link rel="stylesheet" href="public/css/landing.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🎉 Ialum Frontend</h1>
-        <p>Sistema funcionando com EasyPanel!</p>
-        <p>Deploy automático do GitHub ativo ✅</p>
-        <p style="color: green;">🚀 TESTE DE DEPLOY AUTOMÁTICO!</p>
-    </div>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="/" class="logo">
+                <span>⚖️</span>
+                Ialum
+            </a>
+            <div class="nav-links">
+                <a href="#features">Recursos</a>
+                <a href="#notify">Avise-me</a>
+                <a href="#about">Sobre</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Automatize seu Marketing Jurídico com Inteligência Artificial</h1>
+        <p class="subtitle">
+            Crie conteúdo educativo para redes sociais em minutos. 
+            Aumente sua presença digital e atraia mais clientes.
+        </p>
+        <div class="dev-notice">
+            <strong>🚧 Em Desenvolvimento</strong><br>
+            Estamos trabalhando para lançar a melhor plataforma de marketing jurídico do Brasil.
+            Cadastre-se para ser avisado quando estivermos prontos!
+        </div>
+        <div class="hero-buttons">
+            <a href="#notify" class="btn btn-primary">Quero ser avisado</a>
+            <a href="#features" class="btn btn-secondary">Saiba mais</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Tudo que você precisa em um só lugar</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>IA Especializada</h3>
+                    <p>Inteligência artificial treinada especificamente para conteúdo jurídico brasileiro.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Multi-plataformas</h3>
+                    <p>Crie conteúdo otimizado para Instagram, LinkedIn, Facebook e TikTok.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Publicação Automática</h3>
+                    <p>Agende e publique automaticamente em todas as suas redes sociais.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Relatórios Detalhados</h3>
+                    <p>Acompanhe o desempenho e otimize sua estratégia com dados reais.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Segurança Total</h3>
+                    <p>Seus dados protegidos com criptografia e conformidade LGPD.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Templates Profissionais</h3>
+                    <p>Biblioteca de designs criados especialmente para advogados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notify Section -->
+    <section class="notify-section" id="notify">
+        <div class="container">
+            <h2 class="section-title">Seja o primeiro a saber!</h2>
+            <div class="notify-form">
+                <p>
+                    Estamos construindo algo incrível. Deixe seu email e seja notificado 
+                    assim que lançarmos a plataforma.
+                </p>
+                <form id="notify-form" class="form-group">
+                    <input 
+                        type="email" 
+                        id="email-input"
+                        class="form-input"
+                        placeholder="seu@email.com" 
+                        required
+                    >
+                    <button type="submit" class="btn btn-primary">Notificar-me</button>
+                </form>
+                <div id="success-message" class="success-message"></div>
+                <p class="security-note">
+                    🔒 Seus dados estão seguros. Sem spam, prometemos!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="about">
+        <div class="footer-links">
+            <a href="/termos">Termos de Uso</a>
+            <a href="/privacidade">Privacidade</a>
+            <a href="/contato">Contato</a>
+        </div>
+        <p>&copy; 2025 Ialum. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="public/js/landing.js"></script>
 </body>
 </html>
