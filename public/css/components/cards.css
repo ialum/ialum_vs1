@@ -1,0 +1,109 @@
+/**
+ * cards.css
+ * Componente de cards reutilizáveis
+ * Dependências: variables.css
+ * Usado em: dashboard, relatórios
+ * Tamanho alvo: <100 linhas
+ */
+
+.card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* Header */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.card-icon {
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+/* Body */
+.card-body {
+    text-align: center;
+}
+
+/* Footer */
+.card-footer {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--gray-200);
+}
+
+.card-link {
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+/* Variante Primary */
+.card-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+}
+
+.card-primary .card-header h3,
+.card-primary .card-link {
+    color: var(--white);
+}
+
+.card-primary .card-footer {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Stats específicos */
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1;
+}
+
+.stat-label {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+    margin-top: var(--spacing-sm);
+}
+
+.stat-subtitle {
+    color: var(--gray-400);
+    font-size: 0.75rem;
+    margin-top: var(--spacing-xs);
+}
+
+.stat-change {
+    font-size: 0.875rem;
+    margin-top: var(--spacing-md);
+    font-weight: 500;
+}
+
+.stat-change.positive {
+    color: var(--success);
+}
+
+.stat-change.negative {
+    color: var(--error);
+}
