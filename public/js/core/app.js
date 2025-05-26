@@ -3,7 +3,7 @@
  * Inicialização e controle geral do app
  * Dependências: nenhuma
  * Usado em: app.html
- * Tamanho alvo: <100 linhas
+ * Tamanho alvo: <200 linhas
  */
 
 // Módulo principal do app
@@ -24,15 +24,19 @@ window.IalumApp = {
         const hash = window.location.hash.substring(1);
         if (hash) {
             this.loadPage(hash);
-            // Marcar item do menu como ativo
-            const navItem = document.querySelector(`a[href="#${hash}"]`);
-            if (navItem) {
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                navItem.classList.add('active');
-            }
+            this.updateActiveMenu(hash);
         }
+    },
+    
+    // Atualizar menu ativo
+    updateActiveMenu(page) {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${page}`) {
+                item.classList.add('active');
+            }
+        });
     },
     
     // Sidebar
@@ -43,15 +47,11 @@ window.IalumApp = {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Remover active de todos
-                navItems.forEach(nav => nav.classList.remove('active'));
-                
-                // Adicionar active no clicado
-                item.classList.add('active');
-                
                 // Pegar página do href
                 const page = item.getAttribute('href').substring(1);
-                this.loadPage(page);
+                
+                // Atualizar URL
+                window.location.hash = page;
             });
         });
     },
@@ -63,10 +63,9 @@ window.IalumApp = {
             const hash = window.location.hash.substring(1);
             if (hash) {
                 this.loadPage(hash);
+                this.updateActiveMenu(hash);
             }
         });
-        
-        console.log('Sistema de navegação iniciado');
     },
     
     // Menu mobile
@@ -88,7 +87,7 @@ window.IalumApp = {
         }
     },
     
-    // Carregar página (simulado por enquanto)
+    // Carregar página
     async loadPage(page) {
         console.log(`Carregando página: ${page}`);
         
@@ -114,200 +113,189 @@ window.IalumApp = {
         const pageContent = document.getElementById('page-content');
         if (!pageContent) return;
         
-        // Por enquanto, vamos simular o conteúdo inline
-        // TODO: Quando N8N estiver pronto, buscar de /api/templates/${page}
+        // Limpar conteúdo anterior
+        pageContent.innerHTML = '';
         
-        if (page === 'configuracoes') {
-            pageContent.innerHTML = this.getConfiguracaoesTemplate();
+        try {
+            // Tentar buscar template via fetch (quando N8N estiver pronto)
+            const templatePath = `/app/templates/pages/${page}.html`;
             
-            // Carregar JS da página se existir
-            if (window.IalumModules.Configuracoes) {
-                window.IalumModules.Configuracoes.init();
+            // Por enquanto, usar templates inline
+            if (page === 'dashboard') {
+                pageContent.innerHTML = this.getDashboardTemplate();
+                // Reinicializar módulo do dashboard
+                if (window.IalumModules.Dashboard) {
+                    window.IalumModules.Dashboard.init();
+                }
+            } else if (page === 'configuracoes') {
+                pageContent.innerHTML = this.getConfiguracaoesTemplate();
+                // Inicializar módulo de configurações
+                if (window.IalumModules.Configuracoes) {
+                    window.IalumModules.Configuracoes.init();
+                }
+            } else if (page === 'topicos') {
+                pageContent.innerHTML = this.getTopicosTemplate();
+                // TODO: Inicializar módulo de tópicos quando criar
+            } else {
+                pageContent.innerHTML = this.getPlaceholderTemplate(titles[page] || page);
             }
-        } else if (page === 'topicos') {
-            pageContent.innerHTML = this.getTopicosTemplate();
             
-            // TODO: Carregar JS dos tópicos quando criar
-        } else {
-            pageContent.innerHTML = `
-                <div class="card">
-                    <div class="card-body">
-                        <h2>Página ${titles[page] || page}</h2>
-                        <p>Esta página ainda está em desenvolvimento.</p>
-                    </div>
-                </div>
-            `;
+        } catch (error) {
+            console.error('Erro ao carregar página:', error);
+            pageContent.innerHTML = this.getErrorTemplate();
         }
     },
     
-    // Template temporário das configurações (até N8N estar pronto)
+    // Template do Dashboard
+    getDashboardTemplate() {
+        return `
+            <div class="dashboard-grid">
+                <!-- Créditos -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3>Saldo de Créditos</h3>
+                        <span class="card-icon">💰</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="credit-balance">
+                            <span class="credit-number">150</span>
+                            <span class="credit-label">créditos disponíveis</span>
+                        </div>
+                        <div class="credit-usage">
+                            <div class="usage-bar">
+                                <div class="usage-fill" style="width: 25%"></div>
+                            </div>
+                            <span class="usage-text">50 de 200 usados este mês</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#financeiro" class="card-link">Comprar mais créditos →</a>
+                    </div>
+                </div>
+                
+                <!-- Posts do Mês -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Posts Criados</h3>
+                        <span class="card-icon">📝</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">posts este mês</div>
+                        <div class="stat-change positive">+20% vs mês anterior</div>
+                    </div>
+                </div>
+                
+                <!-- Engajamento -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Engajamento Médio</h3>
+                        <span class="card-icon">❤️</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="stat-number">4.8%</div>
+                        <div class="stat-label">taxa de engajamento</div>
+                        <div class="stat-change positive">+0.5% vs mês anterior</div>
+                    </div>
+                </div>
+                
+                <!-- Agendados -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Agendados</h3>
+                        <span class="card-icon">⏰</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">posts agendados</div>
+                        <div class="stat-subtitle">Próximos 7 dias</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ações Rápidas -->
+            <section class="quick-actions">
+                <h2>Ações Rápidas</h2>
+                <div class="actions-grid">
+                    <button class="action-card">
+                        <span class="action-icon">💡</span>
+                        <span class="action-text">Nova Ideia</span>
+                    </button>
+                    <button class="action-card">
+                        <span class="action-icon">📸</span>
+                        <span class="action-text">Upload de Imagem</span>
+                    </button>
+                    <button class="action-card">
+                        <span class="action-icon">📅</span>
+                        <span class="action-text">Ver Agenda</span>
+                    </button>
+                    <button class="action-card">
+                        <span class="action-icon">📊</span>
+                        <span class="action-text">Relatório Mensal</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Posts Recentes -->
+            <section class="recent-posts">
+                <h2>Posts Recentes</h2>
+                <div class="posts-list">
+                    <div class="post-item">
+                        <div class="post-thumb">
+                            <span class="post-type">📷</span>
+                        </div>
+                        <div class="post-info">
+                            <h4>Direitos do Consumidor em Compras Online</h4>
+                            <p>Instagram Carrossel • Publicado há 2 dias</p>
+                        </div>
+                        <div class="post-stats">
+                            <span>❤️ 145</span>
+                            <span>💬 23</span>
+                        </div>
+                    </div>
+                    
+                    <div class="post-item">
+                        <div class="post-thumb">
+                            <span class="post-type">📝</span>
+                        </div>
+                        <div class="post-info">
+                            <h4>Nova Lei de Proteção de Dados</h4>
+                            <p>LinkedIn • Agendado para amanhã</p>
+                        </div>
+                        <div class="post-status">
+                            <span class="status-badge scheduled">Agendado</span>
+                        </div>
+                    </div>
+                    
+                    <div class="post-item">
+                        <div class="post-thumb">
+                            <span class="post-type">🎥</span>
+                        </div>
+                        <div class="post-info">
+                            <h4>5 Dicas sobre Contratos Digitais</h4>
+                            <p>Instagram Reels • Em rascunho</p>
+                        </div>
+                        <div class="post-status">
+                            <span class="status-badge draft">Rascunho</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        `;
+    },
+    
+    // Template de Configurações
     getConfiguracaoesTemplate() {
+        // Usar o template do HTML
+        const template = document.querySelector('#configuracoes-template');
+        if (template) {
+            return template.innerHTML;
+        }
+        
+        // Fallback se não encontrar o template
         return `
             <div class="configuracoes-container">
-                <!-- Abas de navegação -->
-                <div class="tabs-nav">
-                    <button class="tab-btn active" data-tab="conta">
-                        <span class="tab-icon">👤</span>
-                        <span class="tab-text">Conta</span>
-                    </button>
-                    <button class="tab-btn" data-tab="banca">
-                        <span class="tab-icon">⚖️</span>
-                        <span class="tab-text">Banca</span>
-                    </button>
-                    <button class="tab-btn" data-tab="integracoes">
-                        <span class="tab-icon">🔗</span>
-                        <span class="tab-text">Integrações</span>
-                    </button>
-                    <button class="tab-btn" data-tab="publicador">
-                        <span class="tab-icon">📅</span>
-                        <span class="tab-text">Publicador</span>
-                    </button>
-                    <button class="tab-btn" data-tab="banco-imagens">
-                        <span class="tab-icon">🖼️</span>
-                        <span class="tab-text">Banco de Imagens</span>
-                    </button>
-                </div>
-
-                <!-- Conteúdo das abas -->
-                <div class="tabs-content">
-                    <!-- Aba Conta -->
-                    <div class="tab-pane active" id="tab-conta">
-                        <div class="config-section">
-                            <h3>Informações Pessoais</h3>
-                            <form class="config-form">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label class="form-label">Nome Completo</label>
-                                        <input type="text" class="form-input" value="Dr. João Silva" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">OAB</label>
-                                        <input type="text" class="form-input" value="123456/SP" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-input" value="joao@advocacia.com" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Telefone</label>
-                                        <input type="tel" class="form-input" value="(11) 98765-4321">
-                                    </div>
-                                </div>
-                                
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Outras abas... -->
-                    <div class="tab-pane" id="tab-banca">
-                        <div class="config-section">
-                            <h3>Áreas de Atuação</h3>
-                            <p>Configurações da banca em desenvolvimento...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-pane" id="tab-integracoes">
-                        <div class="config-section">
-                            <h3>Redes Sociais Conectadas</h3>
-                            
-                            <div class="integrations-list">
-                                <div class="integration-item connected">
-                                    <div class="integration-info">
-                                        <span class="integration-icon">📷</span>
-                                        <div class="integration-details">
-                                            <h4>Instagram</h4>
-                                            <p>@silva.advocacia - Conectado</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-ghost btn-sm">Desconectar</button>
-                                </div>
-                                
-                                <div class="integration-item">
-                                    <div class="integration-info">
-                                        <span class="integration-icon">💼</span>
-                                        <div class="integration-details">
-                                            <h4>LinkedIn</h4>
-                                            <p>Não conectado</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm">Conectar</button>
-                                </div>
-                                
-                                <div class="integration-item">
-                                    <div class="integration-info">
-                                        <span class="integration-icon">📘</span>
-                                        <div class="integration-details">
-                                            <h4>Facebook</h4>
-                                            <p>Não conectado</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm">Conectar</button>
-                                </div>
-                                
-                                <div class="integration-item">
-                                    <div class="integration-info">
-                                        <span class="integration-icon">🎵</span>
-                                        <div class="integration-details">
-                                            <h4>TikTok</h4>
-                                            <p>Não conectado</p>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary btn-sm">Conectar</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="config-section">
-                            <h3>Configurações de Publicação</h3>
-                            <form class="config-form">
-                                <div class="form-group">
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" checked>
-                                        <span>Publicar automaticamente após aprovação</span>
-                                    </label>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="checkbox-label">
-                                        <input type="checkbox" checked>
-                                        <span>Notificar quando post for publicado</span>
-                                    </label>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="checkbox-label">
-                                        <input type="checkbox">
-                                        <span>Permitir comentários automaticamente</span>
-                                    </label>
-                                </div>
-                                
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Salvar Configurações</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-pane" id="tab-publicador">
-                        <div class="config-section">
-                            <h3>Horários de Publicação</h3>
-                            <p>Configurações do publicador em desenvolvimento...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-pane" id="tab-banco-imagens">
-                        <div class="config-section">
-                            <h3>Banco de Imagens</h3>
-                            <p>Upload de imagens em desenvolvimento...</p>
-                        </div>
-                    </div>
-                </div>
+                <p>Carregando configurações...</p>
             </div>
         `;
     },
@@ -345,87 +333,38 @@ window.IalumApp = {
                 
                 <!-- Grid de tópicos -->
                 <div class="topicos-grid">
-                    <!-- Card de tópico embasado -->
-                    <div class="topico-card">
-                        <div class="topico-header">
-                            <span class="topico-status embasado">📖 Embasado</span>
-                            <button class="topico-menu">⋮</button>
-                        </div>
-                        
-                        <h3 class="topico-title">Direitos do Consumidor em Compras Online</h3>
-                        
-                        <div class="topico-meta">
-                            <span class="topico-theme">🛒 Direito do Consumidor</span>
-                            <span class="topico-date">Há 2 dias</span>
-                        </div>
-                        
-                        <div class="topico-publications">
-                            <div class="publication-mini">
-                                <span class="pub-icon">📷</span>
-                                <span class="pub-status published">Publicado</span>
-                            </div>
-                            <div class="publication-mini">
-                                <span class="pub-icon">💼</span>
-                                <span class="pub-status scheduled">Agendado</span>
-                            </div>
-                        </div>
-                        
-                        <div class="topico-actions">
-                            <button class="btn btn-ghost btn-sm">Gerenciar</button>
-                            <button class="btn btn-ghost btn-sm">Duplicar</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Card ideia -->
-                    <div class="topico-card">
-                        <div class="topico-header">
-                            <span class="topico-status ideia">💡 Ideia</span>
-                            <button class="topico-menu">⋮</button>
-                        </div>
-                        
-                        <h3 class="topico-title">Nova Lei de Proteção de Dados</h3>
-                        
-                        <div class="topico-meta">
-                            <span class="topico-theme">🔒 Direito Digital</span>
-                            <span class="topico-date">Hoje</span>
-                        </div>
-                        
-                        <div class="topico-empty">
-                            <p>Adicione pesquisas para desenvolver esta ideia</p>
-                        </div>
-                        
-                        <div class="topico-actions">
-                            <button class="btn btn-primary btn-sm">Desenvolver</button>
-                        </div>
-                    </div>
-                    
-                    <!-- Card rascunho com badge Ialum -->
-                    <div class="topico-card">
-                        <div class="topico-header">
-                            <span class="topico-status rascunho">📝 Rascunho</span>
-                            <span class="topico-badge ialum">✨ Criado por Ialum</span>
-                            <button class="topico-menu">⋮</button>
-                        </div>
-                        
-                        <h3 class="topico-title">Direitos Trabalhistas: Home Office</h3>
-                        
-                        <div class="topico-meta">
-                            <span class="topico-theme">💼 Direito Trabalhista</span>
-                            <span class="topico-date">Há 3 dias</span>
-                        </div>
-                        
-                        <div class="topico-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 60%"></div>
-                            </div>
-                            <span class="progress-text">Falta embasamento jurídico</span>
-                        </div>
-                        
-                        <div class="topico-actions">
-                            <button class="btn btn-primary btn-sm">Continuar</button>
-                            <button class="btn btn-ghost btn-sm">Duplicar</button>
-                        </div>
-                    </div>
+                    <!-- Cards aqui -->
+                </div>
+            </div>
+        `;
+    },
+    
+    // Template de placeholder
+    getPlaceholderTemplate(pageName) {
+        return `
+            <div class="card">
+                <div class="card-body" style="text-align: center; padding: 3rem;">
+                    <h2>Página ${pageName}</h2>
+                    <p style="color: var(--gray-600); margin-top: 1rem;">
+                        Esta página ainda está em desenvolvimento.
+                    </p>
+                </div>
+            </div>
+        `;
+    },
+    
+    // Template de erro
+    getErrorTemplate() {
+        return `
+            <div class="card">
+                <div class="card-body" style="text-align: center; padding: 3rem;">
+                    <h2>Ops! Algo deu errado</h2>
+                    <p style="color: var(--gray-600); margin-top: 1rem;">
+                        Não foi possível carregar esta página.
+                    </p>
+                    <button class="btn btn-primary" onclick="location.reload()">
+                        Tentar novamente
+                    </button>
                 </div>
             </div>
         `;

@@ -20,6 +20,8 @@
     <!-- CSS Páginas do App -->
     <link rel="stylesheet" href="/css/pages/app.css">
     <link rel="stylesheet" href="/css/pages/dashboard.css">
+    <link rel="stylesheet" href="/css/pages/configuracoes.css">
+    <link rel="stylesheet" href="/css/pages/topicos.css">
 </head>
 <body>
     <div class="app-container">
@@ -141,139 +143,7 @@
             
             <!-- Page Content -->
             <div class="page-content" id="page-content">
-                <!-- Dashboard Content -->
-                <div class="dashboard-grid">
-                    <!-- Créditos -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3>Saldo de Créditos</h3>
-                            <span class="card-icon">💰</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="credit-balance">
-                                <span class="credit-number">150</span>
-                                <span class="credit-label">créditos disponíveis</span>
-                            </div>
-                            <div class="credit-usage">
-                                <div class="usage-bar">
-                                    <div class="usage-fill" style="width: 25%"></div>
-                                </div>
-                                <span class="usage-text">50 de 200 usados este mês</span>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#financeiro" class="card-link">Comprar mais créditos →</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Posts do Mês -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Posts Criados</h3>
-                            <span class="card-icon">📝</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="stat-number">24</div>
-                            <div class="stat-label">posts este mês</div>
-                            <div class="stat-change positive">+20% vs mês anterior</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Engajamento -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Engajamento Médio</h3>
-                            <span class="card-icon">❤️</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="stat-number">4.8%</div>
-                            <div class="stat-label">taxa de engajamento</div>
-                            <div class="stat-change positive">+0.5% vs mês anterior</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Agendados -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>Agendados</h3>
-                            <span class="card-icon">⏰</span>
-                        </div>
-                        <div class="card-body">
-                            <div class="stat-number">8</div>
-                            <div class="stat-label">posts agendados</div>
-                            <div class="stat-subtitle">Próximos 7 dias</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Ações Rápidas -->
-                <section class="quick-actions">
-                    <h2>Ações Rápidas</h2>
-                    <div class="actions-grid">
-                        <button class="action-card">
-                            <span class="action-icon">💡</span>
-                            <span class="action-text">Nova Ideia</span>
-                        </button>
-                        <button class="action-card">
-                            <span class="action-icon">📸</span>
-                            <span class="action-text">Upload de Imagem</span>
-                        </button>
-                        <button class="action-card">
-                            <span class="action-icon">📅</span>
-                            <span class="action-text">Ver Agenda</span>
-                        </button>
-                        <button class="action-card">
-                            <span class="action-icon">📊</span>
-                            <span class="action-text">Relatório Mensal</span>
-                        </button>
-                    </div>
-                </section>
-                
-                <!-- Posts Recentes -->
-                <section class="recent-posts">
-                    <h2>Posts Recentes</h2>
-                    <div class="posts-list">
-                        <div class="post-item">
-                            <div class="post-thumb">
-                                <span class="post-type">📷</span>
-                            </div>
-                            <div class="post-info">
-                                <h4>Direitos do Consumidor em Compras Online</h4>
-                                <p>Instagram Carrossel • Publicado há 2 dias</p>
-                            </div>
-                            <div class="post-stats">
-                                <span>❤️ 145</span>
-                                <span>💬 23</span>
-                            </div>
-                        </div>
-                        
-                        <div class="post-item">
-                            <div class="post-thumb">
-                                <span class="post-type">📝</span>
-                            </div>
-                            <div class="post-info">
-                                <h4>Nova Lei de Proteção de Dados</h4>
-                                <p>LinkedIn • Agendado para amanhã</p>
-                            </div>
-                            <div class="post-status">
-                                <span class="status-badge scheduled">Agendado</span>
-                            </div>
-                        </div>
-                        
-                        <div class="post-item">
-                            <div class="post-thumb">
-                                <span class="post-type">🎥</span>
-                            </div>
-                            <div class="post-info">
-                                <h4>5 Dicas sobre Contratos Digitais</h4>
-                                <p>Instagram Reels • Em rascunho</p>
-                            </div>
-                            <div class="post-status">
-                                <span class="status-badge draft">Rascunho</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <!-- Conteúdo dinâmico será carregado aqui -->
             </div>
         </main>
     </div>
@@ -281,10 +151,22 @@
     <!-- Container de Toast Notifications -->
     <div class="toast-container" id="toast-container"></div>
     
-    <!-- JavaScript -->
+    <!-- JavaScript Core -->
+    <script src="/js/core/utils.js"></script>
+    <script src="/js/core/api.js"></script>
+    <script src="/js/core/router.js"></script>
     <script src="/js/core/app.js"></script>
+    
+    <!-- JavaScript Components -->
     <script src="/js/components/notifications.js"></script>
-    <script src="/js/pages/dashboard.js"></script>
-    <script src="/js/pages/configuracoes.js"></script>
+    <script src="/js/components/sidebar.js"></script>
+    
+    <!-- Inicialização -->
+    <script>
+        // Inicializa o app quando DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', () => {
+            window.IalumApp.init();
+        });
+    </script>
 </body>
 </html>
