@@ -1,0 +1,17 @@
+# nixpacks.toml - Configuração do Nixpacks para EasyPanel
+# Este arquivo instrui o Nixpacks sobre como fazer o build e deploy
+
+# Define que é um site estático
+providers = ["staticfile"]
+
+# Define que a pasta 'public' é a raiz do site
+# Tudo dentro de /public será servido publicamente
+# Tudo fora de /public fica protegido
+[staticDirs]
+"/" = "public"
+
+# O Nixpacks vai:
+# 1. Detectar que é um site estático
+# 2. Instalar nginx automaticamente
+# 3. Configurar nginx para servir /public como document root
+# 4. Gerar um nginx.conf otimizado automaticamente
