@@ -1,0 +1,140 @@
+<!-- 
+    topicos.html
+    View da Central de Tópicos
+    Localização: public/app/views/topicos.html
+-->
+
+<div class="topicos-container">
+    <!-- Header com busca e ações -->
+    <div class="topicos-header">
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input 
+                type="text" 
+                class="search-input" 
+                id="topicos-search"
+                placeholder="Buscar tópicos por título, tema ou assunto..."
+            >
+            <!-- Sugestões de busca -->
+            <div class="search-suggestions" id="search-suggestions" style="display: none;">
+                <!-- Sugestões aparecerão aqui -->
+            </div>
+        </div>
+        <button class="btn btn-primary" id="btn-novo-topico">
+            <span>➕</span> Novo Tópico
+        </button>
+    </div>
+    
+    <!-- Filtros e Abas de Status -->
+    <div class="topicos-filters">
+        <!-- Abas de status -->
+        <div class="status-tabs">
+            <button class="status-tab active" data-status="all">
+                Todos <span class="count" id="count-all">0</span>
+            </button>
+            <button class="status-tab" data-status="ideia">
+                💡 Ideias <span class="count" id="count-ideia">0</span>
+            </button>
+            <button class="status-tab" data-status="rascunho">
+                📝 Rascunhos <span class="count" id="count-rascunho">0</span>
+            </button>
+            <button class="status-tab" data-status="embasado">
+                📖 Embasados <span class="count" id="count-embasado">0</span>
+            </button>
+        </div>
+        
+        <!-- Filtros adicionais -->
+        <div class="additional-filters">
+            <select class="form-select" id="filter-theme">
+                <option value="">Todos os temas</option>
+                <option value="familia">Família</option>
+                <option value="consumidor">Consumidor</option>
+                <option value="trabalhista">Trabalhista</option>
+                <option value="empresarial">Empresarial</option>
+            </select>
+            
+            <select class="form-select" id="filter-sort">
+                <option value="recent">Mais recentes</option>
+                <option value="oldest">Mais antigos</option>
+                <option value="name">Nome (A-Z)</option>
+                <option value="status">Por status</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Grid de tópicos -->
+    <div class="topicos-grid" id="topicos-grid">
+        <!-- Cards de tópicos serão carregados aqui -->
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Carregando tópicos...</p>
+        </div>
+    </div>
+    
+    <!-- Estado vazio -->
+    <div class="empty-state" id="empty-state" style="display: none;">
+        <div class="empty-icon">📚</div>
+        <h3>Nenhum tópico encontrado</h3>
+        <p>Comece criando seu primeiro tópico para gerar conteúdo incrível!</p>
+        <button class="btn btn-primary" onclick="document.getElementById('btn-novo-topico').click()">
+            Criar Primeiro Tópico
+        </button>
+    </div>
+    
+    <!-- Paginação -->
+    <div class="pagination" id="pagination" style="display: none;">
+        <button class="pagination-btn" id="prev-page" disabled>
+            ← Anterior
+        </button>
+        <span class="pagination-info">
+            Página <span id="current-page">1</span> de <span id="total-pages">1</span>
+        </span>
+        <button class="pagination-btn" id="next-page">
+            Próxima →
+        </button>
+    </div>
+</div>
+
+<!-- Template de Card de Tópico (para clonagem via JS) -->
+<template id="topico-card-template">
+    <div class="topico-card" data-id="">
+        <div class="topico-header">
+            <span class="topico-status"></span>
+            <span class="topico-badge"></span>
+            <button class="topico-menu">⋮</button>
+        </div>
+        
+        <h3 class="topico-title"></h3>
+        
+        <div class="topico-meta">
+            <span class="meta-item">
+                <span class="meta-icon">⚖️</span>
+                <span class="meta-text theme"></span>
+            </span>
+            <span class="meta-item">
+                <span class="meta-icon">📅</span>
+                <span class="meta-text date"></span>
+            </span>
+        </div>
+        
+        <div class="topico-publications">
+            <!-- Miniaturas de publicações -->
+        </div>
+        
+        <div class="topico-progress">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <span class="progress-text"></span>
+        </div>
+        
+        <div class="topico-actions">
+            <button class="btn btn-ghost btn-sm action-view">
+                <span>👁️</span> Ver
+            </button>
+            <button class="btn btn-primary btn-sm action-manage">
+                <span>✏️</span> Gerenciar
+            </button>
+        </div>
+    </div>
+</template>

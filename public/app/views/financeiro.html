@@ -1,0 +1,218 @@
+<!-- 
+    financeiro.html
+    View da área Financeira
+    Localização: public/app/views/financeiro.html
+-->
+
+<div class="financeiro-container">
+    <!-- Navegação das abas -->
+    <div class="finance-tabs">
+        <button class="finance-tab active" data-tab="creditos">
+            <span class="tab-icon">💰</span>
+            <span class="tab-text">Créditos</span>
+        </button>
+        <button class="finance-tab" data-tab="planos">
+            <span class="tab-icon">📋</span>
+            <span class="tab-text">Planos</span>
+        </button>
+        <button class="finance-tab" data-tab="faturas">
+            <span class="tab-icon">🧾</span>
+            <span class="tab-text">Faturas</span>
+        </button>
+    </div>
+    
+    <!-- Conteúdo das Abas -->
+    <div class="finance-content">
+        <!-- Aba Créditos -->
+        <div class="finance-pane active" id="tab-creditos">
+            <!-- Saldo Atual -->
+            <div class="credit-overview">
+                <div class="credit-card primary">
+                    <h3>Saldo de Créditos</h3>
+                    <div class="credit-display">
+                        <span class="credit-amount" id="current-credits">150</span>
+                        <span class="credit-label">créditos disponíveis</span>
+                    </div>
+                    <div class="credit-info">
+                        <p>Válidos até: <strong id="credits-expiry">31/12/2025</strong></p>
+                    </div>
+                </div>
+                
+                <!-- Uso do Mês -->
+                <div class="usage-card">
+                    <h3>Uso este mês</h3>
+                    <div class="usage-breakdown">
+                        <div class="usage-item">
+                            <span class="usage-icon">🔍</span>
+                            <span class="usage-name">Pesquisas</span>
+                            <span class="usage-count">23</span>
+                        </div>
+                        <div class="usage-item">
+                            <span class="usage-icon">✏️</span>
+                            <span class="usage-name">Criação de Conteúdo</span>
+                            <span class="usage-count">45</span>
+                        </div>
+                        <div class="usage-item">
+                            <span class="usage-icon">🖼️</span>
+                            <span class="usage-name">Geração de Imagens</span>
+                            <span class="usage-count">32</span>
+                        </div>
+                    </div>
+                    <div class="usage-total">
+                        <strong>Total usado:</strong> <span>100 créditos</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Comprar Créditos -->
+            <div class="buy-credits-section">
+                <h3>Comprar Créditos Extras</h3>
+                <div class="credit-packages">
+                    <div class="package-card">
+                        <h4>Pacote Básico</h4>
+                        <div class="package-credits">50 créditos</div>
+                        <div class="package-price">R$ 49,90</div>
+                        <button class="btn btn-secondary btn-block">Comprar</button>
+                    </div>
+                    <div class="package-card popular">
+                        <div class="popular-badge">Mais Popular</div>
+                        <h4>Pacote Pro</h4>
+                        <div class="package-credits">150 créditos</div>
+                        <div class="package-price">R$ 129,90</div>
+                        <div class="package-savings">Economize R$ 20</div>
+                        <button class="btn btn-primary btn-block">Comprar</button>
+                    </div>
+                    <div class="package-card">
+                        <h4>Pacote Premium</h4>
+                        <div class="package-credits">500 créditos</div>
+                        <div class="package-price">R$ 399,90</div>
+                        <div class="package-savings">Economize R$ 100</div>
+                        <button class="btn btn-secondary btn-block">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Histórico de Créditos -->
+            <div class="credit-history">
+                <h3>Histórico de Transações</h3>
+                <div class="history-list">
+                    <!-- Transações serão carregadas aqui -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Aba Planos -->
+        <div class="finance-pane" id="tab-planos">
+            <!-- Plano Atual -->
+            <div class="current-plan">
+                <h3>Seu Plano Atual</h3>
+                <div class="plan-card current">
+                    <div class="plan-header">
+                        <h4>Plano Profissional</h4>
+                        <span class="plan-badge">Ativo</span>
+                    </div>
+                    <div class="plan-price">
+                        <span class="currency">R$</span>
+                        <span class="amount">197</span>
+                        <span class="period">/mês</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li>✅ 150 créditos mensais</li>
+                        <li>✅ 5 temas jurídicos</li>
+                        <li>✅ 3 redes sociais</li>
+                        <li>✅ Suporte prioritário</li>
+                        <li>✅ Relatórios detalhados</li>
+                    </ul>
+                    <div class="plan-info">
+                        <p>Próxima cobrança: <strong>01/02/2025</strong></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Outros Planos -->
+            <div class="available-plans">
+                <h3>Fazer Upgrade</h3>
+                <div class="plans-grid">
+                    <div class="plan-card">
+                        <h4>Plano Básico</h4>
+                        <div class="plan-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">97</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li>✅ 50 créditos mensais</li>
+                            <li>✅ 2 temas jurídicos</li>
+                            <li>✅ 1 rede social</li>
+                            <li>❌ Suporte prioritário</li>
+                            <li>❌ Relatórios detalhados</li>
+                        </ul>
+                        <button class="btn btn-ghost btn-block" disabled>
+                            Plano Inferior
+                        </button>
+                    </div>
+                    
+                    <div class="plan-card recommended">
+                        <div class="recommended-badge">Recomendado</div>
+                        <h4>Plano Premium</h4>
+                        <div class="plan-price">
+                            <span class="currency">R$</span>
+                            <span class="amount">397</span>
+                            <span class="period">/mês</span>
+                        </div>
+                        <ul class="plan-features">
+                            <li>✅ 400 créditos mensais</li>
+                            <li>✅ Temas ilimitados</li>
+                            <li>✅ Todas as redes sociais</li>
+                            <li>✅ Suporte prioritário</li>
+                            <li>✅ Relatórios detalhados</li>
+                            <li>✅ API de integração</li>
+                            <li>✅ Múltiplos usuários</li>
+                        </ul>
+                        <button class="btn btn-primary btn-block">
+                            Fazer Upgrade
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Aba Faturas -->
+        <div class="finance-pane" id="tab-faturas">
+            <div class="invoices-section">
+                <h3>Histórico de Faturas</h3>
+                <div class="invoices-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fatura</th>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoices-tbody">
+                            <!-- Faturas serão carregadas aqui -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Informações de Pagamento -->
+                <div class="payment-info">
+                    <h3>Forma de Pagamento</h3>
+                    <div class="payment-method">
+                        <div class="method-icon">💳</div>
+                        <div class="method-details">
+                            <h4>Cartão de Crédito</h4>
+                            <p>•••• •••• •••• 4242</p>
+                            <p>Vencimento: 12/27</p>
+                        </div>
+                        <button class="btn btn-ghost">Alterar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

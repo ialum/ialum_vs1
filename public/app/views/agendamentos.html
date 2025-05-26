@@ -1,0 +1,127 @@
+<!-- 
+    agendamentos.html
+    View de Agendamentos/Calendário
+    Localização: public/app/views/agendamentos.html
+-->
+
+<div class="agendamentos-container">
+    <!-- Header com controles -->
+    <div class="agendamentos-header">
+        <div class="calendar-controls">
+            <button class="btn btn-ghost btn-sm" id="prev-month">
+                <span>←</span>
+            </button>
+            <h2 class="current-month" id="current-month">Janeiro 2025</h2>
+            <button class="btn btn-ghost btn-sm" id="next-month">
+                <span>→</span>
+            </button>
+        </div>
+        
+        <div class="view-controls">
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="calendar">
+                    <span>📅</span> Calendário
+                </button>
+                <button class="view-btn" data-view="list">
+                    <span>📋</span> Lista
+                </button>
+            </div>
+            
+            <button class="btn btn-primary btn-sm">
+                <span>➕</span> Agendar Post
+            </button>
+        </div>
+    </div>
+    
+    <!-- View de Calendário -->
+    <div class="calendar-view" id="calendar-view">
+        <!-- Dias da semana -->
+        <div class="calendar-weekdays">
+            <div class="weekday">Dom</div>
+            <div class="weekday">Seg</div>
+            <div class="weekday">Ter</div>
+            <div class="weekday">Qua</div>
+            <div class="weekday">Qui</div>
+            <div class="weekday">Sex</div>
+            <div class="weekday">Sáb</div>
+        </div>
+        
+        <!-- Grid de dias -->
+        <div class="calendar-grid" id="calendar-grid">
+            <!-- Dias serão gerados dinamicamente -->
+        </div>
+    </div>
+    
+    <!-- View de Lista -->
+    <div class="list-view" id="list-view" style="display: none;">
+        <div class="scheduled-posts-list">
+            <!-- Posts agendados em formato de lista -->
+        </div>
+    </div>
+    
+    <!-- Sidebar de Detalhes -->
+    <aside class="schedule-sidebar" id="schedule-sidebar" style="display: none;">
+        <div class="sidebar-header">
+            <h3>Posts do dia <span id="selected-date"></span></h3>
+            <button class="close-sidebar" id="close-sidebar">×</button>
+        </div>
+        
+        <div class="sidebar-content">
+            <div class="day-posts" id="day-posts">
+                <!-- Posts do dia selecionado -->
+            </div>
+            
+            <button class="btn btn-primary btn-block">
+                Agendar novo post neste dia
+            </button>
+        </div>
+    </aside>
+    
+    <!-- Legenda -->
+    <div class="calendar-legend">
+        <div class="legend-item">
+            <span class="legend-color" style="background: var(--primary)"></span>
+            <span>Instagram</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #0077b5"></span>
+            <span>LinkedIn</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #1877f2"></span>
+            <span>Facebook</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-color" style="background: #000000"></span>
+            <span>TikTok</span>
+        </div>
+    </div>
+</div>
+
+<!-- Template de Dia do Calendário -->
+<template id="calendar-day-template">
+    <div class="calendar-day" data-date="">
+        <div class="day-number"></div>
+        <div class="day-posts-preview">
+            <!-- Mini previews dos posts -->
+        </div>
+    </div>
+</template>
+
+<!-- Template de Post Agendado -->
+<template id="scheduled-post-template">
+    <div class="scheduled-post" data-id="">
+        <div class="post-time"></div>
+        <div class="post-content">
+            <div class="post-platform">
+                <span class="platform-icon"></span>
+                <span class="platform-name"></span>
+            </div>
+            <h4 class="post-title"></h4>
+            <div class="post-actions">
+                <button class="btn-icon" title="Editar">✏️</button>
+                <button class="btn-icon" title="Remover">🗑️</button>
+            </div>
+        </div>
+    </div>
+</template>

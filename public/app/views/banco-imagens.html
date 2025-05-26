@@ -1,0 +1,158 @@
+<!-- 
+    banco-imagens.html
+    View do Banco de Imagens
+    Localização: public/app/views/banco-imagens.html
+-->
+
+<div class="banco-imagens-container">
+    <!-- Header com upload e filtros -->
+    <div class="banco-header">
+        <div class="banco-title">
+            <h2>Banco de Imagens</h2>
+            <p class="subtitle">Gerencie suas imagens e templates visuais</p>
+        </div>
+        
+        <div class="banco-actions">
+            <button class="btn btn-primary" id="btn-upload">
+                <span>⬆️</span> Upload de Imagens
+            </button>
+            <button class="btn btn-secondary" id="btn-gerar-ia">
+                <span>🤖</span> Gerar com IA
+            </button>
+        </div>
+    </div>
+    
+    <!-- Filtros e Busca -->
+    <div class="banco-filters">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input 
+                type="text" 
+                class="form-input search-input" 
+                placeholder="Buscar imagens..."
+                id="images-search"
+            >
+        </div>
+        
+        <div class="filter-group">
+            <select class="form-select" id="filter-category">
+                <option value="">Todas as categorias</option>
+                <option value="preset">Templates Preset</option>
+                <option value="generated">Geradas por IA</option>
+                <option value="uploaded">Uploads</option>
+            </select>
+            
+            <select class="form-select" id="filter-theme">
+                <option value="">Todos os temas</option>
+                <option value="familia">Família</option>
+                <option value="consumidor">Consumidor</option>
+                <option value="trabalhista">Trabalhista</option>
+                <option value="empresarial">Empresarial</option>
+            </select>
+            
+            <select class="form-select" id="filter-type">
+                <option value="">Todos os tipos</option>
+                <option value="post">Post Quadrado</option>
+                <option value="story">Story</option>
+                <option value="carousel">Carrossel</option>
+                <option value="banner">Banner</option>
+            </select>
+        </div>
+    </div>
+    
+    <!-- Estatísticas -->
+    <div class="banco-stats">
+        <div class="stat-item">
+            <span class="stat-number" id="total-images">0</span>
+            <span class="stat-label">Total de imagens</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="used-space">0 MB</span>
+            <span class="stat-label">Espaço usado</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="ai-credits">0</span>
+            <span class="stat-label">Créditos IA</span>
+        </div>
+    </div>
+    
+    <!-- Grid de Imagens -->
+    <div class="images-grid" id="images-grid">
+        <!-- Imagens serão carregadas aqui -->
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Carregando imagens...</p>
+        </div>
+    </div>
+    
+    <!-- Estado vazio -->
+    <div class="empty-state" id="empty-state" style="display: none;">
+        <div class="empty-icon">🖼️</div>
+        <h3>Nenhuma imagem ainda</h3>
+        <p>Faça upload de suas imagens ou gere novas com IA</p>
+        <div class="empty-actions">
+            <button class="btn btn-primary" onclick="document.getElementById('btn-upload').click()">
+                Upload de Imagens
+            </button>
+            <button class="btn btn-secondary" onclick="document.getElementById('btn-gerar-ia').click()">
+                Gerar com IA
+            </button>
+        </div>
+    </div>
+    
+    <!-- Modal de Upload -->
+    <div class="upload-overlay" id="upload-overlay" style="display: none;">
+        <div class="upload-modal">
+            <div class="modal-header">
+                <h3>Upload de Imagens</h3>
+                <button class="close-modal" id="close-upload">×</button>
+            </div>
+            
+            <div class="upload-area" id="upload-area">
+                <div class="upload-placeholder">
+                    <span class="upload-icon">📁</span>
+                    <h4>Arraste imagens aqui</h4>
+                    <p>ou clique para selecionar</p>
+                    <p class="upload-hint">PNG, JPG até 10MB</p>
+                </div>
+                <input type="file" id="file-input" class="upload-input" multiple accept="image/*">
+            </div>
+            
+            <div class="upload-preview" id="upload-preview">
+                <!-- Preview das imagens -->
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-ghost" id="cancel-upload">Cancelar</button>
+                <button class="btn btn-primary" id="confirm-upload" disabled>
+                    Fazer Upload
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Template de Card de Imagem -->
+<template id="image-card-template">
+    <div class="image-card" data-id="">
+        <div class="image-wrapper">
+            <img src="" alt="" loading="lazy">
+            <div class="image-overlay">
+                <div class="image-actions">
+                    <button class="action-btn" title="Ver detalhes">👁️</button>
+                    <button class="action-btn" title="Usar em post">✏️</button>
+                    <button class="action-btn" title="Baixar">⬇️</button>
+                    <button class="action-btn danger" title="Excluir">🗑️</button>
+                </div>
+            </div>
+            <div class="image-badge"></div>
+        </div>
+        <div class="image-info">
+            <h4 class="image-title"></h4>
+            <div class="image-meta">
+                <span class="meta-item"></span>
+                <span class="meta-item"></span>
+            </div>
+        </div>
+    </div>
+</template>

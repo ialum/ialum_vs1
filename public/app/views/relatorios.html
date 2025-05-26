@@ -1,0 +1,165 @@
+<!-- 
+    relatorios.html
+    View de Relatórios e Analytics
+    Localização: public/app/views/relatorios.html
+-->
+
+<div class="relatorios-container">
+    <!-- Header com período -->
+    <div class="relatorios-header">
+        <div class="period-selector">
+            <button class="period-btn active" data-period="week">Última Semana</button>
+            <button class="period-btn" data-period="month">Último Mês</button>
+            <button class="period-btn" data-period="quarter">Último Trimestre</button>
+            <button class="period-btn" data-period="year">Último Ano</button>
+            <button class="period-btn" data-period="custom">Personalizado</button>
+        </div>
+        
+        <div class="export-actions">
+            <button class="btn btn-ghost btn-sm">
+                <span>📊</span> Exportar PDF
+            </button>
+            <button class="btn btn-ghost btn-sm">
+                <span>📈</span> Exportar Excel
+            </button>
+        </div>
+    </div>
+    
+    <!-- KPIs Principais -->
+    <div class="kpis-grid">
+        <div class="kpi-card">
+            <div class="kpi-header">
+                <h3>Total de Posts</h3>
+                <span class="kpi-icon">📝</span>
+            </div>
+            <div class="kpi-value">
+                <span class="number" id="total-posts">0</span>
+                <span class="change positive">+0%</span>
+            </div>
+            <div class="kpi-chart">
+                <canvas id="posts-sparkline"></canvas>
+            </div>
+        </div>
+        
+        <div class="kpi-card">
+            <div class="kpi-header">
+                <h3>Engajamento Total</h3>
+                <span class="kpi-icon">❤️</span>
+            </div>
+            <div class="kpi-value">
+                <span class="number" id="total-engagement">0</span>
+                <span class="change positive">+0%</span>
+            </div>
+            <div class="kpi-chart">
+                <canvas id="engagement-sparkline"></canvas>
+            </div>
+        </div>
+        
+        <div class="kpi-card">
+            <div class="kpi-header">
+                <h3>Taxa de Crescimento</h3>
+                <span class="kpi-icon">📈</span>
+            </div>
+            <div class="kpi-value">
+                <span class="number" id="growth-rate">0%</span>
+                <span class="change">-</span>
+            </div>
+            <div class="kpi-chart">
+                <canvas id="growth-sparkline"></canvas>
+            </div>
+        </div>
+        
+        <div class="kpi-card">
+            <div class="kpi-header">
+                <h3>Créditos Usados</h3>
+                <span class="kpi-icon">💰</span>
+            </div>
+            <div class="kpi-value">
+                <span class="number" id="credits-used">0</span>
+                <span class="subtitle">de <span id="credits-total">0</span></span>
+            </div>
+            <div class="kpi-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="credits-progress" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Gráficos Detalhados -->
+    <div class="charts-section">
+        <!-- Gráfico de Performance por Plataforma -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3>Performance por Plataforma</h3>
+                <select class="form-select chart-metric">
+                    <option value="posts">Posts Publicados</option>
+                    <option value="engagement">Engajamento</option>
+                    <option value="reach">Alcance</option>
+                </select>
+            </div>
+            <div class="chart-body">
+                <canvas id="platform-chart"></canvas>
+            </div>
+        </div>
+        
+        <!-- Gráfico de Temas Mais Performáticos -->
+        <div class="chart-container">
+            <div class="chart-header">
+                <h3>Performance por Tema Jurídico</h3>
+            </div>
+            <div class="chart-body">
+                <canvas id="themes-chart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Tabela de Posts Mais Engajados -->
+    <div class="top-posts-section">
+        <h3>Top 10 Posts do Período</h3>
+        <div class="posts-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Post</th>
+                        <th>Plataforma</th>
+                        <th>Data</th>
+                        <th>Engajamento</th>
+                        <th>Alcance</th>
+                        <th>Taxa</th>
+                    </tr>
+                </thead>
+                <tbody id="top-posts-tbody">
+                    <!-- Posts serão carregados aqui -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Insights e Recomendações -->
+    <div class="insights-section">
+        <h3>Insights e Recomendações</h3>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <span class="insight-icon">💡</span>
+                <h4>Melhor horário para postar</h4>
+                <p>Seus posts têm melhor performance às <strong>19h</strong></p>
+            </div>
+            <div class="insight-card">
+                <span class="insight-icon">🎯</span>
+                <h4>Tema mais engajado</h4>
+                <p>Posts sobre <strong>Direito do Consumidor</strong> geram 45% mais engajamento</p>
+            </div>
+            <div class="insight-card">
+                <span class="insight-icon">📱</span>
+                <h4>Plataforma destaque</h4>
+                <p><strong>Instagram</strong> está gerando 3x mais alcance que outras redes</p>
+            </div>
+            <div class="insight-card">
+                <span class="insight-icon">📈</span>
+                <h4>Tendência de crescimento</h4>
+                <p>Aumento de <strong>23%</strong> no engajamento médio este mês</p>
+            </div>
+        </div>
+    </div>
+</div>
