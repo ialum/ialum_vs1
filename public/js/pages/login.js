@@ -70,15 +70,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Simular delay de API
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                // Simular sucesso
-                showMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                // LOGIN DE TESTE - REMOVER EM PRODUÇÃO
+                if (email === 'teste@ialum.com' && password === '123456') {
+                    // Simular token e dados do usuário
+                    localStorage.setItem('ialum_auth_token', 'fake-jwt-token-123');
+                    localStorage.setItem('ialum_user', JSON.stringify({
+                        id: 1,
+                        email: 'teste@ialum.com',
+                        name: 'Dr. João Silva',
+                        role: 'editor',
+                        tenant_id: 'demo-tenant-123'
+                    }));
+                    localStorage.setItem('ialum_tenant_id', 'demo-tenant-123');
+                    
+                    showMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                    
+                    // Redirecionar após 1 segundo
+                    setTimeout(() => {
+                        window.location.href = '/app.html';
+                    }, 1000);
+                } else {
+                    showMessage('Email ou senha inválidos. Use teste@ialum.com / 123456', 'error');
+                }
                 
-                // Redirecionar após 2 segundos
-                setTimeout(() => {
-                    window.location.href = '/app';
-                }, 2000);
-                
-                /* Código real seria algo como:
+                /* Código real será algo como:
                 const { data, error } = await supabase.auth.signInWithPassword({
                     email: email,
                     password: password,
@@ -91,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (remember) {
                         localStorage.setItem('remember_me', 'true');
                     }
-                    window.location.href = '/app';
+                    window.location.href = '/app.html';
                 }
                 */
                 
