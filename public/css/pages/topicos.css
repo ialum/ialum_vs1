@@ -1,0 +1,223 @@
+/**
+ * topicos.css
+ * Estilos da Central de Tópicos
+ * Dependências: variables.css, buttons.css
+ * Usado em: central de tópicos
+ * Tamanho alvo: <150 linhas
+ */
+
+.topicos-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header com busca */
+.topicos-header {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    align-items: center;
+}
+
+.search-container {
+    flex: 1;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: var(--spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    opacity: 0.5;
+}
+
+.search-input {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) var(--spacing-2xl);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Abas de status */
+.status-tabs {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.status-tab {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: transparent;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    color: var(--gray-600);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.status-tab:hover {
+    background: var(--gray-100);
+}
+
+.status-tab.active {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+.status-tab .count {
+    background: rgba(0,0,0,0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.875rem;
+}
+
+/* Grid de tópicos */
+.topicos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+/* Card de tópico */
+.topico-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    transition: all 0.3s;
+}
+
+.topico-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.topico-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.topico-status {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.topico-status.ideia { color: #f59e0b; }
+.topico-status.rascunho { color: #6b7280; }
+.topico-status.embasado { color: #10b981; }
+
+.topico-badge {
+    margin-left: auto;
+    font-size: 0.75rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+}
+
+.topico-badge.ialum {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.topico-menu {
+    margin-left: auto;
+    padding: var(--spacing-xs);
+    font-size: 1.25rem;
+    color: var(--gray-400);
+    cursor: pointer;
+}
+
+.topico-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.4;
+}
+
+.topico-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Publicações mini */
+.topico-publications {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.publication-mini {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+}
+
+.pub-status.published { color: var(--success); }
+.pub-status.scheduled { color: var(--info); }
+.pub-status.draft { color: var(--gray-600); }
+
+/* Estados especiais */
+.topico-empty {
+    padding: var(--spacing-lg);
+    background: var(--gray-100);
+    border-radius: var(--radius-md);
+    text-align: center;
+    color: var(--gray-600);
+    margin-bottom: var(--spacing-lg);
+}
+
+.topico-progress {
+    margin-bottom: var(--spacing-lg);
+}
+
+.progress-bar {
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+.progress-text {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+/* Ações */
+.topico-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: auto;
+}

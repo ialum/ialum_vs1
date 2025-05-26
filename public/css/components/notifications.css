@@ -9,6 +9,8 @@
 /* Container de Notificações no Header */
 .notifications-container {
     position: relative;
+    margin-left: auto;
+    margin-right: var(--spacing-md);
 }
 
 .notifications-btn {
@@ -46,9 +48,8 @@
 /* Dropdown */
 .notifications-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + var(--spacing-sm));
     right: 0;
-    margin-top: var(--spacing-sm);
     background: var(--white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
@@ -56,6 +57,7 @@
     max-height: 400px;
     display: none;
     z-index: 1000;
+    border: 1px solid var(--gray-200);
 }
 
 .notifications-dropdown.active {
@@ -99,7 +101,7 @@
 }
 
 .notification-item:hover {
-    background: var(--gray-50);
+    background: var(--light);
 }
 
 .notification-item.unread {
