@@ -1,0 +1,26 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo azul -->
+  <rect width="32" height="32" rx="6" fill="#2563eb"/>
+  
+  <!-- Balança da justiça simplificada -->
+  <!-- Base -->
+  <rect x="14" y="24" width="4" height="4" fill="white"/>
+  <rect x="10" y="28" width="12" height="2" fill="white"/>
+  
+  <!-- Haste central -->
+  <rect x="15" y="8" width="2" height="16" fill="white"/>
+  
+  <!-- Barra horizontal -->
+  <rect x="6" y="8" width="20" height="2" fill="white"/>
+  
+  <!-- Cordas -->
+  <rect x="8" y="10" width="1" height="6" fill="white"/>
+  <rect x="23" y="10" width="1" height="6" fill="white"/>
+  
+  <!-- Pratos da balança -->
+  <path d="M 5 16 L 12 16 L 11 18 L 6 18 Z" fill="white"/>
+  <path d="M 20 16 L 27 16 L 26 18 L 21 18 Z" fill="white"/>
+  
+  <!-- Topo decorativo -->
+  <circle cx="16" cy="6" r="2" fill="white"/>
+</svg>
