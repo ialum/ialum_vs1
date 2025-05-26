@@ -70,45 +70,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Simular delay de API
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                // LOGIN DE TESTE - REMOVER EM PRODUÇÃO
-                if (email === 'teste@ialum.com' && password === '123456') {
-                    // Simular token e dados do usuário
-                    localStorage.setItem('ialum_auth_token', 'fake-jwt-token-123');
-                    localStorage.setItem('ialum_user', JSON.stringify({
-                        id: 1,
-                        email: 'teste@ialum.com',
-                        name: 'Dr. João Silva',
-                        role: 'editor',
-                        tenant_id: 'demo-tenant-123'
-                    }));
-                    localStorage.setItem('ialum_tenant_id', 'demo-tenant-123');
-                    
+                
+              // Chamar API real
+                const response = await window.IalumModules.API.auth.login(email, password);
+
+                if (response.success) {
                     showMessage('Login realizado com sucesso! Redirecionando...', 'success');
-                    
-                    // Redirecionar após 1 segundo
                     setTimeout(() => {
                         window.location.href = '/app.html';
                     }, 1000);
                 } else {
-                    showMessage('Email ou senha inválidos. Use teste@ialum.com / 123456', 'error');
+                    showMessage(response.message || 'Email ou senha inválidos', 'error');
                 }
-                
-                /* Código real será algo como:
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password,
-                });
-                
-                if (error) {
-                    showMessage(error.message);
-                } else {
-                    // Salvar token se "lembrar de mim"
-                    if (remember) {
-                        localStorage.setItem('remember_me', 'true');
-                    }
-                    window.location.href = '/app.html';
-                }
-                */
                 
             } catch (error) {
                 showMessage('Erro ao fazer login. Tente novamente.');
