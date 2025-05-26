@@ -1,0 +1,198 @@
+/**
+ * notifications.css
+ * Sistema de notificações do app
+ * Dependências: variables.css
+ * Usado em: app.html (global)
+ * Tamanho alvo: <150 linhas
+ */
+
+/* Container de Notificações no Header */
+.notifications-container {
+    position: relative;
+}
+
+.notifications-btn {
+    position: relative;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.notifications-btn:hover {
+    background: var(--gray-100);
+}
+
+.notifications-icon {
+    font-size: 1.25rem;
+}
+
+/* Badge de contagem */
+.notifications-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--error);
+    color: var(--white);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* Dropdown */
+.notifications-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: var(--spacing-sm);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 320px;
+    max-height: 400px;
+    display: none;
+    z-index: 1000;
+}
+
+.notifications-dropdown.active {
+    display: block;
+}
+
+.notifications-header {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notifications-title {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.mark-all-read {
+    font-size: 0.875rem;
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.mark-all-read:hover {
+    text-decoration: underline;
+}
+
+/* Lista de notificações */
+.notifications-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-100);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.notification-item:hover {
+    background: var(--gray-50);
+}
+
+.notification-item.unread {
+    background: #f0f9ff;
+}
+
+.notification-content {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.notification-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    min-width: 300px;
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    animation: slideIn 0.3s ease;
+}
+
+.toast.success {
+    border-left: 4px solid var(--success);
+}
+
+.toast.error {
+    border-left: 4px solid var(--error);
+}
+
+.toast.info {
+    border-left: 4px solid var(--info);
+}
+
+.toast-icon {
+    font-size: 1.25rem;
+}
+
+.toast-message {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--dark);
+}
+
+.toast-close {
+    padding: var(--spacing-xs);
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

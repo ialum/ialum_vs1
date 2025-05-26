@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/components/forms.css">
     <link rel="stylesheet" href="/css/components/sidebar.css">
     <link rel="stylesheet" href="/css/components/cards.css">
+    <link rel="stylesheet" href="/css/components/notifications.css">
     
     <!-- CSS Páginas do App -->
     <link rel="stylesheet" href="/css/pages/app.css">
@@ -88,6 +89,50 @@
                 <h1 class="page-title">Dashboard</h1>
                 
                 <div class="top-actions">
+                    <!-- Notificações -->
+                    <div class="notifications-container">
+                        <button class="notifications-btn" id="notifications-btn">
+                            <span class="notifications-icon">🔔</span>
+                            <span class="notifications-badge" id="notifications-count">3</span>
+                        </button>
+                        
+                        <div class="notifications-dropdown" id="notifications-dropdown">
+                            <div class="notifications-header">
+                                <span class="notifications-title">Notificações</span>
+                                <span class="mark-all-read">Marcar todas como lidas</span>
+                            </div>
+                            <div class="notifications-list">
+                                <div class="notification-item unread">
+                                    <div class="notification-content">
+                                        <span class="notification-icon">✅</span>
+                                        <div class="notification-text">
+                                            <div class="notification-title">Imagem processada com sucesso</div>
+                                            <div class="notification-time">Há 5 minutos</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-content">
+                                        <span class="notification-icon">🎨</span>
+                                        <div class="notification-text">
+                                            <div class="notification-title">Template pronto para uso</div>
+                                            <div class="notification-time">Há 15 minutos</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-content">
+                                        <span class="notification-icon">📱</span>
+                                        <div class="notification-text">
+                                            <div class="notification-title">Post publicado no Instagram</div>
+                                            <div class="notification-time">Há 1 hora</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <button class="btn btn-primary btn-sm">
                         ➕ Novo Tópico
                     </button>
@@ -232,6 +277,9 @@
             </div>
         </main>
     </div>
+    
+    <!-- Container de Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
     
     <!-- JavaScript -->
     <script src="/js/core/app.js"></script>

@@ -1,0 +1,269 @@
+/**
+ * configuracoes.css
+ * Estilos da página de configurações
+ * Dependências: variables.css, buttons.css, forms.css
+ * Usado em: configuracoes
+ * Tamanho alvo: <150 linhas
+ */
+
+.configuracoes-container {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+/* Navegação das abas */
+.tabs-nav {
+    display: flex;
+    border-bottom: 2px solid var(--gray-200);
+    background: var(--gray-50);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    color: var(--gray-600);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.tab-btn:hover {
+    background: var(--gray-100);
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    background: var(--white);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary);
+}
+
+.tab-icon {
+    font-size: 1.25rem;
+}
+
+/* Conteúdo das abas */
+.tabs-content {
+    padding: var(--spacing-xl);
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Seções de configuração */
+.config-section {
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-2xl);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.config-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.config-section h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Formulários */
+.config-form {
+    max-width: 600px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+}
+
+.form-actions {
+    margin-top: var(--spacing-xl);
+}
+
+/* Grid de áreas */
+.areas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.checkbox-card {
+    display: block;
+    cursor: pointer;
+}
+
+.checkbox-card input {
+    display: none;
+}
+
+.checkbox-card-content {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    transition: all 0.3s;
+}
+
+.checkbox-card input:checked + .checkbox-card-content {
+    border-color: var(--primary);
+    background: var(--light);
+    color: var(--primary);
+}
+
+/* Integrações */
+.integrations-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.integration-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+}
+
+.integration-item.connected {
+    border-color: var(--success);
+    background: #f0fdf4;
+}
+
+.integration-info {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.integration-icon {
+    font-size: 2rem;
+}
+
+.integration-details h4 {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.integration-details p {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+/* Horários */
+.schedule-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.schedule-day {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.schedule-day .checkbox-label {
+    min-width: 150px;
+}
+
+.schedule-day input[type="time"] {
+    max-width: 150px;
+}
+
+/* Upload de imagens */
+.upload-area {
+    margin-bottom: var(--spacing-xl);
+}
+
+.upload-placeholder {
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-2xl);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upload-placeholder:hover {
+    border-color: var(--primary);
+    background: var(--light);
+}
+
+.upload-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: var(--spacing-md);
+}
+
+.upload-input {
+    display: none;
+}
+
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.image-item {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.image-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.image-remove {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    width: 24px;
+    height: 24px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+}
+
+.image-item:hover .image-remove {
+    display: block;
+}
