@@ -1,7 +1,7 @@
 /**
  * login.js
  * Lógica da página de login
- * Dependências: Nenhuma (por enquanto)
+ * Dependências: api.js, utils.js
  * Usado em: login.html
  * Tamanho alvo: <200 linhas
  */
@@ -63,19 +63,18 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = 'Entrando...';
             
             try {
-                // TODO: Integrar com Supabase Auth
-                // Por enquanto, simular login
-                console.log('Login:', { email, password, remember });
+                // Verificar se API está disponível
+                if (!window.IalumModules || !window.IalumModules.API) {
+                    throw new Error('Módulo API não carregado');
+                }
                 
-                // Simular delay de API
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                
-              // Chamar API real
+                // Chamar API de login
                 const response = await window.IalumModules.API.auth.login(email, password);
-
-                if (response.success) {
+                
+                if (response.success || response.token) {
                     showMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                    
+                    // Aguardar um pouco para mostrar a mensagem
                     setTimeout(() => {
                         window.location.href = '/app.html';
                     }, 1000);
@@ -84,8 +83,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
             } catch (error) {
-                showMessage('Erro ao fazer login. Tente novamente.');
-                console.error('Erro:', error);
+                console.error('Erro no login:', error);
+                
+                // Mensagem de erro mais específica
+                if (error.message === 'Módulo API não carregado') {
+                    showMessage('Erro de configuração. Por favor, recarregue a página.');
+                } else if (error.timeout) {
+                    showMessage('Tempo esgotado. Verifique sua conexão.');
+                } else if (error.status === 401) {
+                    showMessage('Email ou senha incorretos.');
+                } else {
+                    showMessage('Erro ao fazer login. Tente novamente.');
+                }
             } finally {
                 // Reabilitar botão
                 submitBtn.disabled = false;
