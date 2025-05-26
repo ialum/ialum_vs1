@@ -1,0 +1,84 @@
+/**
+ * buttons.css
+ * Estilos de botões reutilizáveis
+ * Dependências: variables.css
+ * Usado em: Todas as páginas
+ * Tamanho alvo: <100 linhas
+ */
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Variantes */
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-secondary {
+    background: var(--white);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.btn-secondary:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--gray-600);
+    border: 2px solid var(--gray-200);
+}
+
+.btn-ghost:hover {
+    border-color: var(--gray-400);
+    background: var(--gray-100);
+}
+
+/* Tamanhos */
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+}
+
+/* Estados */
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Largura total */
+.btn-block {
+    width: 100%;
+    display: block;
+}
+
+/* Ícone com texto */
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}

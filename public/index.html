@@ -2,10 +2,20 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ialum - Automação de Marketing Jurídico com IA</title>
-    <link rel="stylesheet" href="/css/landing.css">
+    <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
+    
+    <!-- CSS Base (ordem importante) -->
+    <link rel="stylesheet" href="/css/base/reset.css">
+    <link rel="stylesheet" href="/css/base/variables.css">
+    
+    <!-- CSS Componentes -->
+    <link rel="stylesheet" href="/css/components/buttons.css">
+    <link rel="stylesheet" href="/css/components/forms.css">
+    
+    <!-- CSS Específico da página -->
+    <link rel="stylesheet" href="/css/pages/landing.css">
 </head>
 <body>
     <!-- Header -->
@@ -19,6 +29,7 @@
                 <a href="#features">Recursos</a>
                 <a href="#notify">Avise-me</a>
                 <a href="#about">Sobre</a>
+                <a href="/login" class="btn btn-primary btn-sm">Entrar</a>
             </div>
         </nav>
     </header>
@@ -99,7 +110,7 @@
                     >
                     <button type="submit" class="btn btn-primary">Notificar-me</button>
                 </form>
-                <div id="success-message" class="success-message"></div>
+                <div id="success-message" class="message-container"></div>
                 <p class="security-note">
                     🔒 Seus dados estão seguros. Sem spam, prometemos!
                 </p>
@@ -117,6 +128,7 @@
         <p>&copy; 2025 Ialum. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="/js/landing.js"></script>
+    <!-- JavaScript -->
+    <script src="/js/pages/landing.js"></script>
 </body>
 </html>
