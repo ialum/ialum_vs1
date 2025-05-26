@@ -11,7 +11,12 @@ window.IalumModules.API = {
     
     // Configuração base
     config: {
-        baseURL: '', // Vazio porque usamos proxy do EasyPanel
+        // URLs diretas dos webhooks N8N
+        endpoints: {
+            auth: 'https://webhook.ialum.com.br/webhook/api-auth',
+            data: 'https://webhook.ialum.com.br/webhook/api-data',
+            actions: 'https://webhook.ialum.com.br/webhook/api-actions'
+        },
         timeout: 30000,
         headers: {
             'Content-Type': 'application/json'
@@ -20,7 +25,10 @@ window.IalumModules.API = {
     
     // Token de autenticação
     getToken() {
-        return window.IalumModules.Utils.storage.get('auth_token');
+        if (window.IalumModules && window.IalumModules.Utils) {
+            return window.IalumModules.Utils.storage.get('auth_token');
+        }
+        return null;
     },
     
     // Adicionar headers de autenticação
@@ -32,10 +40,11 @@ window.IalumModules.API = {
             headers['Authorization'] = `Bearer ${token}`;
         }
         
-        // Tenant ID se existir
-        const tenantId = window.IalumModules.Utils.storage.get('tenant_id');
-        if (tenantId) {
-            headers['X-Tenant-ID'] = tenantId;
+        if (window.IalumModules && window.IalumModules.Utils) {
+            const tenantId = window.IalumModules.Utils.storage.get('tenant_id');
+            if (tenantId) {
+                headers['X-Tenant-ID'] = tenantId;
+            }
         }
         
         return headers;
@@ -47,7 +56,7 @@ window.IalumModules.API = {
         const timeoutId = setTimeout(() => controller.abort(), this.config.timeout);
         
         try {
-            const response = await fetch(`${this.config.baseURL}${url}`, {
+            const response = await fetch(url, {
                 ...options,
                 headers: {
                     ...this.getHeaders(),
@@ -58,11 +67,22 @@ window.IalumModules.API = {
             
             clearTimeout(timeoutId);
             
-            // Verificar se é JSON
             const contentType = response.headers.get('content-type');
             const isJson = contentType && contentType.includes('application/json');
             
-            const data = isJson ? await response.json() : await response.text();
+            if (!isJson) {
+                const text = await response.text();
+                if (!response.ok) {
+                    throw {
+                        status: response.status,
+                        message: `Erro ${response.status}: ${text}`,
+                        data: text
+                    };
+                }
+                return { success: false, message: text };
+            }
+            
+            const data = await response.json();
             
             if (!response.ok) {
                 throw {
@@ -85,86 +105,89 @@ window.IalumModules.API = {
         }
     },
     
-    // GET
-    async get(url, params = {}) {
+    // Métodos HTTP com URLs completas
+    async get(endpoint, path, params = {}) {
+        const baseUrl = this.config.endpoints[endpoint];
         const queryString = new URLSearchParams(params).toString();
-        const fullUrl = queryString ? `${url}?${queryString}` : url;
+        const fullUrl = `${baseUrl}${path}${queryString ? '?' + queryString : ''}`;
         
         return this.request(fullUrl, {
             method: 'GET'
         });
     },
     
-    // POST
-    async post(url, data = {}) {
-        return this.request(url, {
+    async post(endpoint, path, data = {}) {
+        const baseUrl = this.config.endpoints[endpoint];
+        const fullUrl = `${baseUrl}${path}`;
+        
+        return this.request(fullUrl, {
             method: 'POST',
             body: JSON.stringify(data)
         });
     },
     
-    // PUT
-    async put(url, data = {}) {
-        return this.request(url, {
+    async put(endpoint, path, data = {}) {
+        const baseUrl = this.config.endpoints[endpoint];
+        const fullUrl = `${baseUrl}${path}`;
+        
+        return this.request(fullUrl, {
             method: 'PUT',
             body: JSON.stringify(data)
         });
     },
     
-    // DELETE
-    async delete(url) {
-        return this.request(url, {
+    async delete(endpoint, path) {
+        const baseUrl = this.config.endpoints[endpoint];
+        const fullUrl = `${baseUrl}${path}`;
+        
+        return this.request(fullUrl, {
             method: 'DELETE'
-        });
-    },
-    
-    // Upload de arquivo
-    async upload(url, file, additionalData = {}) {
-        const formData = new FormData();
-        formData.append('file', file);
-        
-        // Adicionar dados extras
-        Object.keys(additionalData).forEach(key => {
-            formData.append(key, additionalData[key]);
-        });
-        
-        return this.request(url, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                // Não setar Content-Type, deixar o browser definir
-                ...this.getHeaders(),
-                'Content-Type': undefined
-            }
         });
     },
     
     // Métodos específicos da aplicação
     auth: {
         async login(email, password) {
-            const response = await window.IalumModules.API.post('/api/auth/login', {
-                email,
-                password
-            });
-            
-            if (response.token) {
-                window.IalumModules.Utils.storage.set('auth_token', response.token);
-                window.IalumModules.Utils.storage.set('user', response.user);
-                window.IalumModules.Utils.storage.set('tenant_id', response.user.tenant_id);
+            try {
+                const response = await window.IalumModules.API.post('auth', '/login', {
+                    email,
+                    password
+                });
+                
+                if (response.token && window.IalumModules && window.IalumModules.Utils) {
+                    window.IalumModules.Utils.storage.set('auth_token', response.token);
+                    
+                    if (response.user) {
+                        window.IalumModules.Utils.storage.set('user', response.user);
+                        if (response.user.tenant_id) {
+                            window.IalumModules.Utils.storage.set('tenant_id', response.user.tenant_id);
+                        }
+                    }
+                }
+                
+                return response;
+            } catch (error) {
+                console.error('Erro no login:', error);
+                throw error;
             }
-            
-            return response;
         },
         
         async logout() {
-            await window.IalumModules.API.post('/api/auth/logout');
-            window.IalumModules.Utils.storage.clear();
-            window.location.href = '/login.html';
+            try {
+                await window.IalumModules.API.post('auth', '/logout');
+            } catch (error) {
+                console.error('Erro no logout:', error);
+            } finally {
+                if (window.IalumModules && window.IalumModules.Utils) {
+                    window.IalumModules.Utils.storage.clear();
+                }
+                window.location.href = '/login.html';
+            }
         },
         
         async verify() {
             try {
-                return await window.IalumModules.API.post('/api/auth/verify');
+                return await window.IalumModules.API.post('auth', '/verify');
             } catch (error) {
                 return { valid: false };
             }
@@ -174,30 +197,30 @@ window.IalumModules.API = {
     // Dados
     data: {
         async getTopics(filters = {}) {
-            return window.IalumModules.API.get('/api/data/topics', filters);
+            return window.IalumModules.API.get('data', '/topics', filters);
         },
         
         async getTopic(id) {
-            return window.IalumModules.API.get(`/api/data/topics/${id}`);
+            return window.IalumModules.API.get('data', `/topics/${id}`);
         },
         
         async getSettings() {
-            return window.IalumModules.API.get('/api/data/settings');
+            return window.IalumModules.API.get('data', '/settings');
         }
     },
     
     // Ações
     actions: {
         async saveSettings(data) {
-            return window.IalumModules.API.post('/api/actions/save-settings', data);
+            return window.IalumModules.API.post('actions', '/save-settings', data);
         },
         
         async createTopic(data) {
-            return window.IalumModules.API.post('/api/actions/create-topic', data);
+            return window.IalumModules.API.post('actions', '/create-topic', data);
         },
         
         async updateTopic(id, data) {
-            return window.IalumModules.API.put(`/api/actions/update-topic/${id}`, data);
+            return window.IalumModules.API.put('actions', `/update-topic/${id}`, data);
         }
     }
 };
