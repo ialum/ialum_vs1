@@ -138,14 +138,27 @@ window.IalumModules.Router = {
     
     // Verificar autenticação
     async checkAuth() {
+        console.log('=== VERIFICANDO AUTH ===');
+        
         const token = window.IalumModules.API.getToken();
-        if (!token) return false;
+        console.log('1. Token encontrado:', token);
+        
+        if (!token) {
+            console.log('2. Sem token, redirecionando para login');
+            return false;
+        }
         
         // Verificar se token ainda é válido
-        const response = await window.IalumModules.API.auth.verify();
-        return response.valid !== false;
+        try {
+            const response = await window.IalumModules.API.auth.verify();
+            console.log('3. Resposta do verify:', response);
+            return response.valid !== false;
+        } catch (error) {
+            console.log('4. Erro no verify:', error);
+            return false;
+        }
     },
-    
+        
     // Atualizar elementos da UI
     updateUI(route, routeConfig) {
         // Atualizar título da página
