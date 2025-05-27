@@ -6,8 +6,9 @@
  * Tamanho alvo: <150 linhas
  */
 
-import { auth } from '../../core/api.js';
-import { Utils } from '../../core/utils.js';
+import { auth } from '../core/api.js';
+import { Utils } from '../core/utils.js';
+// Verificar se o usuário já está logado
 
 // Inicializar quando DOM estiver pronto
 document.addEventListener('DOMContentLoaded', init);
