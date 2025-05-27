@@ -25,17 +25,14 @@ const itemsPerPage = 12;
 export async function init() {
     console.log('Inicializando Central de Tópicos...');
     
-    // Garantir que o DOM está pronto
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            initSearchComponent();
-            bindEvents();
-        });
-    } else {
-        // DOM já está pronto
-        initSearchComponent();
-        bindEvents();
-    }
+    // Aguardar um tick para garantir que o DOM está pronto
+    await new Promise(resolve => setTimeout(resolve, 0));
+    
+    // Inicializar componente de busca
+    initSearchComponent();
+    
+    // Bind dos eventos
+    bindEvents();
     
     // Carregar tópicos
     await loadTopicos();
@@ -68,6 +65,13 @@ function initSearchComponent() {
             // Limpar busca
             searchQuery = '';
             // Recarregar todos
+            filterAndRender();
+        },
+        // NOVO: Callback para busca em tempo real
+        onInputChange: (query) => {
+            console.log('Buscando em tempo real:', query);
+            searchQuery = query;
+            // Filtrar cards enquanto digita
             filterAndRender();
         }
     });
