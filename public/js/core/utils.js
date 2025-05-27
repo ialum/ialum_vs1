@@ -6,8 +6,8 @@
  * Tamanho alvo: <150 linhas
  */
 
-window.IalumModules = window.IalumModules || {};
-window.IalumModules.Utils = {
+// Exportar objeto com todas as utilidades
+export const Utils = {
     
     // Formatar data brasileira
     formatDate(date, format = 'DD/MM/YYYY') {
