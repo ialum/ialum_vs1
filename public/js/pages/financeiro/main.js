@@ -83,6 +83,14 @@ async function loadFinanceData() {
                     credits: -5,
                     date: '2025-01-20',
                     status: 'completed'
+                },
+                {
+                    id: 3,
+                    type: 'usage',
+                    description: 'Pesquisa jurídica',
+                    credits: -3,
+                    date: '2025-01-22',
+                    status: 'completed'
                 }
             ],
             invoices: [
@@ -161,22 +169,139 @@ function updateCreditsDisplay(credits) {
 
 // Renderizar histórico de transações
 function renderTransactionHistory() {
-    const historyContainer = document.getElementById('transaction-history');
-    if (!historyContainer) return;
+    const container = document.querySelector('.history-list');
+    if (!container) return;
     
-    historyContainer.innerHTML = '';
+    container.innerHTML = '';
     
     transactionHistory.forEach(tx => {
-        const txElement = document.createElement('div');
-        txElement.className = 'transaction-item';
-        txElement.innerHTML = `
-            <div class="transaction-date">${Utils.formatDate(tx.date)}</div>
-            <div class="transaction-description">${tx.description}</div>
-            <div class="transaction-amount ${tx.type === 'purchase' ? 'positive' : 'negative'}">
-                ${tx.type === 'purchase' ? '+' : ''}${tx.amount || tx.credits} créditos
+        const item = document.createElement('div');
+        item.className = 'transaction-item';
+        
+        const isCredit = tx.type === 'purchase';
+        const amount = tx.amount || Math.abs(tx.credits);
+        
+        item.innerHTML = `
+            <div class="transaction-info">
+                <div class="transaction-description">${tx.description}</div>
+                <div class="transaction-date">${Utils.formatDate(tx.date, 'DD/MM/YYYY')}</div>
             </div>
-            <div class="transaction-status">${tx.status}</div>
+            <div class="transaction-amount ${isCredit ? 'credit' : 'debit'}">
+                ${isCredit ? '+' : ''}${amount} ${tx.amount ? 'BRL' : 'créditos'}
+            </div>
         `;
-        historyContainer.appendChild(txElement);
+        
+        container.appendChild(item);
     });
 }
+
+// Renderizar faturas
+function renderInvoices() {
+    const tbody = document.getElementById('invoices-tbody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = '';
+    
+    invoices.forEach(invoice => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${invoice.id}</td>
+            <td>${Utils.formatDate(invoice.date, 'DD/MM/YYYY')}</td>
+            <td>${invoice.description}</td>
+            <td>${Utils.formatCurrency(invoice.amount)}</td>
+            <td>
+                <span class="status-badge ${invoice.status}">
+                    ${invoice.status === 'paid' ? 'Pago' : 'Pendente'}
+                </span>
+            </td>
+            <td>
+                <button class="btn-icon" onclick="downloadInvoice('${invoice.id}')">
+                    ⬇️
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Comprar créditos
+async function handleCreditPurchase(e) {
+    const card = e.target.closest('.package-card');
+    const packageName = card.querySelector('h4').textContent;
+    const credits = card.querySelector('.package-credits').textContent;
+    const price = card.querySelector('.package-price').textContent;
+    
+    if (confirm(`Confirma a compra de ${credits} por ${price}?`)) {
+        const btn = e.target;
+        const originalText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Processando...';
+        
+        try {
+            // Simular processamento
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // TODO: Integrar com gateway de pagamento real
+            showToast('Compra realizada com sucesso!', 'success');
+            
+            // Recarregar dados
+            await loadFinanceData();
+            
+        } catch (error) {
+            showToast('Erro ao processar pagamento', 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = originalText;
+        }
+    }
+}
+
+// Mudar plano
+async function handlePlanChange(e) {
+    const planCard = e.target.closest('.plan-card');
+    const planName = planCard.querySelector('h4').textContent;
+    
+    if (confirm(`Deseja mudar para o ${planName}?`)) {
+        const btn = e.target;
+        const originalText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Processando...';
+        
+        try {
+            // Simular processamento
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            showToast(`Plano alterado para ${planName}!`, 'success');
+            
+            // Recarregar página para atualizar UI
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+            
+        } catch (error) {
+            showToast('Erro ao alterar plano', 'error');
+            btn.disabled = false;
+            btn.textContent = originalText;
+        }
+    }
+}
+
+// Alterar forma de pagamento
+function changePaymentMethod() {
+    showToast('Abrindo configurações de pagamento...', 'info');
+    // TODO: Abrir modal ou redirecionar para página de pagamento
+}
+
+// Download de fatura (função global para onclick)
+window.downloadInvoice = function(invoiceId) {
+    showToast(`Baixando fatura ${invoiceId}...`, 'info');
+    
+    // Simular download
+    setTimeout(() => {
+        const link = document.createElement('a');
+        link.download = `${invoiceId}.pdf`;
+        link.href = '#';
+        link.click();
+        showToast('Fatura baixada com sucesso!', 'success');
+    }, 1000);
+};

@@ -33,11 +33,13 @@ function bindEvents() {
     });
     
     // Botões de exportação
-    document.querySelector('.btn-ghost:has(span:contains("PDF"))')
-        ?.addEventListener('click', exportPDF);
+    const pdfBtn = Array.from(document.querySelectorAll('.btn-ghost'))
+        .find(btn => btn.textContent.includes('PDF'));
+    if (pdfBtn) pdfBtn.addEventListener('click', exportPDF);
     
-    document.querySelector('.btn-ghost:has(span:contains("Excel"))')
-        ?.addEventListener('click', exportExcel);
+    const excelBtn = Array.from(document.querySelectorAll('.btn-ghost'))
+        .find(btn => btn.textContent.includes('Excel'));
+    if (excelBtn) excelBtn.addEventListener('click', exportExcel);
     
     // Seletor de métrica
     const metricSelect = document.querySelector('.chart-metric');
@@ -87,6 +89,36 @@ async function loadReportData() {
                     engagement: 280,
                     reach: 2100,
                     rate: '13.3%'
+                },
+                {
+                    title: '5 Dicas sobre Contratos Digitais',
+                    platform: 'Facebook',
+                    date: '2025-01-20',
+                    engagement: 195,
+                    reach: 1850,
+                    rate: '10.5%'
+                }
+            ],
+            insights: [
+                {
+                    icon: '💡',
+                    title: 'Melhor horário para postar',
+                    text: 'Seus posts têm melhor performance às <strong>19h</strong>'
+                },
+                {
+                    icon: '🎯',
+                    title: 'Tema mais engajado',
+                    text: 'Posts sobre <strong>Direito do Consumidor</strong> geram 45% mais engajamento'
+                },
+                {
+                    icon: '📱',
+                    title: 'Plataforma destaque',
+                    text: '<strong>Instagram</strong> está gerando 3x mais alcance que outras redes'
+                },
+                {
+                    icon: '📈',
+                    title: 'Tendência de crescimento',
+                    text: 'Aumento de <strong>23%</strong> no engajamento médio este mês'
                 }
             ]
         };
@@ -95,6 +127,7 @@ async function loadReportData() {
         updateKPIs(data.kpis);
         createCharts(data);
         renderTopPosts(data.topPosts);
+        renderInsights(data.insights);
         
     } catch (error) {
         console.error('Erro ao carregar dados:', error);
@@ -108,7 +141,7 @@ function updateKPIs(kpis) {
     const totalPosts = document.getElementById('total-posts');
     if (totalPosts) {
         totalPosts.textContent = kpis.totalPosts.value;
-        const change = totalPosts.nextElementSibling;
+        const change = totalPosts.parentElement.querySelector('.change');
         if (change) {
             change.textContent = `+${kpis.totalPosts.change}%`;
             change.className = 'change positive';
@@ -119,7 +152,7 @@ function updateKPIs(kpis) {
     const totalEngagement = document.getElementById('total-engagement');
     if (totalEngagement) {
         totalEngagement.textContent = kpis.totalEngagement.value.toLocaleString();
-        const change = totalEngagement.nextElementSibling;
+        const change = totalEngagement.parentElement.querySelector('.change');
         if (change) {
             change.textContent = `+${kpis.totalEngagement.change}%`;
             change.className = 'change positive';
@@ -130,7 +163,7 @@ function updateKPIs(kpis) {
     const growthRate = document.getElementById('growth-rate');
     if (growthRate) {
         growthRate.textContent = `${kpis.growthRate.value}%`;
-        const change = growthRate.nextElementSibling;
+        const change = growthRate.parentElement.querySelector('.change');
         if (change) {
             change.textContent = `+${kpis.growthRate.change}%`;
             change.className = 'change positive';
@@ -176,17 +209,27 @@ function createSparkline(canvasId) {
     canvas.width = canvas.offsetWidth;
     canvas.height = 40;
     
+    // Limpar canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
     // Desenhar linha simples
     ctx.strokeStyle = '#2563eb';
     ctx.lineWidth = 2;
     ctx.beginPath();
     
     // Pontos aleatórios para simulação
-    const points = Array.from({length: 10}, () => Math.random() * 30 + 5);
+    const points = Array.from({length: 10}, (_, i) => {
+        // Criar tendência de alta
+        const base = 20;
+        const trend = (i / 9) * 15;
+        const variation = Math.random() * 10 - 5;
+        return base + trend + variation;
+    });
+    
     points.forEach((y, x) => {
         const xPos = (x / 9) * canvas.width;
-        if (x === 0) ctx.moveTo(xPos, y);
-        else ctx.lineTo(xPos, y);
+        if (x === 0) ctx.moveTo(xPos, canvas.height - y);
+        else ctx.lineTo(xPos, canvas.height - y);
     });
     
     ctx.stroke();
@@ -204,15 +247,35 @@ function createPlatformChart(data) {
     // Limpar
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Simular barras
+    // Configurações
     const platforms = Object.keys(data);
-    const barWidth = (canvas.width - 100) / platforms.length;
+    const margin = 60;
+    const barWidth = (canvas.width - margin * 2) / platforms.length;
+    const maxValue = Math.max(...platforms.map(p => data[p].posts));
     
+    // Desenhar grid
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+        const y = margin + (canvas.height - margin * 2) * (1 - i / 5);
+        ctx.beginPath();
+        ctx.moveTo(margin, y);
+        ctx.lineTo(canvas.width - margin, y);
+        ctx.stroke();
+        
+        // Labels
+        ctx.fillStyle = '#6b7280';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(Math.round(maxValue * i / 5), margin - 10, y + 4);
+    }
+    
+    // Desenhar barras
     platforms.forEach((platform, index) => {
         const value = data[platform].posts;
-        const height = (value / 30) * 250; // Normalizar
-        const x = 50 + index * barWidth;
-        const y = canvas.height - height - 30;
+        const height = (value / maxValue) * (canvas.height - margin * 2);
+        const x = margin + index * barWidth + barWidth * 0.2;
+        const y = canvas.height - margin - height;
         
         // Barra
         ctx.fillStyle = getBarColor(platform);
@@ -220,9 +283,11 @@ function createPlatformChart(data) {
         
         // Label
         ctx.fillStyle = '#333';
-        ctx.font = '12px sans-serif';
+        ctx.font = '14px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(platform, x + barWidth * 0.3, canvas.height - 10);
+        ctx.fillText(capitalizeFirst(platform), x + barWidth * 0.3, canvas.height - margin + 20);
+        
+        // Valor
         ctx.fillText(value, x + barWidth * 0.3, y - 5);
     });
 }
@@ -235,6 +300,9 @@ function createThemeChart(data) {
     const ctx = canvas.getContext('2d');
     canvas.width = canvas.offsetWidth;
     canvas.height = 300;
+    
+    // Limpar
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     // Simular gráfico de pizza
     const total = Object.values(data).reduce((a, b) => a + b, 0);
@@ -256,6 +324,21 @@ function createThemeChart(data) {
         ctx.fillStyle = getSliceColor(index);
         ctx.fill();
         
+        // Borda
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Label
+        const labelAngle = currentAngle + sliceAngle / 2;
+        const labelX = centerX + Math.cos(labelAngle) * (radius + 30);
+        const labelY = centerY + Math.sin(labelAngle) * (radius + 30);
+        
+        ctx.fillStyle = '#333';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${capitalizeFirst(theme)} (${value}%)`, labelX, labelY);
+        
         currentAngle += sliceAngle;
     });
 }
@@ -267,7 +350,7 @@ function renderTopPosts(posts) {
     
     tbody.innerHTML = '';
     
-    posts.forEach(post => {
+    posts.forEach((post, index) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${post.title}</td>
@@ -278,6 +361,25 @@ function renderTopPosts(posts) {
             <td><strong>${post.rate}</strong></td>
         `;
         tbody.appendChild(tr);
+    });
+}
+
+// Renderizar insights
+function renderInsights(insights) {
+    const container = document.querySelector('.insights-grid');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    
+    insights.forEach(insight => {
+        const card = document.createElement('div');
+        card.className = 'insight-card';
+        card.innerHTML = `
+            <span class="insight-icon">${insight.icon}</span>
+            <h4>${insight.title}</h4>
+            <p>${insight.text}</p>
+        `;
+        container.appendChild(card);
     });
 }
 
@@ -299,28 +401,65 @@ function selectPeriod(btn) {
 }
 
 // Exportar PDF
-function exportPDF() {
+async function exportPDF() {
     showToast('Gerando PDF...', 'info');
-    // TODO: Implementar exportação real
-    setTimeout(() => {
+    
+    try {
+        // Simular geração
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Em produção: gerar PDF real com biblioteca como jsPDF
         showToast('PDF gerado com sucesso!', 'success');
-    }, 2000);
+        
+        // Simular download
+        const link = document.createElement('a');
+        link.download = `relatorio_${currentPeriod}_${new Date().toISOString().split('T')[0]}.pdf`;
+        link.href = '#';
+        link.click();
+        
+    } catch (error) {
+        showToast('Erro ao gerar PDF', 'error');
+    }
 }
 
 // Exportar Excel
-function exportExcel() {
+async function exportExcel() {
     showToast('Gerando Excel...', 'info');
-    // TODO: Implementar exportação real
-    setTimeout(() => {
+    
+    try {
+        // Simular geração
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Em produção: gerar Excel real com biblioteca como SheetJS
         showToast('Excel gerado com sucesso!', 'success');
-    }, 2000);
+        
+        // Simular download
+        const link = document.createElement('a');
+        link.download = `relatorio_${currentPeriod}_${new Date().toISOString().split('T')[0]}.xlsx`;
+        link.href = '#';
+        link.click();
+        
+    } catch (error) {
+        showToast('Erro ao gerar Excel', 'error');
+    }
 }
 
-// Atualizar gráfico de plataforma
+// Atualizar gráfico de plataforma com nova métrica
 function updatePlatformChart() {
     const metric = document.querySelector('.chart-metric')?.value;
     console.log('Mudando métrica para:', metric);
-    // TODO: Recriar gráfico com nova métrica
+    
+    // Recriar gráfico com nova métrica
+    showToast(`Atualizando gráfico: ${metric}`, 'info');
+    
+    // Em produção: buscar dados da métrica selecionada
+    const mockData = {
+        instagram: { posts: 25, engagement: 2150, reach: 15420 },
+        linkedin: { posts: 10, engagement: 890, reach: 8930 },
+        facebook: { posts: 7, engagement: 807, reach: 5200 }
+    };
+    
+    createPlatformChart(mockData);
 }
 
 // Helpers
@@ -336,4 +475,8 @@ function getBarColor(platform) {
 function getSliceColor(index) {
     const colors = ['#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
     return colors[index % colors.length];
+}
+
+function capitalizeFirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
