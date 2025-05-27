@@ -1,0 +1,292 @@
+/**
+ * relatorios.css
+ * Estilos específicos da página de relatórios
+ * Dependências: variables.css, cards.css
+ * Usado em: página de relatórios
+ * Tamanho alvo: <150 linhas
+ */
+
+/* Container principal */
+.relatorios-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Header com seletor de período */
+.relatorios-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+}
+
+/* Seletor de período */
+.period-selector {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.period-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    color: var(--gray-600);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.period-btn:hover {
+    background: var(--gray-100);
+    border-color: var(--gray-400);
+}
+
+.period-btn.active {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+/* Ações de exportação */
+.export-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* Grid de KPIs */
+.kpis-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.kpi-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+}
+
+.kpi-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.kpi-header h3 {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.kpi-icon {
+    font-size: 1.25rem;
+    opacity: 0.8;
+}
+
+.kpi-value {
+    margin-bottom: var(--spacing-md);
+}
+
+.kpi-value .number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.kpi-value .change {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-left: var(--spacing-sm);
+}
+
+.change.positive {
+    color: var(--success);
+}
+
+.change.negative {
+    color: var(--error);
+}
+
+.kpi-value .subtitle {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin-left: var(--spacing-sm);
+}
+
+/* Gráficos */
+.charts-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.chart-container {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-xl);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.chart-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.chart-metric {
+    min-width: 150px;
+}
+
+.chart-body {
+    height: 300px;
+    position: relative;
+}
+
+/* Tabela de posts */
+.top-posts-section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.top-posts-section h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: var(--spacing-lg);
+}
+
+.posts-table {
+    overflow-x: auto;
+}
+
+.posts-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.posts-table th {
+    text-align: left;
+    padding: var(--spacing-md);
+    border-bottom: 2px solid var(--gray-200);
+    color: var(--gray-600);
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.posts-table td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.posts-table tr:hover {
+    background: var(--gray-50);
+}
+
+/* Insights */
+.insights-section {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.insights-section h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: var(--spacing-lg);
+}
+
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.insight-card {
+    background: var(--light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--gray-200);
+}
+
+.insight-icon {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: var(--spacing-sm);
+}
+
+.insight-card h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.insight-card p {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+.insight-card strong {
+    color: var(--primary);
+}
+
+/* Progress bar para KPIs */
+.kpi-progress {
+    margin-top: var(--spacing-sm);
+}
+
+.progress-bar {
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .relatorios-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .period-selector {
+        order: 2;
+    }
+    
+    .export-actions {
+        order: 1;
+        justify-content: flex-end;
+    }
+    
+    .posts-table {
+        font-size: 0.875rem;
+    }
+}

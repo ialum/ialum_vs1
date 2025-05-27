@@ -1,0 +1,377 @@
+/**
+ * agendamentos.css
+ * Estilos específicos da página de agendamentos/calendário
+ * Dependências: variables.css, buttons.css
+ * Usado em: página de agendamentos
+ * Tamanho alvo: <150 linhas
+ */
+
+/* Container principal */
+.agendamentos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Header com controles */
+.agendamentos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+}
+
+/* Controles do calendário */
+.calendar-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.current-month {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--dark);
+    min-width: 200px;
+    text-align: center;
+}
+
+/* Controles de visualização */
+.view-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.view-toggle {
+    display: flex;
+    background: var(--gray-100);
+    border-radius: var(--radius-md);
+    padding: 2px;
+}
+
+.view-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--gray-600);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.view-btn:hover {
+    color: var(--dark);
+}
+
+.view-btn.active {
+    background: var(--white);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* View de Calendário */
+.calendar-view {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Dias da semana */
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.weekday {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+/* Grid de dias */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--gray-200);
+}
+
+.calendar-day {
+    background: var(--white);
+    min-height: 100px;
+    padding: var(--spacing-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: var(--gray-50);
+}
+
+.calendar-day.other-month {
+    opacity: 0.3;
+}
+
+.calendar-day.today {
+    background: var(--light);
+}
+
+.calendar-day.selected {
+    background: #e0e7ff;
+    border: 2px solid var(--primary);
+}
+
+.day-number {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: var(--spacing-xs);
+}
+
+.day-posts-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.post-dot {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--primary);
+}
+
+/* View de Lista */
+.list-view {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-xl);
+}
+
+.scheduled-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.scheduled-post {
+    display: flex;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
+}
+
+.scheduled-post:hover {
+    border-color: var(--gray-400);
+    box-shadow: var(--shadow-sm);
+}
+
+.post-time {
+    font-weight: 600;
+    color: var(--primary);
+    min-width: 60px;
+}
+
+.post-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+.post-platform {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.platform-icon {
+    font-size: 1.25rem;
+}
+
+.platform-name {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.post-title {
+    font-weight: 500;
+    color: var(--dark);
+    flex: 1;
+}
+
+.post-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+}
+
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    background: var(--gray-100);
+}
+
+/* Sidebar de detalhes */
+.schedule-sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 400px;
+    background: var(--white);
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.schedule-sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.sidebar-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.close-sidebar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.close-sidebar:hover {
+    background: var(--gray-100);
+}
+
+.sidebar-content {
+    padding: var(--spacing-lg);
+    height: calc(100% - 80px);
+    overflow-y: auto;
+}
+
+.day-posts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Legenda */
+.calendar-legend {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    padding: var(--spacing-lg);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+    color: var(--gray-600);
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-sm);
+}
+
+/* Estados especiais */
+.calendar-day.has-posts {
+    font-weight: 600;
+}
+
+.post-count {
+    position: absolute;
+    bottom: var(--spacing-sm);
+    right: var(--spacing-sm);
+    background: var(--primary);
+    color: var(--white);
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .agendamentos-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .calendar-controls {
+        justify-content: center;
+    }
+    
+    .view-controls {
+        justify-content: space-between;
+    }
+    
+    .calendar-day {
+        min-height: 80px;
+        font-size: 0.875rem;
+    }
+    
+    .schedule-sidebar {
+        width: 100%;
+    }
+    
+    .calendar-legend {
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+    }
+    
+    .scheduled-post {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+}
