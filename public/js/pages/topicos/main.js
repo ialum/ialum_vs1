@@ -25,9 +25,6 @@ const itemsPerPage = 12;
 export async function init() {
     console.log('Inicializando Central de Tópicos...');
     
-    // Aguardar um tick para garantir que o DOM está pronto
-    await new Promise(resolve => setTimeout(resolve, 0));
-    
     // Inicializar componente de busca
     initSearchComponent();
     

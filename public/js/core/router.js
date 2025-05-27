@@ -126,9 +126,21 @@ async function handleRoute() {
         const contentElement = document.getElementById('page-content');
         if (contentElement) {
             contentElement.innerHTML = html;
+            
+            // CORREÇÃO: Forçar o navegador a processar o DOM antes de continuar
+            // Isso garante que o HTML esteja totalmente renderizado
+            await new Promise(resolve => {
+                if (window.requestAnimationFrame) {
+                    window.requestAnimationFrame(() => {
+                        setTimeout(resolve, 0);
+                    });
+                } else {
+                    setTimeout(resolve, 10);
+                }
+            });
         }
         
-        // Carregar controller
+        // Agora sim carregar o controller
         await loadController(route, routeConfig.controller, args);
         
     } catch (error) {
