@@ -47,11 +47,20 @@
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+/* Filtros e busca */
+.topicos-filters {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
 /* Abas de status */
 .status-tabs {
     display: flex;
     gap: var(--spacing-md);
-    margin-bottom: var(--spacing-xl);
+    flex: 1;
     padding-bottom: var(--spacing-md);
     border-bottom: 1px solid var(--gray-200);
 }
@@ -85,6 +94,19 @@
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.875rem;
+}
+
+/* Filtros adicionais */
+.additional-filters {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+/* Garantir que os selects tenham tamanho adequado */
+.additional-filters .form-select {
+    min-width: 150px;
+    max-width: 200px;
 }
 
 /* Grid de tópicos */
