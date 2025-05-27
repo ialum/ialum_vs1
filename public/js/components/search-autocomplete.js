@@ -50,6 +50,9 @@ export class SearchAutocomplete {
             return;
         }
         
+        // Limpar target antes de renderizar
+        target.innerHTML = '';
+        
         // Criar estrutura HTML
         this.container = document.createElement('div');
         this.container.className = 'search-autocomplete';
@@ -199,15 +202,18 @@ export class SearchAutocomplete {
     // Mock de resultados (substituir por API real)
     getMockResults(query) {
         const allItems = [
-            { id: 1, title: 'Direitos do Consumidor Online', status: 'embasado', theme: 'Consumidor' },
-            { id: 2, title: 'Guarda Compartilhada', status: 'rascunho', theme: 'Família' },
-            { id: 3, title: 'Direitos Trabalhistas', status: 'ideia', theme: 'Trabalhista' },
-            { id: 4, title: 'Contratos Digitais', status: 'embasado', theme: 'Empresarial' },
-            { id: 5, title: 'Direito à Privacidade', status: 'rascunho', theme: 'Civil' }
+            { id: 1, title: 'Direitos do Consumidor em Compras Online', status: 'embasado', theme: 'Consumidor' },
+            { id: 2, title: 'Guarda Compartilhada: O que você precisa saber', status: 'rascunho', theme: 'Família' },
+            { id: 3, title: 'Direitos Trabalhistas na Era Digital', status: 'ideia', theme: 'Trabalhista' },
+            { id: 4, title: 'Contratos Digitais e Validade Jurídica', status: 'embasado', theme: 'Empresarial' },
+            { id: 5, title: 'Direito à Privacidade na Internet', status: 'rascunho', theme: 'Civil' },
+            { id: 6, title: 'Teste de Paternidade: Aspectos Jurídicos', status: 'embasado', theme: 'Família' },
+            { id: 7, title: 'Testamento Digital: Como Fazer', status: 'ideia', theme: 'Civil' }
         ];
         
         return allItems.filter(item => 
-            item.title.toLowerCase().includes(query.toLowerCase())
+            item.title.toLowerCase().includes(query.toLowerCase()) ||
+            item.theme.toLowerCase().includes(query.toLowerCase())
         );
     }
     

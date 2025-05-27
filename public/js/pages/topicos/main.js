@@ -37,6 +37,13 @@ export async function init() {
 
 // Inicializar componente de busca
 function initSearchComponent() {
+    // Verificar se o container existe
+    const container = document.querySelector('#topicos-search-component');
+    if (!container) {
+        console.error('Container #topicos-search-component não encontrado');
+        return;
+    }
+    
     searchComponent = new SearchAutocomplete({
         placeholder: 'Buscar tópicos por título, tema ou assunto...',
         searchType: 'topics',
