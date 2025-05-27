@@ -134,5 +134,5 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Depois inicializar o App
     init();
-});
+})
 ;
