@@ -135,11 +135,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // Depois inicializar o App
     init();
 });
-
-// Exportar para uso global se necessário
-window.IalumApp = {
-    init,
-    showLoading,
-    showError,
-    showToast
-};
+;

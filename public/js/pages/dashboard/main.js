@@ -1,11 +1,18 @@
 /**
  * dashboard/main.js
  * Controlador principal do Dashboard
- * Dependências: api.js, utils.js, notifications.js
+ * Dependências: api.js, utils.js, notifications.js, router.js
  * Localização: public/js/pages/dashboard/main.js
  * Tamanho alvo: <150 linhas
  */
 
+// Importar dependências
+import { Router } from '../../core/router.js';
+import { API } from '../../core/api.js';
+import { Utils } from '../../core/utils.js';
+import { showToast } from '../../components/notifications.js';
+
+// Função principal de inicialização
 export async function init(params = {}) {
     console.log('Inicializando Dashboard...');
     
@@ -24,7 +31,6 @@ export async function init(params = {}) {
 
 // Configuração inicial da página
 function setupPage() {
-    // Adicionar classe específica ao container se necessário
     const container = document.querySelector('.dashboard-container');
     if (container) {
         container.classList.add('loaded');
@@ -87,12 +93,12 @@ async function loadDashboardData() {
         updateDashboardUI(mockData);
         
         // Quando API estiver pronta:
-        // const response = await window.IalumModules.API.data.getDashboardStats();
+        // const response = await API.data.getDashboardStats();
         // updateDashboardUI(response.data);
         
     } catch (error) {
         console.error('Erro ao carregar dados do dashboard:', error);
-        window.showToast('Erro ao carregar dados', 'error');
+        showToast('Erro ao carregar dados', 'error');
     }
 }
 
@@ -145,7 +151,6 @@ function renderRecentPosts(posts) {
     const container = document.getElementById('recent-posts-list');
     if (!container) return;
     
-    // Limpar loading
     container.innerHTML = '';
     
     posts.forEach(post => {
@@ -196,16 +201,19 @@ function bindEvents() {
         card.addEventListener('click', handleQuickAction);
     });
     
-    // Clique nos posts recentes
-    document.addEventListener('click', (e) => {
-        const postItem = e.target.closest('.post-item');
-        if (postItem) {
-            const postId = postItem.dataset.postId;
-            console.log('Abrir post:', postId);
-            // TODO: Navegar para o post específico
-            window.showToast('Abrindo post...', 'info');
-        }
-    });
+    // Clique nos posts recentes (delegação de eventos)
+    const container = document.getElementById('recent-posts-list');
+    if (container) {
+        container.addEventListener('click', (e) => {
+            const postItem = e.target.closest('.post-item');
+            if (postItem) {
+                const postId = postItem.dataset.postId;
+                console.log('Abrir post:', postId);
+                // TODO: Navegar para o post específico
+                showToast('Abrindo post...', 'info');
+            }
+        });
+    }
 }
 
 // Handler das ações rápidas
@@ -214,31 +222,24 @@ function handleQuickAction(e) {
     
     switch(action) {
         case 'new-idea':
-            if (window.IalumModules.Router) {
-                window.IalumModules.Router.navigate('topicos', { action: 'new' });
-            }
+            Router.navigate('topicos', { action: 'new' });
             break;
             
         case 'upload-image':
-            if (window.IalumModules.Router) {
-                window.IalumModules.Router.navigate('banco-imagens', { action: 'upload' });
-            }
+            Router.navigate('banco-imagens', { action: 'upload' });
             break;
             
         case 'view-calendar':
-            if (window.IalumModules.Router) {
-                window.IalumModules.Router.navigate('agendamentos');
-            }
+            Router.navigate('agendamentos');
             break;
             
         case 'monthly-report':
-            if (window.IalumModules.Router) {
-                window.IalumModules.Router.navigate('relatorios');
-            }
+            Router.navigate('relatorios');
             break;
             
         default:
             console.log('Ação não implementada:', action);
+            showToast(`Ação '${action}' em desenvolvimento`, 'info');
     }
 }
 
