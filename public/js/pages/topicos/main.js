@@ -25,11 +25,17 @@ const itemsPerPage = 12;
 export async function init() {
     console.log('Inicializando Central de Tópicos...');
     
-    // Inicializar componente de busca
-    initSearchComponent();
-    
-    // Bind dos eventos
-    bindEvents();
+    // Garantir que o DOM está pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            initSearchComponent();
+            bindEvents();
+        });
+    } else {
+        // DOM já está pronto
+        initSearchComponent();
+        bindEvents();
+    }
     
     // Carregar tópicos
     await loadTopicos();

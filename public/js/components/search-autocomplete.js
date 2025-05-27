@@ -114,6 +114,7 @@ export class SearchAutocomplete {
     // Handlers
     handleInput(e) {
         const query = e.target.value.trim();
+        console.log('Input digitado:', query, 'Tamanho:', query.length);
         
         // Mostrar/esconder botão clear
         const clearBtn = this.container.querySelector('.search-clear');
@@ -121,6 +122,7 @@ export class SearchAutocomplete {
         
         // Buscar se tiver caracteres mínimos
         if (query.length >= this.config.minChars) {
+            console.log('Iniciando busca para:', query);
             this.debouncedSearch(query);
         } else {
             this.close();
@@ -178,6 +180,7 @@ export class SearchAutocomplete {
     
     // Realizar busca
     async performSearch(query) {
+        console.log('performSearch chamado com:', query);
         try {
             // Mostrar loading
             this.showLoading();
@@ -185,6 +188,7 @@ export class SearchAutocomplete {
             // Buscar dados (mockado por enquanto)
             // TODO: Integrar com API real
             const mockResults = this.getMockResults(query);
+            console.log('Resultados encontrados:', mockResults.length, mockResults);
             
             // Simular delay de rede
             await new Promise(resolve => setTimeout(resolve, 300));
