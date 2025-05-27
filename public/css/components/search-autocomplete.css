@@ -1,0 +1,252 @@
+/**
+ * search-autocomplete.css
+ * Estilos do componente de busca com autocomplete
+ * Dependências: variables.css
+ * Usado em: Componente SearchAutocomplete
+ * public/css/components/search-autocomplete.css
+ * Tamanho alvo: <150 linhas
+ */
+
+/* Container principal */
+.search-autocomplete {
+    position: relative;
+    width: 100%;
+}
+
+.search-autocomplete-wrapper {
+    position: relative;
+}
+
+/* Input wrapper */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-autocomplete .search-icon {
+    position: absolute;
+    left: var(--spacing-md);
+    font-size: 1.25rem;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.search-autocomplete .search-input {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-2xl) var(--spacing-md) var(--spacing-2xl);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    transition: all 0.3s;
+    background: var(--white);
+}
+
+.search-autocomplete .search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+
+.search-autocomplete .search-clear {
+    position: absolute;
+    right: var(--spacing-md);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    transition: all 0.2s;
+}
+
+.search-autocomplete .search-clear:hover {
+    background: var(--gray-300);
+    color: var(--gray-800);
+}
+
+/* Dropdown de resultados */
+.search-results {
+    position: absolute;
+    top: calc(100% + var(--spacing-xs));
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+/* Items de resultado */
+.search-result-item {
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover,
+.search-result-item.highlighted {
+    background: var(--gray-50);
+}
+
+.result-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.result-title {
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.result-title mark {
+    background: #fef3c7;
+    color: inherit;
+    font-weight: 600;
+}
+
+.result-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: 0.875rem;
+}
+
+.meta-status {
+    font-weight: 500;
+}
+
+.meta-status.ideia { color: #f59e0b; }
+.meta-status.rascunho { color: #6b7280; }
+.meta-status.embasado { color: #10b981; }
+
+.meta-theme {
+    color: var(--gray-600);
+}
+
+/* Estados especiais */
+.search-loading,
+.search-no-results,
+.search-error {
+    padding: var(--spacing-lg);
+    text-align: center;
+    color: var(--gray-600);
+}
+
+.search-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+.spinner-small {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--gray-200);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.search-error {
+    color: var(--error);
+}
+
+/* Botão criar novo */
+.search-create-new {
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--gray-200);
+}
+
+.btn-create-new {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--light);
+    border: 1px dashed var(--gray-300);
+    border-radius: var(--radius-sm);
+    color: var(--primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-create-new:hover {
+    background: var(--gray-100);
+    border-color: var(--primary);
+}
+
+/* Preview card */
+.search-preview {
+    margin-top: var(--spacing-md);
+}
+
+.preview-card {
+    padding: var(--spacing-md);
+    background: var(--light);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.preview-status {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.preview-change {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--white);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.preview-change:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-400);
+}
+
+.preview-title {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: var(--spacing-sm);
+}
+
+.preview-meta {
+    display: flex;
+    gap: var(--spacing-lg);
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin-bottom: var(--spacing-md);
+}
+
+.preview-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

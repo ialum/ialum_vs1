@@ -1,7 +1,7 @@
 /**
  * topicos/main.js
  * Controlador principal da Central de Tópicos
- * Dependências: api.js, utils.js, notifications.js
+ * Dependências: api.js, utils.js, notifications.js, search-autocomplete.js
  * Localização: public/js/pages/topicos/main.js
  * Tamanho alvo: <200 linhas
  */
@@ -9,17 +9,24 @@
 import { API } from '../../core/api.js';
 import { Utils } from '../../core/utils.js';
 import { showToast } from '../../components/notifications.js';
+import { SearchAutocomplete } from '../../components/search-autocomplete.js';
 
 // Estado da página
 let currentFilter = 'all';
 let currentTheme = '';
 let currentSort = 'recent';
 let currentPage = 1;
+let searchQuery = '';
+let allTopicos = []; // Guardar todos os tópicos
+let searchComponent = null;
 const itemsPerPage = 12;
 
 // Função principal de inicialização
 export async function init() {
     console.log('Inicializando Central de Tópicos...');
+    
+    // Inicializar componente de busca
+    initSearchComponent();
     
     // Bind dos eventos
     bindEvents();
@@ -28,14 +35,36 @@ export async function init() {
     await loadTopicos();
 }
 
+// Inicializar componente de busca
+function initSearchComponent() {
+    searchComponent = new SearchAutocomplete({
+        placeholder: 'Buscar tópicos por título, tema ou assunto...',
+        searchType: 'topics',
+        minChars: 2,
+        maxResults: 8,
+        allowCreate: true,
+        showPreview: false,
+        onSelect: (item) => {
+            console.log('Tópico selecionado:', item);
+            // Guardar query de busca
+            searchQuery = item.title;
+            // Filtrar e renderizar
+            filterAndRender();
+        },
+        onClear: () => {
+            // Limpar busca
+            searchQuery = '';
+            // Recarregar todos
+            filterAndRender();
+        }
+    });
+    
+    // Renderizar
+    searchComponent.render('#topicos-search-component');
+}
+
 // Bind dos eventos da página
 function bindEvents() {
-    // Busca
-    const searchInput = document.getElementById('topicos-search');
-    if (searchInput) {
-        searchInput.addEventListener('input', Utils.debounce(handleSearch, 300));
-    }
-    
     // Botão novo tópico
     const btnNovo = document.getElementById('btn-novo-topico');
     if (btnNovo) {
@@ -84,69 +113,65 @@ async function loadTopicos() {
         await new Promise(resolve => setTimeout(resolve, 500));
         
         // Por enquanto, usar dados mockados
-        const mockData = {
-            topicos: [
-                {
-                    id: 1,
-                    title: 'Direitos do Consumidor em Compras Online',
-                    status: 'embasado',
-                    theme: 'consumidor',
-                    theme_name: 'Consumidor',
-                    created_at: '2025-01-15',
-                    created_by_ialum: true,
-                    publications: [
-                        { platform: 'instagram', status: 'published' },
-                        { platform: 'linkedin', status: 'scheduled' }
-                    ],
-                    progress: 100
-                },
-                {
-                    id: 2,
-                    title: 'Guarda Compartilhada: O que você precisa saber',
-                    status: 'rascunho',
-                    theme: 'familia',
-                    theme_name: 'Família',
-                    created_at: '2025-01-20',
-                    created_by_ialum: false,
-                    publications: [
-                        { platform: 'instagram', status: 'draft' }
-                    ],
-                    progress: 50
-                },
-                {
-                    id: 3,
-                    title: 'Direitos Trabalhistas na Era Digital',
-                    status: 'ideia',
-                    theme: 'trabalhista',
-                    theme_name: 'Trabalhista',
-                    created_at: '2025-01-25',
-                    created_by_ialum: false,
-                    publications: [],
-                    progress: 10
-                }
-            ],
-            counts: {
-                all: 3,
-                ideia: 1,
-                rascunho: 1,
-                embasado: 1
+        allTopicos = [
+            {
+                id: 1,
+                title: 'Direitos do Consumidor em Compras Online',
+                status: 'embasado',
+                theme: 'consumidor',
+                theme_name: 'Consumidor',
+                created_at: '2025-01-15',
+                created_by_ialum: true,
+                publications: [
+                    { platform: 'instagram', status: 'published' },
+                    { platform: 'linkedin', status: 'scheduled' }
+                ],
+                progress: 100
+            },
+            {
+                id: 2,
+                title: 'Guarda Compartilhada: O que você precisa saber',
+                status: 'rascunho',
+                theme: 'familia',
+                theme_name: 'Família',
+                created_at: '2025-01-20',
+                created_by_ialum: false,
+                publications: [
+                    { platform: 'instagram', status: 'draft' }
+                ],
+                progress: 50
+            },
+            {
+                id: 3,
+                title: 'Direitos Trabalhistas na Era Digital',
+                status: 'ideia',
+                theme: 'trabalhista',
+                theme_name: 'Trabalhista',
+                created_at: '2025-01-25',
+                created_by_ialum: false,
+                publications: [],
+                progress: 10
+            },
+            {
+                id: 4,
+                title: 'Contratos Digitais e Validade Jurídica',
+                status: 'embasado',
+                theme: 'empresarial',
+                theme_name: 'Empresarial',
+                created_at: '2025-01-18',
+                created_by_ialum: true,
+                publications: [
+                    { platform: 'linkedin', status: 'published' }
+                ],
+                progress: 100
             }
-        };
+        ];
         
         // Atualizar contadores
-        updateCounts(mockData.counts);
+        updateCounts();
         
-        // Filtrar e ordenar
-        let filtered = filterTopicos(mockData.topicos);
-        filtered = sortTopicos(filtered);
-        
-        // Renderizar
-        if (filtered.length === 0) {
-            showEmptyState();
-        } else {
-            renderTopicos(filtered);
-            updatePagination(filtered.length);
-        }
+        // Filtrar e renderizar
+        filterAndRender();
         
     } catch (error) {
         console.error('Erro ao carregar tópicos:', error);
@@ -155,12 +180,44 @@ async function loadTopicos() {
     }
 }
 
+// Filtrar e renderizar tópicos
+function filterAndRender() {
+    let filtered = [...allTopicos];
+    
+    // Aplicar filtros
+    filtered = filterTopicos(filtered);
+    
+    // Aplicar busca
+    if (searchQuery) {
+        filtered = filtered.filter(topico => 
+            topico.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            topico.theme_name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+    
+    // Ordenar
+    filtered = sortTopicos(filtered);
+    
+    // Renderizar
+    if (filtered.length === 0) {
+        showEmptyState();
+    } else {
+        renderTopicos(filtered);
+        updatePagination(filtered.length);
+    }
+}
+
 // Renderizar tópicos
 function renderTopicos(topicos) {
     const grid = document.getElementById('topicos-grid');
     const template = document.getElementById('topico-card-template');
+    const emptyState = document.getElementById('empty-state');
     
     if (!grid || !template) return;
+    
+    // Esconder estado vazio
+    if (emptyState) emptyState.style.display = 'none';
+    grid.style.display = 'grid';
     
     // Limpar grid
     grid.innerHTML = '';
@@ -239,13 +296,6 @@ function renderPublications(card, publications) {
 }
 
 // Handlers
-function handleSearch(e) {
-    const query = e.target.value.toLowerCase();
-    console.log('Buscando:', query);
-    // TODO: Implementar busca
-    loadTopicos();
-}
-
 function handleNovoTopico() {
     showToast('Abrindo formulário de novo tópico...', 'info');
     // TODO: Abrir modal ou navegar para criação
@@ -264,14 +314,14 @@ function handleStatusFilter(tab) {
     currentPage = 1;
     
     // Recarregar
-    loadTopicos();
+    filterAndRender();
 }
 
 function handleFilters() {
     currentTheme = document.getElementById('filter-theme').value;
     currentSort = document.getElementById('filter-sort').value;
     currentPage = 1;
-    loadTopicos();
+    filterAndRender();
 }
 
 // Filtrar tópicos
@@ -317,7 +367,7 @@ function sortTopicos(topicos) {
 // Paginação
 function changePage(direction) {
     currentPage += direction;
-    loadTopicos();
+    filterAndRender();
 }
 
 function updatePagination(totalItems) {
@@ -337,7 +387,14 @@ function updatePagination(totalItems) {
 }
 
 // Atualizar contadores
-function updateCounts(counts) {
+function updateCounts() {
+    const counts = {
+        all: allTopicos.length,
+        ideia: allTopicos.filter(t => t.status === 'ideia').length,
+        rascunho: allTopicos.filter(t => t.status === 'rascunho').length,
+        embasado: allTopicos.filter(t => t.status === 'embasado').length
+    };
+    
     Object.keys(counts).forEach(status => {
         const el = document.getElementById(`count-${status}`);
         if (el) el.textContent = counts[status];

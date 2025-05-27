@@ -59,7 +59,7 @@ ialum_vs1/
 
 ### **2. Carregamento de Páginas**
 ```javascript
-// Página = HTML (estrutura) + JS (comportamento)
+// Página = HTML (estrutura) + JS (comportamento / main.js + arquivos separados para cada aba para fim de organização)
 Clique no menu → Busca HTML → Carrega JS → Inicializa
 ```
 
