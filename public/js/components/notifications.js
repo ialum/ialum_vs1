@@ -151,11 +151,15 @@ return notification;
 }
 // Limpar todas as notificações
 export function clearAllNotifications() {
-const list = document.querySelector('.notifications-list');
-if (list) {
-list.innerHTML =             <div class="empty-notifications">                 <p>Nenhuma notificação</p>             </div>        ;
-}
-updateBadge(0);
+    const list = document.querySelector('.notifications-list');
+    if (list) {
+        list.innerHTML = `
+            <div class="empty-notifications">
+                <p>Nenhuma notificação</p>
+            </div>
+        `;
+    }
+    updateBadge(0);
 }
 // Exportar objeto com todas as funções
 export const Notifications = {
