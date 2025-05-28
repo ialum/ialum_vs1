@@ -1,4 +1,16 @@
-# vs5 - Estrutura de Páginas - Ialum
+# vs5 - Estrutura de Arquivos e Carregamento das Páginas - Ialum
+
+## 🛠️ Stack Tecnológica
+
+- **Frontend:** HTML, CSS, JavaScript (vanilla)
+- **Backend:** N8N + Supabase
+- **IA:** 
+  - Texto: OpenAI
+  - Pesquisa: Perplexity + Anthropic
+  - Imagens: DALL-E 3 + Gemini
+  - Vídeos: Gemini
+  - Templates: Bannerbear
+- **Deploy:** EasyPanel com Nixpacks
 
 ## 🗺️ ESTRUTURA DE ARQUIVOS DO PROJETO
 
