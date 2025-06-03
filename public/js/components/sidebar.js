@@ -77,8 +77,13 @@ submenuToggles.forEach(toggle => {
         const submenu = parent.querySelector('.nav-submenu');
         const arrow = toggle.querySelector('.nav-arrow');
         
-        // Toggle submenu
+        // Verificar se está expandido
         const isExpanded = parent.classList.contains('expanded');
+        
+        // Fechar todos os outros submenus primeiro
+        closeAllSubmenus(parent);
+        
+        // Toggle do submenu atual
         parent.classList.toggle('expanded');
         
         if (submenu) {
@@ -207,10 +212,28 @@ const submenu = parent.querySelector('.nav-submenu');
 const arrow = parent.querySelector('.nav-arrow');
 
 if (submenu && !parent.classList.contains('expanded')) {
+    // Fechar todos os outros submenus primeiro
+    closeAllSubmenus(parent);
+    
     parent.classList.add('expanded');
     submenu.style.maxHeight = submenu.scrollHeight + 'px';
     if (arrow) arrow.style.transform = 'rotate(90deg)';
 }
+}
+
+// Fechar todos os submenus exceto o atual
+function closeAllSubmenus(exceptParent = null) {
+const allSubmenus = document.querySelectorAll('.nav-item-submenu');
+allSubmenus.forEach(submenuParent => {
+    if (submenuParent !== exceptParent && submenuParent.classList.contains('expanded')) {
+        const submenu = submenuParent.querySelector('.nav-submenu');
+        const arrow = submenuParent.querySelector('.nav-arrow');
+        
+        submenuParent.classList.remove('expanded');
+        if (submenu) submenu.style.maxHeight = '0';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+    }
+});
 }
 // Mostrar/esconder item do menu
 export function toggleMenuItem(selector, show = true) {
