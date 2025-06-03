@@ -13,6 +13,10 @@ let isMobileMenuOpen = false;
 // Inicializar sidebar
 export function init() {
 if (isInitialized) return;
+
+// Inicializar estado dos submenus (todos fechados)
+initializeSubmenus();
+
 bindNavigation();
 bindMobileToggle();
 updateActiveState();
@@ -21,6 +25,20 @@ updateActiveState();
 window.addEventListener('hashchange', updateActiveState);
 
 isInitialized = true;
+}
+
+// Inicializar submenus no estado fechado
+function initializeSubmenus() {
+const submenus = document.querySelectorAll('.nav-submenu');
+submenus.forEach(submenu => {
+    submenu.style.maxHeight = '0';
+    submenu.style.overflow = 'hidden';
+});
+
+const arrows = document.querySelectorAll('.nav-arrow');
+arrows.forEach(arrow => {
+    arrow.style.transform = 'rotate(0deg)';
+});
 }
 // Bind da navegação
 function bindNavigation() {
