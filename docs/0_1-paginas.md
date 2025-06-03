@@ -35,7 +35,6 @@ Todas as páginas internas seguem a mesma estrutura de layout:
     
   - **Área do usuário** (footer do sidebar):
     - Conta
-      - Cadastro
       - Usuarios
       - Financeiro
       - Parcerias

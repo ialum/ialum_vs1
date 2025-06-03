@@ -1,9 +1,10 @@
 /**
  * sidebar.js
- * Controle do menu lateral
+ * Controle do menu lateral da aplicação Ialum
+ * Estrutura baseada na documentação 0_1-paginas.md
  * Dependências: router.js
  * Localização: public/js/components/sidebar.js
- * Tamanho alvo: <150 linhas
+ * Tamanho alvo: <200 linhas
  */
 import { Router } from '../core/router.js';
 // Estado do sidebar
@@ -106,13 +107,29 @@ isMobileMenuOpen = false;
 function updateActiveState() {
 const currentHash = window.location.hash || '#dashboard';
 const navItems = document.querySelectorAll('.nav-item');
+
 navItems.forEach(item => {
     const href = item.getAttribute('href');
     
+    // Remover estado ativo de todos
+    item.classList.remove('active');
+    
+    // Marcar item ativo
     if (href === currentHash) {
         item.classList.add('active');
-    } else {
-        item.classList.remove('active');
+    }
+    
+    // Casos especiais para subrotas
+    if (currentHash.startsWith('#redacao') && href === '#redacao') {
+        item.classList.add('active');
+    }
+    
+    if (currentHash.startsWith('#configuracoes') && href === '#configuracoes') {
+        item.classList.add('active');
+    }
+    
+    if (currentHash.startsWith('#conta') && href === '#conta') {
+        item.classList.add('active');
     }
 });
 }
@@ -153,6 +170,41 @@ if (userEmail && user.email) {
     userEmail.textContent = user.email;
 }
 }
+// Controlar visibilidade de submenus
+export function toggleSubmenu(parentSelector, show = true) {
+const parent = document.querySelector(parentSelector);
+if (!parent) return;
+
+const submenu = parent.querySelector('.nav-submenu');
+if (submenu) {
+    submenu.style.display = show ? 'block' : 'none';
+    parent.classList.toggle('has-submenu-open', show);
+}
+}
+
+// Expandir/contrair submenu
+export function expandSubmenu(parentSelector) {
+const parent = document.querySelector(parentSelector);
+if (!parent) return;
+
+const submenu = parent.querySelector('.nav-submenu');
+const isExpanded = parent.classList.contains('expanded');
+
+if (submenu) {
+    parent.classList.toggle('expanded', !isExpanded);
+    submenu.style.maxHeight = isExpanded ? '0' : submenu.scrollHeight + 'px';
+}
+}
+
+// Controlar estado de integração
+export function updateIntegrationStatus(network, isActive) {
+const item = document.querySelector(`[data-network="${network}"]`);
+if (item) {
+    item.classList.toggle('integration-active', isActive);
+    item.classList.toggle('integration-inactive', !isActive);
+}
+}
+
 // Exportar objeto Sidebar
 export const Sidebar = {
 init,
@@ -160,5 +212,8 @@ toggleMenuItem,
 addBadge,
 updateUserInfo,
 toggleMobileMenu,
-closeMobileMenu
+closeMobileMenu,
+toggleSubmenu,
+expandSubmenu,
+updateIntegrationStatus
 };

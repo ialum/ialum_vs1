@@ -144,6 +144,7 @@
 - `/app/agendamentos` - Calendário de agendamentos
 - `/app/relatorios` - Dashboard analítico
 - `/app/configuracoes/[secao]` - Configurações do sistema
+- `/app/conta/[secao]` - Configurações do sistema
 
 ### Padrão de API Endpoints
 - `GET /api/v1/topics` - Listar tópicos
