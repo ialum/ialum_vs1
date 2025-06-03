@@ -42,13 +42,13 @@ arrows.forEach(arrow => {
 }
 // Bind da navegação
 function bindNavigation() {
-const navItems = document.querySelectorAll('.nav-item a, .nav-subitem');
-navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        const href = item.getAttribute('href');
+const navLinks = document.querySelectorAll('.nav-link, .nav-subitem');
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
         
-        // Ignorar links externos
-        if (!href || href.startsWith('http')) return;
+        // Ignorar links externos e javascript:void(0)
+        if (!href || href.startsWith('http') || href === 'javascript:void(0)') return;
         
         // Para links internos com #
         if (href.startsWith('#')) {
@@ -162,51 +162,39 @@ isMobileMenuOpen = false;
 // Atualizar estado ativo do menu
 function updateActiveState() {
 const currentHash = window.location.hash || '#dashboard';
-const navItems = document.querySelectorAll('.nav-item a, .nav-subitem');
+const navLinks = document.querySelectorAll('.nav-link, .nav-subitem');
 
 // Remover estado ativo de todos
-navItems.forEach(item => {
-    item.classList.remove('active');
-    const parent = item.closest('.nav-item, .nav-item-submenu');
-    if (parent) parent.classList.remove('active');
+navLinks.forEach(link => {
+    link.classList.remove('active');
 });
 
-navItems.forEach(item => {
-    const href = item.getAttribute('href');
+navLinks.forEach(link => {
+    const href = link.getAttribute('href');
     
     // Marcar item ativo exato
     if (href === currentHash) {
-        item.classList.add('active');
+        link.classList.add('active');
         
-        // Se for um subitem, marcar o pai também
-        const parent = item.closest('.nav-item-submenu');
-        if (parent) {
-            parent.classList.add('active');
-            const parentLink = parent.querySelector('.nav-link');
-            if (parentLink) parentLink.classList.add('active');
-            
-            // Expandir submenu automaticamente
-            expandSubmenuByParent(parent);
+        // Se for um subitem, expandir o menu pai
+        const parentSubmenu = link.closest('.nav-item-submenu');
+        if (parentSubmenu && link.classList.contains('nav-subitem')) {
+            expandSubmenuByParent(parentSubmenu);
         }
     }
     
-    // Casos especiais para subrotas
-    if (currentHash.startsWith('#redacao') && href === '#redacao') {
-        item.classList.add('active');
-        const parent = item.closest('.nav-item-submenu');
-        if (parent) expandSubmenuByParent(parent);
-    }
-    
-    if (currentHash.startsWith('#configuracoes') && href === '#configuracoes') {
-        item.classList.add('active');
-        const parent = item.closest('.nav-item-submenu');
-        if (parent) expandSubmenuByParent(parent);
-    }
-    
-    if (currentHash.startsWith('#conta') && href === '#conta') {
-        item.classList.add('active');
-        const parent = item.closest('.nav-item-submenu');
-        if (parent) expandSubmenuByParent(parent);
+    // Para itens com submenu, marcar como ativo se a rota começar com o prefixo
+    if (link.classList.contains('nav-link') && link.closest('.nav-item-submenu')) {
+        const submenuParent = link.closest('.nav-item-submenu');
+        const hasActiveChild = submenuParent.querySelector('.nav-subitem.active');
+        
+        if (hasActiveChild || 
+            (currentHash.startsWith('#redacao') && link.textContent.includes('Redação')) ||
+            (currentHash.startsWith('#configuracoes') && link.textContent.includes('Configurações')) ||
+            (currentHash.startsWith('#conta') && link.textContent.includes('Conta'))) {
+            link.classList.add('active');
+            expandSubmenuByParent(submenuParent);
+        }
     }
 });
 }

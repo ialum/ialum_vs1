@@ -43,6 +43,7 @@
     flex: 1;
     padding: var(--spacing-lg) 0;
     overflow-y: auto;
+    /* Sem margin-left - o padding dos links cria o espaçamento */
 }
 
 /* Unificar toda a navegação */
@@ -51,27 +52,19 @@
     padding: 0;
 }
 
-/* Garantir que user-menu tenha separação visual */
+/* User menu sem padding - os links já têm */
 .user-menu {
     border-top: 1px solid var(--gray-200);
     margin-top: var(--spacing-md);
-    padding: var(--spacing-md) var(--spacing-lg);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-sm);
 }
 
-/* Nav Item Base */
-.nav-item,
-.nav-item-submenu {
+/* Nav Item Container */
+.nav-item {
     display: block;
     position: relative;
 }
 
-/* Alinhamento consistente para TODOS os links do menu */
-.nav-item > a,
-.nav-item-submenu > .nav-link,
+/* Todos os nav-link - estrutura unificada */
 .nav-link {
     display: flex;
     align-items: center;
@@ -85,25 +78,19 @@
     cursor: pointer;
 }
 
-/* Hover funcional para todos */
-.nav-item > a:hover,
-.nav-item-submenu > .nav-link:hover,
+/* Hover */
 .nav-link:hover {
     background: var(--gray-100);
     color: var(--primary);
 }
 
 /* Estado ativo */
-.nav-item > a.active,
-.nav-item-submenu > .nav-link.active,
 .nav-link.active {
     color: var(--primary);
     background: var(--gray-100);
 }
 
 /* Barra lateral de item ativo */
-.nav-item > a.active::before,
-.nav-item-submenu > .nav-link.active::before,
 .nav-link.active::before {
     content: '';
     position: absolute;
@@ -130,7 +117,7 @@
     max-height: 500px; /* Valor alto para garantir expansão */
 }
 
-/* Submenu Items */
+/* Subitens do menu */
 .nav-subitem {
     display: flex;
     align-items: center;
@@ -141,20 +128,23 @@
     text-decoration: none;
     transition: all 0.2s;
     font-size: 0.875rem;
-    position: relative;
+    width: 100%;
 }
 
+/* Hover subitens */
 .nav-subitem:hover {
     background: var(--gray-200);
     color: var(--primary);
 }
 
+/* Active subitens */
 .nav-subitem.active {
     color: var(--primary);
     background: var(--gray-200);
     font-weight: 600;
 }
 
+/* Barra lateral subitem ativo */
 .nav-subitem.active::before {
     content: '';
     position: absolute;
@@ -210,10 +200,19 @@
 
 
 
+/* User info container */
+.user-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+}
+
 .user-info {
     display: flex;
     flex-direction: column;
     min-width: 0;
+    flex: 1;
 }
 
 .user-name {
@@ -233,15 +232,17 @@
     text-overflow: ellipsis;
 }
 
+/* Logout button específico */
 .logout-btn {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-sm) !important;
     border-radius: var(--radius-md);
     color: var(--gray-600);
     transition: all 0.2s;
+    width: auto !important;
 }
 
 .logout-btn:hover {
-    background: var(--gray-100);
+    background: var(--gray-100) !important;
     color: var(--error);
 }
 
