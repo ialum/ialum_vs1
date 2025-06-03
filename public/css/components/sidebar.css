@@ -63,8 +63,9 @@
     position: relative;
 }
 
+/* Alinhamento consistente para todos os links */
 .nav-item > a,
-.nav-link {
+.nav-item-submenu > .nav-link {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
@@ -73,6 +74,7 @@
     text-decoration: none;
     transition: all 0.2s;
     position: relative;
+    width: 100%;
 }
 
 .nav-item > a:hover,
@@ -237,10 +239,28 @@
     color: var(--error);
 }
 
+/* Mobile Overlay */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.mobile-overlay.active {
+    display: block;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
+        z-index: 1001; /* Acima do overlay */
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
     }
     
     .sidebar.active {

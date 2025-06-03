@@ -99,12 +99,18 @@ submenuToggles.forEach(toggle => {
 function bindMobileToggle() {
 const menuToggle = document.getElementById('menu-toggle');
 const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('mobile-overlay');
 if (!menuToggle || !sidebar) return;
 
 // Toggle do menu
 menuToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleMobileMenu();
+});
+
+// Fechar ao clicar no overlay
+overlay?.addEventListener('click', () => {
+    closeMobileMenu();
 });
 
 // Fechar ao clicar fora
@@ -127,6 +133,7 @@ document.addEventListener('keydown', (e) => {
 function toggleMobileMenu() {
 const sidebar = document.getElementById('sidebar');
 const menuToggle = document.getElementById('menu-toggle');
+const overlay = document.getElementById('mobile-overlay');
 if (!sidebar) return;
 
 isMobileMenuOpen = !isMobileMenuOpen;
@@ -134,10 +141,12 @@ isMobileMenuOpen = !isMobileMenuOpen;
 if (isMobileMenuOpen) {
     sidebar.classList.add('active');
     menuToggle?.classList.add('active');
+    overlay?.classList.add('active');
     document.body.style.overflow = 'hidden'; // Prevenir scroll
 } else {
     sidebar.classList.remove('active');
     menuToggle?.classList.remove('active');
+    overlay?.classList.remove('active');
     document.body.style.overflow = '';
 }
 }
@@ -145,8 +154,10 @@ if (isMobileMenuOpen) {
 function closeMobileMenu() {
 const sidebar = document.getElementById('sidebar');
 const menuToggle = document.getElementById('menu-toggle');
+const overlay = document.getElementById('mobile-overlay');
 sidebar?.classList.remove('active');
 menuToggle?.classList.remove('active');
+overlay?.classList.remove('active');
 document.body.style.overflow = '';
 isMobileMenuOpen = false;
 }
