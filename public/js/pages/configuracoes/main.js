@@ -10,23 +10,57 @@ export async function init() {
     
     // Bind dos botões de abas
     document.querySelectorAll('[data-tab]').forEach(btn => {
-        btn.addEventListener('click', () => loadTab(btn.dataset.tab));
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadTab(btn.dataset.tab);
+            
+            // Atualizar estado ativo dos botões
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
     });
     
-    // Carrega aba inicial
-    await loadTab('conta');
+    // Carrega aba inicial (banca já existe)
+    await loadTab('banca');
 }
 
 async function loadTab(tabName) {
-    // Remove active de todas
-    document.querySelectorAll('.tab-pane').forEach(pane => {
-        pane.classList.remove('active');
-    });
-    
-    // Ativa a selecionada
-    document.getElementById(`tab-${tabName}`).classList.add('active');
-    
-    // Carrega módulo da aba
-    const module = await import(`./${tabName}.js`);
-    module.init();
+    try {
+        // Remove active de todas as abas
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('active');
+        });
+        
+        // Ativa a aba selecionada
+        const targetTab = document.getElementById(`tab-${tabName}`);
+        if (!targetTab) {
+            console.error(`Aba não encontrada: tab-${tabName}`);
+            return;
+        }
+        
+        targetTab.classList.add('active');
+        
+        // Carrega módulo da aba (apenas se existir)
+        try {
+            const module = await import(`./${tabName}.js`);
+            if (module.init) {
+                module.init();
+            }
+        } catch (moduleError) {
+            console.warn(`Módulo ${tabName}.js não encontrado ou erro ao carregar:`, moduleError);
+            // Mostrar placeholder para abas não implementadas
+            if (targetTab) {
+                targetTab.innerHTML = `
+                    <div class="tab-placeholder">
+                        <div class="placeholder-icon">🚧</div>
+                        <h3>Em desenvolvimento</h3>
+                        <p>Esta seção está sendo desenvolvida e estará disponível em breve.</p>
+                    </div>
+                `;
+            }
+        }
+        
+    } catch (error) {
+        console.error('Erro ao carregar aba:', error);
+    }
 }

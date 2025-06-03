@@ -11,6 +11,16 @@
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     overflow: hidden;
+    margin: var(--spacing-md);
+}
+
+/* Mobile-first: remover margin em telas menores */
+@media (max-width: 768px) {
+    .configuracoes-container {
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
 }
 
 /* Navegação das abas */
@@ -18,10 +28,13 @@
     display: flex;
     border-bottom: 2px solid var(--gray-200);
     background: var(--gray-50);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tab-btn {
     flex: 1;
+    min-width: 120px;
     padding: var(--spacing-md) var(--spacing-lg);
     background: none;
     border: none;
@@ -34,6 +47,26 @@
     cursor: pointer;
     transition: all 0.3s;
     position: relative;
+    white-space: nowrap;
+}
+
+/* Mobile: ajustar abas */
+@media (max-width: 768px) {
+    .tabs-nav {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .tab-btn {
+        flex-direction: column;
+        padding: var(--spacing-sm);
+        gap: var(--spacing-xs);
+        min-width: 80px;
+        font-size: var(--font-size-xs);
+    }
+    
+    .tab-text {
+        font-size: var(--font-size-xs);
+    }
 }
 
 .tab-btn:hover {
@@ -63,6 +96,13 @@
 /* Conteúdo das abas */
 .tabs-content {
     padding: var(--spacing-xl);
+}
+
+/* Mobile: reduzir padding */
+@media (max-width: 768px) {
+    .tabs-content {
+        padding: var(--spacing-md);
+    }
 }
 
 .tab-pane {
@@ -266,4 +306,46 @@
 
 .image-item:hover .image-remove {
     display: block;
+}
+
+/* Placeholder para abas não implementadas */
+.tab-placeholder {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--gray-600);
+}
+
+.placeholder-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-lg);
+}
+
+.tab-placeholder h3 {
+    margin-bottom: var(--spacing-md);
+    color: var(--gray-700);
+}
+
+/* Responsividade adicional */
+@media (max-width: 480px) {
+    .tabs-nav {
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+    }
+    
+    .tab-btn {
+        flex: 1 1 calc(50% - var(--spacing-xs));
+        min-width: unset;
+    }
+    
+    .areas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .images-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
