@@ -1,1 +1,0 @@
-detalhamento do dashboard

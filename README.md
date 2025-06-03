@@ -11,8 +11,6 @@ Sistema SaaS para automação de marketing educativo jurídico, permitindo que a
 ## 📚 Documentação
 
 
-### Para IAs
-**⚠️ IMPORTANTE:** Antes de contribuir com código, leia COMPLETAMENTE o [AI_GUIDELINES.md](.docs/AI_GUIDELINES.md)
 
 ## 🔒 Segurança
 
@@ -40,7 +38,3 @@ Sistema SaaS para automação de marketing educativo jurídico, permitindo que a
 ## 📄 Licença
 
 Proprietário - Todos os direitos reservados
-
----
-
-**Para desenvolvimento com IA:** Sempre consulte [AI_GUIDELINES.md](./AI_GUIDELINES.md) primeiro!
