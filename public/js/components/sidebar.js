@@ -70,26 +70,24 @@ navItems.forEach(item => {
 const submenuToggles = document.querySelectorAll('.nav-item-submenu > .nav-link');
 submenuToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
-        const href = toggle.getAttribute('href');
-        if (href && href.startsWith('#')) {
-            e.preventDefault();
-            
-            const parent = toggle.closest('.nav-item-submenu');
-            const submenu = parent.querySelector('.nav-submenu');
-            const arrow = toggle.querySelector('.nav-arrow');
-            
-            // Toggle submenu
-            const isExpanded = parent.classList.contains('expanded');
-            parent.classList.toggle('expanded');
-            
-            if (submenu) {
-                if (isExpanded) {
-                    submenu.style.maxHeight = '0';
-                    arrow.style.transform = 'rotate(0deg)';
-                } else {
-                    submenu.style.maxHeight = submenu.scrollHeight + 'px';
-                    arrow.style.transform = 'rotate(90deg)';
-                }
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const parent = toggle.closest('.nav-item-submenu');
+        const submenu = parent.querySelector('.nav-submenu');
+        const arrow = toggle.querySelector('.nav-arrow');
+        
+        // Toggle submenu
+        const isExpanded = parent.classList.contains('expanded');
+        parent.classList.toggle('expanded');
+        
+        if (submenu) {
+            if (isExpanded) {
+                submenu.style.maxHeight = '0';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                submenu.style.maxHeight = submenu.scrollHeight + 'px';
+                arrow.style.transform = 'rotate(90deg)';
             }
         }
     });

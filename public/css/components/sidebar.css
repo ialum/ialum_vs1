@@ -55,17 +55,24 @@
 .user-menu {
     border-top: 1px solid var(--gray-200);
     margin-top: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
 }
 
 /* Nav Item Base */
-.nav-item {
+.nav-item,
+.nav-item-submenu {
     display: block;
     position: relative;
 }
 
-/* Alinhamento consistente para todos os links */
+/* Alinhamento consistente para TODOS os links do menu */
 .nav-item > a,
-.nav-item-submenu > .nav-link {
+.nav-item-submenu > .nav-link,
+.nav-link {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
@@ -75,21 +82,28 @@
     transition: all 0.2s;
     position: relative;
     width: 100%;
+    cursor: pointer;
 }
 
+/* Hover funcional para todos */
 .nav-item > a:hover,
+.nav-item-submenu > .nav-link:hover,
 .nav-link:hover {
     background: var(--gray-100);
     color: var(--primary);
 }
 
+/* Estado ativo */
 .nav-item > a.active,
+.nav-item-submenu > .nav-link.active,
 .nav-link.active {
     color: var(--primary);
     background: var(--gray-100);
 }
 
+/* Barra lateral de item ativo */
 .nav-item > a.active::before,
+.nav-item-submenu > .nav-link.active::before,
 .nav-link.active::before {
     content: '';
     position: absolute;
@@ -195,14 +209,6 @@
 }
 
 
-/* User Menu */
-.user-menu {
-    padding: var(--spacing-md) var(--spacing-lg);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-sm);
-}
 
 .user-info {
     display: flex;
