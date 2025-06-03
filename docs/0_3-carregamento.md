@@ -217,11 +217,66 @@ async function handleSubmit(e) {
 
 ## 📏 REGRAS E PADRÕES
 
+### **CSS Base Obrigatório**
+SEMPRE use as definições do CSS base para manter consistência:
+
+**Cores**: Use apenas variáveis CSS definidas em `variables.css`
+```css
+/* ✅ CORRETO */
+color: var(--primary);
+background: var(--gray-100);
+
+/* ❌ ERRADO */
+color: #2563eb;
+background: #f3f4f6;
+```
+
+**Botões**: Use classes base em `base/buttons.css`
+```html
+<!-- ✅ CORRETO -->
+<button class="btn btn-primary">Salvar</button>
+<button class="btn btn-secondary btn-sm">Cancelar</button>
+
+<!-- ❌ ERRADO -->
+<button style="background: blue; padding: 8px;">Salvar</button>
+```
+
+**Tipografia**: Use classes base em `base/typography.css`
+```html
+<!-- ✅ CORRETO -->
+<h3 class="text-xl font-semibold">Título</h3>
+<p class="text-muted">Descrição</p>
+
+<!-- ❌ ERRADO -->
+<h3 style="font-size: 20px; font-weight: 600;">Título</h3>
+```
+
+**Espaçamentos**: Use variáveis de espaçamento
+```css
+/* ✅ CORRETO */
+margin: var(--spacing-md);
+padding: var(--spacing-sm) var(--spacing-lg);
+
+/* ❌ ERRADO */
+margin: 16px;
+padding: 8px 24px;
+```
+
+### **Estrutura CSS Base**
+```
+css/base/
+├── reset.css          # Reset CSS global
+├── variables.css      # Variáveis CSS (cores, espaçamentos, etc)
+├── typography.css     # Fontes, headings, texto
+└── buttons.css        # Botões base do sistema
+```
+
 ### **Tamanhos Máximos**
 - HTML views: ~100 linhas (só estrutura)
 - JS principal: ~150 linhas
 - JS de aba: ~150 linhas
 - CSS por página: ~200 linhas
+- CSS base: ~150 linhas por arquivo
 
 ### **Nomenclatura**
 ```
