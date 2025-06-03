@@ -85,34 +85,15 @@
     gap: var(--spacing-sm);
 }
 
-/* Botões de ação pequenos */
-.btn-edit,
-.btn-delete {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border: none;
-    border-radius: var(--radius-sm);
+/* Botões de ação - usar classes base do sistema */
+.config-item-actions .btn {
+    min-width: 60px;
     font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: transparent;
+    white-space: nowrap;
 }
 
-.btn-edit {
-    color: var(--primary);
-}
-
-.btn-edit:hover {
-    background: var(--primary);
-    color: var(--white);
-}
-
-.btn-delete {
-    color: var(--error);
-}
-
-.btn-delete:hover {
-    background: var(--error);
-    color: var(--white);
+.config-item-actions .btn .icon {
+    font-size: 1rem;
 }
 
 /* Formulário dentro do item */
@@ -227,13 +208,29 @@
     
     .config-item-actions {
         justify-content: center;
+        gap: var(--spacing-md);
+    }
+    
+    .config-item-actions .btn {
+        min-width: 48px;
+        min-height: 48px;
+        padding: var(--spacing-sm);
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--spacing-xs);
+    }
+    
+    .config-item-actions .btn .icon {
+        font-size: 1.25rem;
     }
     
     .config-form-actions {
         flex-direction: column;
     }
     
-    .btn {
+    .config-form-actions .btn {
         width: 100%;
         text-align: center;
     }
