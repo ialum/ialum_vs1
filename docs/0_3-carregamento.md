@@ -231,14 +231,17 @@ color: #2563eb;
 background: #f3f4f6;
 ```
 
-**Botões**: Use classes base em `base/buttons.css`
+**Botões**: Use APENAS classes base em `base/buttons.css`
 ```html
 <!-- ✅ CORRETO -->
 <button class="btn btn-primary">Salvar</button>
 <button class="btn btn-secondary btn-sm">Cancelar</button>
+<button class="btn btn-outline btn-primary">Editar</button>
 
 <!-- ❌ ERRADO -->
 <button style="background: blue; padding: 8px;">Salvar</button>
+<!-- ❌ ERRADO: Não crie CSS customizado para botões -->
+<button class="custom-button">Botão</button>
 ```
 
 **Tipografia**: Use classes base em `base/typography.css`
@@ -269,6 +272,18 @@ css/base/
 ├── variables.css      # Variáveis CSS (cores, espaçamentos, etc)
 ├── typography.css     # Fontes, headings, texto
 └── buttons.css        # Botões base do sistema
+
+css/components/
+├── page-layout.css    # Layout base das páginas (page-container, page-header, etc)
+├── tabs.css           # Sistema de abas reutilizável (tabs-nav, tab-btn, etc)
+├── config-list.css    # Componente de listas CRUD
+├── forms.css          # Formulários base
+├── sidebar.css        # Menu lateral
+├── cards.css          # Cards reutilizáveis
+├── notifications.css  # Sistema de notificações
+└── [outros...]        # Mais componentes modulares
+
+IMPORTANTE: NÃO há components/buttons.css - usar apenas base/buttons.css
 ```
 
 ### **Tamanhos Máximos**

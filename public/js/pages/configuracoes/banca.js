@@ -29,32 +29,40 @@ export async function init() {
     }
 }
 
-// Template HTML da aba Banca
+// Template HTML da aba Banca usando componentes modulares
 function getTemplate() {
     return `
-        <div class="banca-config">
-            <!-- Seção de Temas Jurídicos -->
-            <div class="config-section">
-                <div class="section-header">
-                    <h3>Temas Jurídicos</h3>
-                    <p class="section-description">
-                        Configure os temas jurídicos que sua banca atua. Cada tema deve começar com um emoji 
-                        e ter uma descrição que ajudará a IA a contextualizar melhor o conteúdo.
-                    </p>
-                </div>
-                
-                <div id="temas-juridicos-container" class="config-container">
+        <!-- Seção de Temas Jurídicos -->
+        <div class="page-section">
+            <div class="section-header">
+                <h3 class="section-title">Temas Jurídicos</h3>
+                <p class="section-description">
+                    Configure os temas jurídicos que sua banca atua. Cada tema deve começar com um emoji 
+                    e ter uma descrição que ajudará a IA a contextualizar melhor o conteúdo.
+                </p>
+            </div>
+            
+            <div class="section-content">
+                <div id="temas-juridicos-container">
                     <!-- ConfigList será renderizado aqui -->
                 </div>
             </div>
+        </div>
 
-            <!-- Placeholder para futuras seções -->
-            <div class="config-section">
-                <div class="section-header">
-                    <h3>Outras Configurações</h3>
-                    <p class="section-description">
-                        Mais seções serão adicionadas aqui (Identidade Visual, Linhas Narrativas, etc.)
-                    </p>
+        <!-- Placeholder para futuras seções -->
+        <div class="page-section">
+            <div class="section-header">
+                <h3 class="section-title">Outras Configurações</h3>
+                <p class="section-description">
+                    Mais seções serão adicionadas aqui (Identidade Visual, Linhas Narrativas, etc.)
+                </p>
+            </div>
+            
+            <div class="section-content">
+                <div class="tab-placeholder">
+                    <div class="placeholder-icon">🔧</div>
+                    <h3>Em breve</h3>
+                    <p>Identidade Visual, Linhas Narrativas e outras configurações serão implementadas em breve.</p>
                 </div>
             </div>
         </div>

@@ -1,0 +1,125 @@
+/**
+ * page-layout.css
+ * Layout base para páginas do sistema
+ * Dependências: variables.css, typography.css
+ * Usado em: Todas as páginas internas
+ * Tamanho alvo: <100 linhas
+ */
+
+/* Container principal das páginas */
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    min-height: calc(100vh - 120px); /* Altura mínima menos header/footer */
+}
+
+/* Mobile: reduzir padding */
+@media (max-width: 768px) {
+    .page-container {
+        padding: var(--spacing-md);
+    }
+}
+
+/* Header da página */
+.page-header {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.page-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--dark);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.page-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--gray-600);
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: var(--line-height-relaxed);
+}
+
+/* Mobile: ajustar tamanhos */
+@media (max-width: 768px) {
+    .page-header {
+        margin-bottom: var(--spacing-lg);
+        text-align: left;
+    }
+    
+    .page-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .page-subtitle {
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Seções da página */
+.page-section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--spacing-xl);
+    overflow: hidden;
+}
+
+.page-section:last-child {
+    margin-bottom: 0;
+}
+
+/* Mobile: remover sombras e bordas */
+@media (max-width: 768px) {
+    .page-section {
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        margin-bottom: var(--spacing-lg);
+    }
+}
+
+/* Header de seção */
+.section-header {
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--dark);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.section-description {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    margin: 0;
+    line-height: var(--line-height-relaxed);
+}
+
+/* Mobile: reduzir padding */
+@media (max-width: 768px) {
+    .section-header {
+        padding: var(--spacing-lg);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* Conteúdo de seção */
+.section-content {
+    padding: var(--spacing-xl);
+}
+
+@media (max-width: 768px) {
+    .section-content {
+        padding: var(--spacing-lg);
+    }
+}

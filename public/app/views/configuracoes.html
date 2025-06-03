@@ -1,47 +1,48 @@
 <!-- 
     configuracoes.html
-    Apenas a estrutura da página de configurações
-    O conteúdo das abas é carregado via JavaScript
+    Página de configurações usando componentes modulares
     Localização: public/app/views/configuracoes.html
 -->
 
-<div class="configuracoes-container">
-    <!-- Cabeçalho da página -->
+<div class="page-container">
+    <!-- Header da página usando componente -->
     <div class="page-header">
         <h1 class="page-title">Configurações</h1>
         <p class="page-subtitle">Gerencie as configurações da sua conta e preferências do sistema</p>
     </div>
 
-    <!-- Navegação das abas -->
-    <div class="tabs-nav">
-        <button class="tab-btn" data-tab="conta">
-            <span class="tab-icon">👤</span>
-            <span class="tab-text">Conta</span>
-        </button>
-        
-        <button class="tab-btn active" data-tab="banca">
-            <span class="tab-icon">⚖️</span>
-            <span class="tab-text">Banca</span>
-        </button>
-        
-        <button class="tab-btn" data-tab="integracoes">
-            <span class="tab-icon">🔗</span>
-            <span class="tab-text">Integrações</span>
-        </button>
-        
-        <button class="tab-btn" data-tab="publicador">
-            <span class="tab-icon">📅</span>
-            <span class="tab-text">Publicador</span>
-        </button>
-        
-        <button class="tab-btn" data-tab="banco-imagens">
-            <span class="tab-icon">🖼️</span>
-            <span class="tab-text">Banco de Imagens</span>
-        </button>
-    </div>
+    <!-- Sistema de abas usando componente -->
+    <div class="tabs-container">
+        <!-- Navegação das abas -->
+        <div class="tabs-nav">
+            <button class="tab-btn" data-tab="conta">
+                <span class="tab-icon">👤</span>
+                <span class="tab-text">Conta</span>
+            </button>
+            
+            <button class="tab-btn active" data-tab="banca">
+                <span class="tab-icon">⚖️</span>
+                <span class="tab-text">Banca</span>
+            </button>
+            
+            <button class="tab-btn" data-tab="integracoes">
+                <span class="tab-icon">🔗</span>
+                <span class="tab-text">Integrações</span>
+            </button>
+            
+            <button class="tab-btn" data-tab="publicador">
+                <span class="tab-icon">📅</span>
+                <span class="tab-text">Publicador</span>
+            </button>
+            
+            <button class="tab-btn" data-tab="banco-imagens">
+                <span class="tab-icon">🖼️</span>
+                <span class="tab-text">Banco de Imagens</span>
+            </button>
+        </div>
 
-    <!-- Container do conteúdo das abas -->
-    <div class="tabs-content">
+        <!-- Container do conteúdo das abas -->
+        <div class="tabs-content">
         <!-- Aba Conta -->
         <div class="tab-pane" id="tab-conta" data-tab-name="conta">
             <div class="tab-loading">
@@ -83,6 +84,6 @@
         </div>
     </div>
 
-    <!-- Toast container local (para mensagens desta página) -->
-    <div class="page-toast-container" id="config-toast-container"></div>
+        </div>
+    </div>
 </div>

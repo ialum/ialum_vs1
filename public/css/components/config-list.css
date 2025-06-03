@@ -210,17 +210,8 @@
     transform: translateY(-1px);
 }
 
-/* Botões específicos do config-list herdam do base */
-.config-form-actions .btn {
-    font-size: var(--font-size-sm);
-}
-
-/* Estados de loading */
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-}
+/* Config-list usa botões do base/buttons.css */
+/* Sem estilos customizados - usar apenas classes base */
 
 /* Responsividade */
 @media (max-width: 768px) {
