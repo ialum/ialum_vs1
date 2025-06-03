@@ -285,6 +285,19 @@ css/components/
 └── [outros...]        # Mais componentes modulares
 
 IMPORTANTE: NÃO há components/buttons.css - usar apenas base/buttons.css
+
+### **Sistema de Visibilidade por Dispositivo**
+Use classes utilitárias para mostrar/ocultar elementos:
+
+```html
+<!-- Visível apenas no desktop -->
+<button class="btn desktop-only">Botão PC</button>
+
+<!-- Visível apenas no mobile -->
+<span class="mobile-only">Texto Mobile</span>
+
+<!-- Breakpoint: 768px -->
+```
 ```
 
 ### **Tamanhos Máximos**

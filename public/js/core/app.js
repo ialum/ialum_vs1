@@ -103,14 +103,7 @@ function initHeader() {
 
 // Ações rápidas globais
 function initQuickActions() {
-    // Botão de novo tópico no header
-    const btnNovoTopico = document.querySelector('.top-actions .btn-primary');
-    if (btnNovoTopico) {
-        btnNovoTopico.addEventListener('click', () => {
-            // Navegar para tópicos com parâmetro para abrir modal de criação
-            Router.navigate('topicos', { action: 'new' });
-        });
-    }
+    // Funcionalidades globais podem ser adicionadas aqui
 }
 
 // Helpers públicos
