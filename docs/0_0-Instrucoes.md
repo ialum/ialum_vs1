@@ -14,6 +14,48 @@
 
 ---
 
+## 📋 CHECKLIST DE PÁGINAS DO SISTEMA
+
+### Menu Principal
+- [ ] Dashboard - `/app/dashboard` ⏳ Pendente
+- [ ] Tópicos - `/app/topicos` 🚧 Em desenvolvimento
+- [ ] Embasamentos - `/app/embasamentos` ⏳ Pendente
+- [ ] Publicações - `/app/publicacoes` ⏳ Pendente
+
+### Redação (Submenu)
+- [ ] Instagram - `/app/redacao/instagram` ⏳ Pendente
+- [ ] TikTok - `/app/redacao/tiktok` ⏳ Pendente
+- [ ] Facebook - `/app/redacao/facebook` ⏳ Pendente
+- [ ] LinkedIn - `/app/redacao/linkedin` ⏳ Pendente
+- [ ] Twitter/X - `/app/redacao/twitter` ⏳ Pendente
+
+### Menu Principal (continuação)
+- [ ] Agendamentos - `/app/agendamentos` ⏳ Pendente
+- [ ] Relatórios - `/app/relatorios` ⏳ Pendente
+
+### Configurações (Submenu)
+- [ ] Banca - `/app/configuracoes/banca` 🚧 Em desenvolvimento
+- [ ] Banco de Imagens - `/app/configuracoes/banco-imagens` ⏳ Pendente
+- [ ] Templates - `/app/configuracoes/templates` ⏳ Pendente
+- [ ] Integrações - `/app/configuracoes/integracoes` ⏳ Pendente
+- [ ] Sistema - `/app/configuracoes/sistema` ⏳ Pendente
+
+### Ajuda
+- [ ] Ajuda - `/app/ajuda` ⏳ Pendente
+
+### Conta (Submenu)
+- [ ] Usuários - `/app/conta/usuarios` ⏳ Pendente
+- [ ] Financeiro - `/app/conta/financeiro` ⏳ Pendente
+- [ ] Parcerias - `/app/conta/parcerias` ⏳ Pendente
+
+### Legendas:
+- ✅ Completo
+- 🚧 Em desenvolvimento
+- ⏳ Pendente
+- 🔄 Necessita revisão
+
+---
+
 # 📖 GLOSSÁRIO IALUM - TERMOS E NOMENCLATURAS
 
 ## 1. TERMOS DE NEGÓCIO

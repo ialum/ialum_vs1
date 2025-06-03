@@ -1,0 +1,274 @@
+/**
+ * config-list.css
+ * Estilos para o componente ConfigList
+ * Dependências: variables.css
+ * Usado em: Páginas de configuração
+ * Tamanho alvo: <150 linhas
+ */
+
+/* Container principal */
+.config-list {
+    width: 100%;
+}
+
+.config-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Seção de configuração */
+.config-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-header h3 {
+    margin: 0 0 var(--spacing-sm) 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.section-description {
+    margin: 0 0 var(--spacing-lg) 0;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.config-container {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Item de configuração */
+.config-item {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    transition: all 0.3s ease;
+}
+
+.config-item:hover {
+    border-color: var(--primary);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+}
+
+/* Item expandido */
+.config-item--expanded {
+    background: var(--white);
+    border-color: var(--primary);
+    padding: var(--spacing-lg);
+}
+
+/* Header do item contraído */
+.config-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.config-item-title {
+    font-weight: 500;
+    color: var(--dark);
+    flex: 1;
+    font-size: 1rem;
+}
+
+.config-item-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* Botões de ação pequenos */
+.btn-edit,
+.btn-delete {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+}
+
+.btn-edit {
+    color: var(--primary);
+}
+
+.btn-edit:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-delete {
+    color: var(--error);
+}
+
+.btn-delete:hover {
+    background: var(--error);
+    color: var(--white);
+}
+
+/* Formulário dentro do item */
+.config-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    color: var(--dark);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Erro de validação */
+.field-error {
+    color: var(--error);
+    font-size: 0.75rem;
+    margin-top: var(--spacing-xs);
+    min-height: 1rem;
+}
+
+/* Ações do formulário */
+.config-form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--gray-200);
+}
+
+/* Botão de criar novo */
+.config-new-item {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.config-new-item:hover {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.02);
+}
+
+.config-new-item--expanded {
+    border-style: solid;
+    border-color: var(--primary);
+    background: var(--white);
+    text-align: left;
+}
+
+.btn-create {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-create:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* Botões padrão */
+.btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    border-color: var(--gray-300);
+}
+
+.btn-secondary:hover {
+    background: var(--gray-200);
+}
+
+/* Estados de loading */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .config-container {
+        padding: var(--spacing-md);
+    }
+    
+    .config-item-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-sm);
+    }
+    
+    .config-item-actions {
+        justify-content: center;
+    }
+    
+    .config-form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}

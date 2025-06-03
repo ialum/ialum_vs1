@@ -1,229 +1,190 @@
 /**
  * banca.js
  * Lógica da aba Banca nas configurações
- * Dependências: api.js, notifications.js
+ * Dependências: config-list.js, validators.js
  * Localização: public/js/pages/configuracoes/banca.js
  * Tamanho alvo: <150 linhas
  */
+
+import { ConfigList } from '../../components/config-list.js';
+import { validators, combineValidators } from '../../utils/validators.js';
+
+let temasJuridicosList = null;
 
 export async function init() {
     const container = document.getElementById('tab-banca');
     
     try {
-        // Renderiza o template
+        // Renderiza o template da página
         container.innerHTML = getTemplate();
         
-        // Carrega dados existentes
-        await loadBancaData();
+        // Inicializa seção de Temas Jurídicos
+        await initTemasJuridicos();
         
-        // Bind dos eventos
-        bindEvents();
+        console.log('Aba Banca inicializada com sucesso');
         
     } catch (error) {
         console.error('Erro ao inicializar aba banca:', error);
-        container.innerHTML = '<p class="error">Erro ao carregar configurações</p>';
+        container.innerHTML = '<p class="error">Erro ao carregar configurações da banca</p>';
     }
 }
 
-// Template HTML da aba
+// Template HTML da aba Banca
 function getTemplate() {
     return `
-        <div class="config-section">
-            <h3>Áreas de Atuação</h3>
-            <p class="section-description">
-                Selecione as áreas jurídicas em que você atua. Isso nos ajuda a personalizar o conteúdo.
-            </p>
-            
-            <div class="areas-grid" id="areas-grid">
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="familia">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">👨‍👩‍👧‍👦</span>
-                        <span class="area-name">Família</span>
-                    </div>
-                </label>
+        <div class="banca-config">
+            <!-- Seção de Temas Jurídicos -->
+            <div class="config-section">
+                <div class="section-header">
+                    <h3>Temas Jurídicos</h3>
+                    <p class="section-description">
+                        Configure os temas jurídicos que sua banca atua. Cada tema deve começar com um emoji 
+                        e ter uma descrição que ajudará a IA a contextualizar melhor o conteúdo.
+                    </p>
+                </div>
                 
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="consumidor">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">🛒</span>
-                        <span class="area-name">Consumidor</span>
-                    </div>
-                </label>
-                
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="trabalhista">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">💼</span>
-                        <span class="area-name">Trabalhista</span>
-                    </div>
-                </label>
-                
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="empresarial">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">🏢</span>
-                        <span class="area-name">Empresarial</span>
-                    </div>
-                </label>
-                
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="criminal">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">⚖️</span>
-                        <span class="area-name">Criminal</span>
-                    </div>
-                </label>
-                
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="civil">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">📜</span>
-                        <span class="area-name">Civil</span>
-                    </div>
-                </label>
-                
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="tributario">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">💰</span>
-                        <span class="area-name">Tributário</span>
-                    </div>
-                </label>
-                
-                <label class="checkbox-card">
-                    <input type="checkbox" name="areas" value="imobiliario">
-                    <div class="checkbox-card-content">
-                        <span class="area-icon">🏠</span>
-                        <span class="area-name">Imobiliário</span>
-                    </div>
-                </label>
+                <div id="temas-juridicos-container" class="config-container">
+                    <!-- ConfigList será renderizado aqui -->
+                </div>
             </div>
-        </div>
 
-        <div class="config-section">
-            <h3>Estilo de Comunicação</h3>
-            <form id="form-estilo" class="config-form">
-                <div class="form-group">
-                    <label class="form-label">Tom de Voz</label>
-                    <select name="tom_voz" class="form-select" required>
-                        <option value="">Selecione...</option>
-                        <option value="formal">Formal e Técnico</option>
-                        <option value="profissional">Profissional mas Acessível</option>
-                        <option value="casual">Casual e Próximo</option>
-                        <option value="educativo">Educativo e Didático</option>
-                    </select>
+            <!-- Placeholder para futuras seções -->
+            <div class="config-section">
+                <div class="section-header">
+                    <h3>Outras Configurações</h3>
+                    <p class="section-description">
+                        Mais seções serão adicionadas aqui (Identidade Visual, Linhas Narrativas, etc.)
+                    </p>
                 </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Público-Alvo Principal</label>
-                    <select name="publico_alvo" class="form-select" required>
-                        <option value="">Selecione...</option>
-                        <option value="empresas">Empresas e Empresários</option>
-                        <option value="pessoas_fisicas">Pessoas Físicas</option>
-                        <option value="ambos">Ambos</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Objetivos do Marketing</label>
-                    <textarea name="objetivos" class="form-input form-textarea" rows="3" 
-                        placeholder="Ex: Educar sobre direitos, atrair novos clientes, construir autoridade..."></textarea>
-                </div>
-                
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">
-                        Salvar Preferências
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     `;
 }
 
-// Carrega dados salvos
-async function loadBancaData() {
+// Inicializa a seção de Temas Jurídicos
+async function initTemasJuridicos() {
+    const container = document.getElementById('temas-juridicos-container');
+    
+    // Configuração específica para Temas Jurídicos
+    const temasConfig = {
+        type: 'temas',
+        fields: [
+            {
+                name: 'nome',
+                type: 'text',
+                placeholder: '🏛️ Nome do Tema (máx. 20 caracteres)',
+                maxLength: 20
+            },
+            {
+                name: 'descricao',
+                type: 'textarea',
+                placeholder: 'Descreva como a IA deve contextualizar este tema jurídico...',
+                rows: 4
+            }
+        ],
+        validators: {
+            nome: combineValidators(
+                validators.required,
+                validators.maxLength(20),
+                validators.startsWithEmoji
+            ),
+            descricao: validators.required
+        },
+        items: await loadTemasExistentes()
+    };
+
+    // Criar instância do ConfigList
+    temasJuridicosList = new ConfigList(container, temasConfig);
+
+    // Configurar callbacks
+    temasJuridicosList.onItemCreated = async (item) => {
+        console.log('Novo tema criado:', item);
+        await saveTema(item);
+        showToast('Tema jurídico criado com sucesso!', 'success');
+    };
+
+    temasJuridicosList.onItemSaved = async (item) => {
+        console.log('Tema atualizado:', item);
+        await saveTema(item);
+        showToast('Tema jurídico atualizado!', 'success');
+    };
+
+    temasJuridicosList.onItemDeleted = async (id) => {
+        console.log('Tema deletado:', id);
+        await deleteTema(id);
+        showToast('Tema jurídico removido!', 'warning');
+    };
+}
+
+// Carregar temas existentes (mock)
+async function loadTemasExistentes() {
     try {
-        // TODO: Substituir por chamada real
-        const mockData = {
-            areas: ['familia', 'consumidor', 'civil'],
-            tom_voz: 'profissional',
-            publico_alvo: 'pessoas_fisicas',
-            objetivos: 'Educar clientes sobre seus direitos e construir autoridade no mercado'
-        };
+        // TODO: Substituir por chamada real à API
+        const mockTemas = [
+            {
+                id: '1',
+                nome: '⚡ Energia Solar',
+                descricao: 'Revisão de contratos de aquisição de usinas de energia solar, promessas e garantias feitas no momento da venda'
+            },
+            {
+                id: '2', 
+                nome: '🧩 Autismo ABA',
+                descricao: 'Questões legais acerca de diagnósticos do autismo e processos administrativos judiciais para garantir os direitos do autista'
+            }
+        ];
         
-        // Marcar áreas selecionadas
-        mockData.areas.forEach(area => {
-            const checkbox = document.querySelector(`input[value="${area}"]`);
-            if (checkbox) checkbox.checked = true;
-        });
-        
-        // Preencher formulário de estilo
-        if (mockData.tom_voz) {
-            document.querySelector(`select[name="tom_voz"]`).value = mockData.tom_voz;
-        }
-        if (mockData.publico_alvo) {
-            document.querySelector(`select[name="publico_alvo"]`).value = mockData.publico_alvo;
-        }
-        if (mockData.objetivos) {
-            document.querySelector(`textarea[name="objetivos"]`).value = mockData.objetivos;
-        }
+        console.log('Temas carregados:', mockTemas);
+        return mockTemas;
         
     } catch (error) {
-        console.error('Erro ao carregar dados:', error);
+        console.error('Erro ao carregar temas:', error);
+        return [];
     }
 }
 
-// Bind dos eventos
-function bindEvents() {
-    // Salvar ao clicar em áreas
-    const checkboxes = document.querySelectorAll('input[name="areas"]');
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            saveAreas();
-        });
-    });
-    
-    // Form de estilo
-    document.getElementById('form-estilo').addEventListener('submit', handleSubmitEstilo);
-}
-
-// Salvar áreas selecionadas
-async function saveAreas() {
-    const selectedAreas = Array.from(document.querySelectorAll('input[name="areas"]:checked'))
-        .map(cb => cb.value);
-    
+// Salvar tema (criar ou atualizar)
+async function saveTema(tema) {
     try {
-        // TODO: Implementar chamada real
-        console.log('Salvando áreas:', selectedAreas);
-        window.showToast('Áreas atualizadas!', 'success');
+        // TODO: Implementar chamada real à API
+        console.log('Salvando tema:', tema);
+        
+        // Simular delay da API
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        return { success: true, tema };
+        
     } catch (error) {
-        window.showToast('Erro ao salvar áreas', 'error');
+        console.error('Erro ao salvar tema:', error);
+        throw error;
     }
 }
 
-// Submit do formulário de estilo
-async function handleSubmitEstilo(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-    
-    const btn = e.target.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.textContent = 'Salvando...';
-    
+// Deletar tema
+async function deleteTema(id) {
     try {
-        // TODO: Implementar chamada real
-        console.log('Salvando estilo:', data);
+        // TODO: Implementar chamada real à API
+        console.log('Deletando tema:', id);
         
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        window.showToast('Preferências de estilo salvas!', 'success');
+        // Simular delay da API
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        return { success: true };
         
     } catch (error) {
-        window.showToast('Erro ao salvar preferências', 'error');
-    } finally {
-        btn.disabled = false;
-        btn.textContent = 'Salvar Preferências';
+        console.error('Erro ao deletar tema:', error);
+        throw error;
     }
 }
+
+// Função helper para mostrar toast
+function showToast(message, type = 'info') {
+    // Usar sistema de notificações existente ou console
+    if (window.showToast) {
+        window.showToast(message, type);
+    } else {
+        console.log(`[${type.toUpperCase()}] ${message}`);
+    }
+}
+
+// Exportar métodos públicos se necessário
+export { temasJuridicosList };
