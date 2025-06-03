@@ -22,6 +22,7 @@ export function init() {
     // Inicializar componentes
     initSidebar();
     initMobileMenu();
+    initHeader();
     initQuickActions();
     
     // Marcar como inicializado
@@ -76,13 +77,26 @@ function initMobileMenu() {
     if (menuToggle && sidebar) {
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
+            menuToggle.classList.toggle('active');
         });
         
         // Fechar ao clicar fora
         document.addEventListener('click', (e) => {
             if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
                 sidebar.classList.remove('active');
+                menuToggle.classList.remove('active');
             }
+        });
+    }
+}
+
+// Header components
+function initHeader() {
+    // AI Agent button
+    const aiAgentBtn = document.getElementById('ai-agent-btn');
+    if (aiAgentBtn) {
+        aiAgentBtn.addEventListener('click', () => {
+            showToast('🤖 Agente IA em breve!', 'info');
         });
     }
 }

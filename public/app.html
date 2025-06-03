@@ -14,6 +14,7 @@
     
     <!-- CSS Componentes -->
     <link rel="stylesheet" href="/css/components/page-layout.css">
+    <link rel="stylesheet" href="/css/components/header.css">
     <link rel="stylesheet" href="/css/components/tabs.css">
     <link rel="stylesheet" href="/css/components/forms.css">
     <link rel="stylesheet" href="/css/components/sidebar.css">
@@ -193,14 +194,20 @@
         <main class="main-content">
             <!-- Top Bar -->
             <header class="top-bar">
+                <!-- Menu Toggle -->
                 <button class="menu-toggle" id="menu-toggle">
                     <span></span>
                     <span></span>
                     <span></span>
                 </button>
                 
-                <h1 class="page-title">Dashboard</h1>
+                <!-- AI Agent Button (Centro) -->
+                <button class="ai-agent-btn" id="ai-agent-btn">
+                    <span class="ai-agent-icon">🤖</span>
+                    <span class="ai-agent-text">Agente IA</span>
+                </button>
                 
+                <!-- Actions (Direita) -->
                 <div class="top-actions">
                     <!-- Notificações -->
                     <div class="notifications-container">

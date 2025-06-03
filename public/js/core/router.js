@@ -177,12 +177,6 @@ function updateUI(route, routeConfig) {
     // Atualizar título da página
     document.title = `${routeConfig.title} - Ialum`;
     
-    // Atualizar título no header
-    const pageTitleElement = document.querySelector('.page-title');
-    if (pageTitleElement) {
-        pageTitleElement.textContent = routeConfig.title;
-    }
-    
     // Atualizar menu ativo
     document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');

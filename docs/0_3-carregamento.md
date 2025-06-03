@@ -275,6 +275,7 @@ css/base/
 
 css/components/
 ├── page-layout.css    # Layout base das páginas (page-container, page-header, etc)
+├── header.css         # Header/top-bar com hamburger, AI agent e notificações
 ├── tabs.css           # Sistema de abas reutilizável (tabs-nav, tab-btn, etc)
 ├── config-list.css    # Componente de listas CRUD
 ├── forms.css          # Formulários base
