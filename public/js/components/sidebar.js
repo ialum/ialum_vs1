@@ -24,7 +24,7 @@ isInitialized = true;
 }
 // Bind da navegação
 function bindNavigation() {
-const navItems = document.querySelectorAll('.nav-item');
+const navItems = document.querySelectorAll('.nav-item a, .nav-subitem');
 navItems.forEach(item => {
     item.addEventListener('click', (e) => {
         const href = item.getAttribute('href');
@@ -44,6 +44,35 @@ navItems.forEach(item => {
             // Navegar usando o router
             const route = href.substring(1);
             Router.navigate(route);
+        }
+    });
+});
+
+// Bind dos toggles de submenu
+const submenuToggles = document.querySelectorAll('.nav-item-submenu > .nav-link');
+submenuToggles.forEach(toggle => {
+    toggle.addEventListener('click', (e) => {
+        const href = toggle.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            e.preventDefault();
+            
+            const parent = toggle.closest('.nav-item-submenu');
+            const submenu = parent.querySelector('.nav-submenu');
+            const arrow = toggle.querySelector('.nav-arrow');
+            
+            // Toggle submenu
+            const isExpanded = parent.classList.contains('expanded');
+            parent.classList.toggle('expanded');
+            
+            if (submenu) {
+                if (isExpanded) {
+                    submenu.style.maxHeight = '0';
+                    arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    submenu.style.maxHeight = submenu.scrollHeight + 'px';
+                    arrow.style.transform = 'rotate(90deg)';
+                }
+            }
         }
     });
 });
@@ -106,32 +135,67 @@ isMobileMenuOpen = false;
 // Atualizar estado ativo do menu
 function updateActiveState() {
 const currentHash = window.location.hash || '#dashboard';
-const navItems = document.querySelectorAll('.nav-item');
+const navItems = document.querySelectorAll('.nav-item a, .nav-subitem');
+
+// Remover estado ativo de todos
+navItems.forEach(item => {
+    item.classList.remove('active');
+    const parent = item.closest('.nav-item, .nav-item-submenu');
+    if (parent) parent.classList.remove('active');
+});
 
 navItems.forEach(item => {
     const href = item.getAttribute('href');
     
-    // Remover estado ativo de todos
-    item.classList.remove('active');
-    
-    // Marcar item ativo
+    // Marcar item ativo exato
     if (href === currentHash) {
         item.classList.add('active');
+        
+        // Se for um subitem, marcar o pai também
+        const parent = item.closest('.nav-item-submenu');
+        if (parent) {
+            parent.classList.add('active');
+            const parentLink = parent.querySelector('.nav-link');
+            if (parentLink) parentLink.classList.add('active');
+            
+            // Expandir submenu automaticamente
+            expandSubmenuByParent(parent);
+        }
     }
     
     // Casos especiais para subrotas
     if (currentHash.startsWith('#redacao') && href === '#redacao') {
         item.classList.add('active');
+        const parent = item.closest('.nav-item-submenu');
+        if (parent) expandSubmenuByParent(parent);
     }
     
     if (currentHash.startsWith('#configuracoes') && href === '#configuracoes') {
         item.classList.add('active');
+        const parent = item.closest('.nav-item-submenu');
+        if (parent) expandSubmenuByParent(parent);
     }
     
     if (currentHash.startsWith('#conta') && href === '#conta') {
         item.classList.add('active');
+        const parent = item.closest('.nav-item-submenu');
+        if (parent) expandSubmenuByParent(parent);
     }
 });
+}
+
+// Expandir submenu por elemento pai
+function expandSubmenuByParent(parent) {
+if (!parent) return;
+
+const submenu = parent.querySelector('.nav-submenu');
+const arrow = parent.querySelector('.nav-arrow');
+
+if (submenu && !parent.classList.contains('expanded')) {
+    parent.classList.add('expanded');
+    submenu.style.maxHeight = submenu.scrollHeight + 'px';
+    if (arrow) arrow.style.transform = 'rotate(90deg)';
+}
 }
 // Mostrar/esconder item do menu
 export function toggleMenuItem(selector, show = true) {
