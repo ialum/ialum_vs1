@@ -644,6 +644,65 @@ background: #f3f4f6;
 </div>
 ```
 
+**Badges**: Use sistema em `components/badges.css`
+
+### **Badges básicos:**
+```html
+<!-- Cores básicas -->
+<span class="badge badge-primary">Primário</span>
+<span class="badge badge-success">Sucesso</span>
+<span class="badge badge-warning">Aviso</span>
+<span class="badge badge-error">Erro</span>
+<span class="badge badge-info">Info</span>
+
+<!-- Tamanhos -->
+<span class="badge badge-xs badge-secondary">Extra pequeno</span>
+<span class="badge badge-sm badge-primary">Pequeno</span>
+<span class="badge badge-primary">Normal</span>
+<span class="badge badge-lg badge-primary">Grande</span>
+
+<!-- Estilos -->
+<span class="badge badge-outline badge-primary">Contorno</span>
+<span class="badge badge-soft badge-primary">Suave</span>
+```
+
+### **Badges especiais:**
+```html
+<!-- Badge de notificação (contador) -->
+<span class="badge badge-notification badge-error">3</span>
+
+<!-- Badge com status -->
+<span class="badge badge-status badge-success">
+    <span class="badge-status-icon"></span>
+    Online
+</span>
+
+<!-- Badge removível -->
+<span class="badge badge-primary badge-removable">
+    Tag removível
+    <button class="badge-remove">×</button>
+</span>
+
+<!-- Badge de prioridade -->
+<span class="badge badge-priority-high">Alta</span>
+<span class="badge badge-priority-medium">Média</span>
+<span class="badge badge-priority-low">Baixa</span>
+
+<!-- Badges jurídicos específicos -->
+<span class="badge badge-juridico">⚖️ Direito Civil</span>
+<span class="badge badge-processo-ativo">Processo Ativo</span>
+<span class="badge badge-processo-pendente">Pendente</span>
+```
+
+### **Grupos de badges:**
+```html
+<div class="badge-group">
+    <span class="badge badge-primary">Tag 1</span>
+    <span class="badge badge-secondary">Tag 2</span>
+    <span class="badge badge-success">Tag 3</span>
+</div>
+```
+
 **Tipografia**: Use classes base em `base/typography.css`
 ```html
 <!-- ✅ CORRETO -->
@@ -683,6 +742,7 @@ css/components/
 ├── config-list.css    # Componente de listas CRUD
 ├── sidebar.css        # Menu lateral
 ├── cards.css          # Sistema completo de cards (30+ variações)
+├── badges.css         # Sistema completo de badges/etiquetas (50+ variações)
 ├── notifications.css  # Sistema de notificações
 └── [outros...]        # Mais componentes modulares
 
