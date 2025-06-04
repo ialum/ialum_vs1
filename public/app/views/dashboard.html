@@ -1,107 +1,16 @@
 <!-- 
     dashboard.html
-    View do Dashboard principal
+    Página principal do sistema usando APENAS componentes base
     Localização: public/app/views/dashboard.html
 -->
 
-<div class="dashboard-container">
-    <!-- Grid de Cards Principais -->
-    <div class="dashboard-grid">
-        <!-- Card de Créditos -->
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3>Saldo de Créditos</h3>
-                <span class="card-icon">💰</span>
-            </div>
-            <div class="card-body">
-                <div class="credit-balance">
-                    <span class="credit-number" id="credit-balance">0</span>
-                    <span class="credit-label">créditos disponíveis</span>
-                </div>
-                <div class="credit-usage">
-                    <div class="usage-bar">
-                        <div class="usage-fill" id="credit-usage-bar" style="width: 0%"></div>
-                    </div>
-                    <span class="usage-text" id="credit-usage-text">0 de 0 usados este mês</span>
-                </div>
-            </div>
-            <div class="card-footer">
-                <a href="#financeiro" class="card-link">Comprar mais créditos →</a>
-            </div>
-        </div>
-        
-        <!-- Card de Posts -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Posts Criados</h3>
-                <span class="card-icon">📝</span>
-            </div>
-            <div class="card-body">
-                <div class="stat-number" id="posts-count">0</div>
-                <div class="stat-label">posts este mês</div>
-                <div class="stat-change" id="posts-change">-</div>
-            </div>
-        </div>
-        
-        <!-- Card de Engajamento -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Engajamento Médio</h3>
-                <span class="card-icon">❤️</span>
-            </div>
-            <div class="card-body">
-                <div class="stat-number" id="engagement-rate">0%</div>
-                <div class="stat-label">taxa de engajamento</div>
-                <div class="stat-change" id="engagement-change">-</div>
-            </div>
-        </div>
-        
-        <!-- Card de Agendados -->
-        <div class="card">
-            <div class="card-header">
-                <h3>Agendados</h3>
-                <span class="card-icon">⏰</span>
-            </div>
-            <div class="card-body">
-                <div class="stat-number" id="scheduled-count">0</div>
-                <div class="stat-label">posts agendados</div>
-                <div class="stat-subtitle">Próximos 7 dias</div>
-            </div>
+<div class="container">
+    <div class="flex justify-center items-center" style="min-height: 400px;">
+        <div class="text-center">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🚧</div>
+            <h2 class="text-2xl font-bold text-dark mb-md">Dashboard</h2>
+            <p class="text-lg text-muted mb-lg">Esta página está sendo desenvolvida e estará disponível em breve.</p>
+            <div class="badge badge-soft badge-primary">Em desenvolvimento</div>
         </div>
     </div>
-    
-    <!-- Seção de Ações Rápidas -->
-    <section class="quick-actions">
-        <h2>Ações Rápidas</h2>
-        <div class="actions-grid">
-            <button class="action-card" data-action="new-idea">
-                <span class="action-icon">💡</span>
-                <span class="action-text">Nova Ideia</span>
-            </button>
-            <button class="action-card" data-action="upload-image">
-                <span class="action-icon">📸</span>
-                <span class="action-text">Upload de Imagem</span>
-            </button>
-            <button class="action-card" data-action="view-calendar">
-                <span class="action-icon">📅</span>
-                <span class="action-text">Ver Agenda</span>
-            </button>
-            <button class="action-card" data-action="monthly-report">
-                <span class="action-icon">📊</span>
-                <span class="action-text">Relatório Mensal</span>
-            </button>
-        </div>
-    </section>
-    
-    <!-- Seção de Posts Recentes -->
-    <section class="recent-posts">
-        <h2>Posts Recentes</h2>
-        <div class="posts-list" id="recent-posts-list">
-            <!-- Posts serão carregados dinamicamente -->
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Carregando posts recentes...</p>
-            </div>
-        </div>
-    </section>
 </div>
