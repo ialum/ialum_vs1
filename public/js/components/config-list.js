@@ -61,12 +61,11 @@ export class ConfigList {
                 <div class="config-item-header">
                     <span class="config-item-title">${displayValue}</span>
                     <div class="config-item-actions">
-                        <button class="btn btn-outline btn-primary btn-xs" data-action="edit" data-id="${item.id}">
-                            <span class="icon">✏️</span>
-                            <span class="desktop-only">Editar</span>
+                        <button class="btn btn-outline btn-primary btn-sm" data-action="edit" data-id="${item.id}">
+                            ✏️ Editar
                         </button>
-                        <button class="btn btn-outline btn-error btn-xs" data-action="delete" data-id="${item.id}">
-                            <span class="icon">🗑️</span>
+                        <button class="btn btn-outline btn-error btn-sm" data-action="delete" data-id="${item.id}">
+                            🗑️
                         </button>
                     </div>
                 </div>

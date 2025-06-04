@@ -1,12 +1,15 @@
 /**
  * buttons.css
- * Estilos base para botões do sistema
- * Dependências: variables.css
+ * Sistema completo de botões para todo o projeto
+ * Dependências: variables.css, typography.css
  * Usado em: Todas as páginas
- * Tamanho alvo: <150 linhas
+ * Versão: 2.0 - Sistema completo
  */
 
-/* Botão base */
+/* =================================================================
+   BOTÃO BASE
+================================================================= */
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -25,6 +28,8 @@
     transition: all 0.2s ease;
     user-select: none;
     white-space: nowrap;
+    vertical-align: middle;
+    background: none;
 }
 
 .btn:focus {
@@ -32,7 +37,10 @@
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
-/* Variantes de cor */
+/* =================================================================
+   VARIANTES DE COR - SÓLIDOS
+================================================================= */
+
 .btn-primary {
     background-color: var(--primary);
     border-color: var(--primary);
@@ -64,8 +72,10 @@
 }
 
 .btn-success:hover:not(:disabled) {
-    background-color: var(--secondary-dark);
-    border-color: var(--secondary-dark);
+    background-color: #059669;
+    border-color: #059669;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-warning {
@@ -77,20 +87,66 @@
 .btn-warning:hover:not(:disabled) {
     background-color: #d97706;
     border-color: #d97706;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
-.btn-error {
+.btn-error,
+.btn-danger {
     background-color: var(--error);
     border-color: var(--error);
     color: var(--white);
 }
 
-.btn-error:hover:not(:disabled) {
+.btn-error:hover:not(:disabled),
+.btn-danger:hover:not(:disabled) {
     background-color: #dc2626;
     border-color: #dc2626;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
-/* Variantes de estilo */
+.btn-info {
+    background-color: var(--info);
+    border-color: var(--info);
+    color: var(--white);
+}
+
+.btn-info:hover:not(:disabled) {
+    background-color: #2563eb;
+    border-color: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-dark {
+    background-color: var(--dark);
+    border-color: var(--dark);
+    color: var(--white);
+}
+
+.btn-dark:hover:not(:disabled) {
+    background-color: #1f2937;
+    border-color: #1f2937;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-light {
+    background-color: var(--light);
+    border-color: var(--gray-200);
+    color: var(--dark);
+}
+
+.btn-light:hover:not(:disabled) {
+    background-color: var(--gray-100);
+    border-color: var(--gray-300);
+}
+
+/* =================================================================
+   VARIANTES OUTLINE (CONTORNO)
+================================================================= */
+
 .btn-outline {
     background-color: transparent;
 }
@@ -113,9 +169,65 @@
 .btn-outline.btn-secondary:hover:not(:disabled) {
     background-color: var(--gray-100);
     color: var(--dark);
+    border-color: var(--gray-400);
 }
 
-/* Botão ghost (sem borda) */
+.btn-outline.btn-success {
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.btn-outline.btn-success:hover:not(:disabled) {
+    background-color: var(--success);
+    color: var(--white);
+}
+
+.btn-outline.btn-warning {
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+.btn-outline.btn-warning:hover:not(:disabled) {
+    background-color: var(--warning);
+    color: var(--white);
+}
+
+.btn-outline.btn-error,
+.btn-outline.btn-danger {
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.btn-outline.btn-error:hover:not(:disabled),
+.btn-outline.btn-danger:hover:not(:disabled) {
+    background-color: var(--error);
+    color: var(--white);
+}
+
+.btn-outline.btn-info {
+    color: var(--info);
+    border-color: var(--info);
+}
+
+.btn-outline.btn-info:hover:not(:disabled) {
+    background-color: var(--info);
+    color: var(--white);
+}
+
+.btn-outline.btn-dark {
+    color: var(--dark);
+    border-color: var(--dark);
+}
+
+.btn-outline.btn-dark:hover:not(:disabled) {
+    background-color: var(--dark);
+    color: var(--white);
+}
+
+/* =================================================================
+   VARIANTES GHOST (SEM BORDA)
+================================================================= */
+
 .btn-ghost {
     background-color: transparent;
     border-color: transparent;
@@ -129,10 +241,98 @@
     background-color: rgba(37, 99, 235, 0.1);
 }
 
-/* Tamanhos */
+.btn-ghost.btn-secondary {
+    color: var(--gray-600);
+}
+
+.btn-ghost.btn-secondary:hover:not(:disabled) {
+    background-color: var(--gray-100);
+}
+
+.btn-ghost.btn-success {
+    color: var(--success);
+}
+
+.btn-ghost.btn-success:hover:not(:disabled) {
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+.btn-ghost.btn-warning {
+    color: var(--warning);
+}
+
+.btn-ghost.btn-warning:hover:not(:disabled) {
+    background-color: rgba(245, 158, 11, 0.1);
+}
+
+.btn-ghost.btn-error,
+.btn-ghost.btn-danger {
+    color: var(--error);
+}
+
+.btn-ghost.btn-error:hover:not(:disabled),
+.btn-ghost.btn-danger:hover:not(:disabled) {
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* =================================================================
+   VARIANTES SOFT (FUNDO CLARO)
+================================================================= */
+
+.btn-soft.btn-primary {
+    background-color: rgba(37, 99, 235, 0.1);
+    border-color: rgba(37, 99, 235, 0.2);
+    color: var(--primary);
+}
+
+.btn-soft.btn-primary:hover:not(:disabled) {
+    background-color: rgba(37, 99, 235, 0.15);
+    border-color: var(--primary);
+}
+
+.btn-soft.btn-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.btn-soft.btn-success:hover:not(:disabled) {
+    background-color: rgba(16, 185, 129, 0.15);
+    border-color: var(--success);
+}
+
+.btn-soft.btn-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+}
+
+.btn-soft.btn-warning:hover:not(:disabled) {
+    background-color: rgba(245, 158, 11, 0.15);
+    border-color: var(--warning);
+}
+
+.btn-soft.btn-error,
+.btn-soft.btn-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: var(--error);
+}
+
+.btn-soft.btn-error:hover:not(:disabled),
+.btn-soft.btn-danger:hover:not(:disabled) {
+    background-color: rgba(239, 68, 68, 0.15);
+    border-color: var(--error);
+}
+
+/* =================================================================
+   TAMANHOS
+================================================================= */
+
 .btn-xs {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--font-size-xs);
+    border-radius: var(--radius-sm);
 }
 
 .btn-sm {
@@ -143,39 +343,78 @@
 .btn-lg {
     padding: var(--spacing-md) var(--spacing-xl);
     font-size: var(--font-size-base);
+    border-radius: var(--radius-lg);
 }
 
 .btn-xl {
     padding: var(--spacing-lg) var(--spacing-2xl);
     font-size: var(--font-size-lg);
+    border-radius: var(--radius-lg);
 }
 
-/* Estados */
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none !important;
-    box-shadow: none !important;
-}
+/* =================================================================
+   BOTÕES ESPECIAIS
+================================================================= */
 
-.btn-loading {
-    position: relative;
-    color: transparent;
-}
-
-.btn-loading::after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border: 2px solid transparent;
-    border-top: 2px solid currentColor;
+/* Botão circular/ícone */
+.btn-circle {
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    color: inherit;
+    width: 40px;
+    height: 40px;
+    padding: 0;
 }
 
-/* Grupo de botões */
+.btn-circle.btn-sm {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-circle.btn-lg {
+    width: 48px;
+    height: 48px;
+}
+
+/* Botão com ícone */
+.btn-icon {
+    padding: var(--spacing-sm);
+    min-width: 40px;
+    height: 40px;
+}
+
+.btn-icon.btn-sm {
+    min-width: 32px;
+    height: 32px;
+    padding: var(--spacing-xs);
+}
+
+/* Botão flutuante */
+.btn-float {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+}
+
+.btn-float:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+/* Botão de largura total */
+.btn-block {
+    width: 100%;
+    justify-content: center;
+}
+
+/* =================================================================
+   GRUPOS DE BOTÕES
+================================================================= */
+
 .btn-group {
     display: inline-flex;
     border-radius: var(--radius-md);
@@ -198,14 +437,144 @@
     border-right-width: 1px;
 }
 
-/* Botão de largura total */
-.btn-block {
+.btn-group .btn:not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+/* Grupo vertical */
+.btn-group-vertical {
+    display: inline-flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.btn-group-vertical .btn {
+    border-radius: 0;
+    border-bottom-width: 0;
     width: 100%;
 }
 
-/* Animação de loading */
-@keyframes spin {
+.btn-group-vertical .btn:first-child {
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+}
+
+.btn-group-vertical .btn:last-child {
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    border-bottom-width: 1px;
+}
+
+/* =================================================================
+   ESTADOS
+================================================================= */
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+    pointer-events: none;
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0) !important;
+}
+
+/* Estado loading */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: btn-spin 1s linear infinite;
+}
+
+.btn-loading.btn-sm::after {
+    width: 12px;
+    height: 12px;
+}
+
+.btn-loading.btn-lg::after {
+    width: 20px;
+    height: 20px;
+}
+
+/* Estado ativo/selecionado */
+.btn.active {
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+}
+
+/* =================================================================
+   RESPONSIVIDADE
+================================================================= */
+
+@media (max-width: 768px) {
+    .btn-responsive {
+        width: 100%;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .btn-group-responsive {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-group-responsive .btn {
+        border-radius: var(--radius-md);
+        border-right-width: 1px;
+        border-bottom-width: 0;
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .btn-group-responsive .btn:last-child {
+        margin-bottom: 0;
+        border-bottom-width: 1px;
+    }
+}
+
+/* =================================================================
+   ANIMAÇÕES
+================================================================= */
+
+@keyframes btn-spin {
     to {
         transform: rotate(360deg);
+    }
+}
+
+/* Efeito ripple para mobile */
+@media (max-width: 768px) {
+    .btn {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.3s, height 0.3s;
+    }
+    
+    .btn:active::before {
+        width: 300px;
+        height: 300px;
     }
 }

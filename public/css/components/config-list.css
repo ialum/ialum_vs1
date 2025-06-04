@@ -85,16 +85,7 @@
     gap: var(--spacing-sm);
 }
 
-/* Botões de ação - usar classes base do sistema */
-.config-item-actions .btn {
-    min-width: 60px;
-    font-size: 0.75rem;
-    white-space: nowrap;
-}
-
-.config-item-actions .btn .icon {
-    font-size: 1rem;
-}
+/* Botões de ação usam apenas classes base - sem customização */
 
 /* Formulário dentro do item */
 .config-form {
@@ -209,21 +200,13 @@
     .config-item-actions {
         justify-content: center;
         gap: var(--spacing-md);
+        flex-wrap: wrap;
     }
     
     .config-item-actions .btn {
-        min-width: 48px;
-        min-height: 48px;
-        padding: var(--spacing-sm);
-        font-size: 0.875rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--spacing-xs);
-    }
-    
-    .config-item-actions .btn .icon {
-        font-size: 1.25rem;
+        min-height: 44px;
+        flex: 1;
+        max-width: 120px;
     }
     
     .config-form-actions {

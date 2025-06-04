@@ -232,16 +232,92 @@ background: #f3f4f6;
 ```
 
 **Botões**: Use APENAS classes base em `base/buttons.css`
-```html
-<!-- ✅ CORRETO -->
-<button class="btn btn-primary">Salvar</button>
-<button class="btn btn-secondary btn-sm">Cancelar</button>
-<button class="btn btn-outline btn-primary">Editar</button>
 
-<!-- ❌ ERRADO -->
-<button style="background: blue; padding: 8px;">Salvar</button>
-<!-- ❌ ERRADO: Não crie CSS customizado para botões -->
+### **Cores disponíveis:**
+```html
+<!-- Botões sólidos -->
+<button class="btn btn-primary">Primário</button>
+<button class="btn btn-secondary">Secundário</button>
+<button class="btn btn-success">Sucesso</button>
+<button class="btn btn-warning">Aviso</button>
+<button class="btn btn-error">Erro</button>
+<button class="btn btn-info">Informação</button>
+<button class="btn btn-dark">Escuro</button>
+<button class="btn btn-light">Claro</button>
+
+<!-- Botões outline (contorno) -->
+<button class="btn btn-outline btn-primary">Primário</button>
+<button class="btn btn-outline btn-error">Excluir</button>
+
+<!-- Botões ghost (sem borda) -->
+<button class="btn btn-ghost btn-primary">Ghost</button>
+
+<!-- Botões soft (fundo claro) -->
+<button class="btn btn-soft btn-primary">Soft</button>
+```
+
+### **Tamanhos:**
+```html
+<button class="btn btn-xs">Extra pequeno</button>
+<button class="btn btn-sm">Pequeno</button>
+<button class="btn">Normal</button>
+<button class="btn btn-lg">Grande</button>
+<button class="btn btn-xl">Extra grande</button>
+```
+
+### **Botões especiais:**
+```html
+<!-- Botão circular -->
+<button class="btn btn-circle btn-primary">🔍</button>
+
+<!-- Botão de ícone -->
+<button class="btn btn-icon btn-primary">⚙️</button>
+
+<!-- Botão flutuante -->
+<button class="btn btn-float btn-primary">+</button>
+
+<!-- Botão full width -->
+<button class="btn btn-primary btn-block">Largura total</button>
+```
+
+### **Estados:**
+```html
+<!-- Loading -->
+<button class="btn btn-primary btn-loading">Carregando...</button>
+
+<!-- Desabilitado -->
+<button class="btn btn-primary" disabled>Desabilitado</button>
+
+<!-- Ativo -->
+<button class="btn btn-primary active">Ativo</button>
+```
+
+### **Grupos:**
+```html
+<!-- Grupo horizontal -->
+<div class="btn-group">
+    <button class="btn btn-outline btn-secondary">Esquerda</button>
+    <button class="btn btn-outline btn-secondary">Centro</button>
+    <button class="btn btn-outline btn-secondary">Direita</button>
+</div>
+
+<!-- Grupo vertical -->
+<div class="btn-group-vertical">
+    <button class="btn btn-outline btn-secondary">Top</button>
+    <button class="btn btn-outline btn-secondary">Bottom</button>
+</div>
+```
+
+### **❌ NUNCA FAÇA:**
+```html
+<!-- ❌ CSS inline -->
+<button style="background: blue;">Botão</button>
+
+<!-- ❌ Classes customizadas -->
 <button class="custom-button">Botão</button>
+
+<!-- ❌ CSS específico de componente -->
+.meu-componente .btn-especial { ... }
 ```
 
 **Tipografia**: Use classes base em `base/typography.css`
