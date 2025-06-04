@@ -20,8 +20,18 @@ export async function init() {
         });
     });
     
-    // Carrega aba inicial (banca já existe)
-    await loadTab('banca');
+    // Parse URL to get requested tab
+    const hash = window.location.hash.substring(1);
+    const parts = hash.split('/');
+    const requestedTab = parts[1] || 'banca'; // Default to 'banca' if no tab specified
+    
+    // Atualizar estado ativo do botão da aba solicitada
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === requestedTab);
+    });
+    
+    // Carrega a aba solicitada
+    await loadTab(requestedTab);
 }
 
 async function loadTab(tabName) {
