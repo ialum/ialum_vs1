@@ -1,72 +1,124 @@
 /**
  * cards.css
- * Componente de cards reutilizáveis
- * Dependências: variables.css
- * Usado em: dashboard, relatórios
- * Tamanho alvo: <100 linhas
+ * Sistema completo de cards reutilizáveis
+ * Dependências: variables.css, typography.css
+ * Usado em: Todas as páginas
+ * Versão: 2.0 - Sistema completo de cards
  */
+
+/* =================================================================
+   CARD BASE
+================================================================= */
 
 .card {
     background: var(--white);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     padding: var(--spacing-lg);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    border: 1px solid var(--gray-100);
+    position: relative;
+    overflow: hidden;
 }
 
 .card:hover {
     box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
 }
 
-/* Header */
+/* =================================================================
+   CARD ESTRUTURA
+================================================================= */
+
 .card-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: var(--spacing-lg);
 }
 
-.card-header h3 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--gray-800);
+.card-header-simple {
+    margin-bottom: var(--spacing-lg);
 }
 
-.card-icon {
-    font-size: 1.5rem;
-    opacity: 0.8;
+.card-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--dark);
+    margin: 0;
+    line-height: 1.2;
 }
 
-/* Body */
+.card-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    margin: var(--spacing-xs) 0 0 0;
+    line-height: 1.4;
+}
+
 .card-body {
-    text-align: center;
+    flex: 1;
 }
 
-/* Footer */
 .card-footer {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-lg);
     border-top: 1px solid var(--gray-200);
 }
 
-.card-link {
-    color: var(--primary);
-    font-size: 0.875rem;
-    font-weight: 500;
+.card-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
 }
 
-.card-link:hover {
-    text-decoration: underline;
+.card-icon {
+    font-size: 1.25rem;
+    color: var(--gray-400);
+    flex-shrink: 0;
 }
 
-/* Variante Primary */
+.card-badge {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    color: var(--gray-700);
+    font-weight: var(--font-weight-medium);
+}
+
+/* =================================================================
+   CARD TAMANHOS
+================================================================= */
+
+.card-sm {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+.card-lg {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+}
+
+.card-xl {
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+}
+
+/* =================================================================
+   CARD VARIANTES DE COR
+================================================================= */
+
 .card-primary {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: var(--white);
+    border-color: var(--primary);
 }
 
-.card-primary .card-header h3,
-.card-primary .card-link {
+.card-primary .card-title,
+.card-primary .card-subtitle,
+.card-primary .card-icon {
     color: var(--white);
 }
 
@@ -74,30 +126,146 @@
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Stats específicos */
+.card-success {
+    background: var(--success);
+    color: var(--white);
+    border-color: var(--success);
+}
+
+.card-warning {
+    background: var(--warning);
+    color: var(--white);
+    border-color: var(--warning);
+}
+
+.card-error {
+    background: var(--error);
+    color: var(--white);
+    border-color: var(--error);
+}
+
+.card-info {
+    background: var(--info);
+    color: var(--white);
+    border-color: var(--info);
+}
+
+/* =================================================================
+   CARD VARIANTES DE ESTILO
+================================================================= */
+
+.card-outline {
+    background: var(--white);
+    border: 2px solid var(--gray-200);
+    box-shadow: none;
+}
+
+.card-outline.card-primary {
+    border-color: var(--primary);
+    background: var(--white);
+    color: var(--dark);
+}
+
+.card-outline.card-primary .card-title {
+    color: var(--primary);
+}
+
+.card-flat {
+    box-shadow: none;
+    border: none;
+}
+
+.card-elevated {
+    box-shadow: var(--shadow-lg);
+}
+
+.card-elevated:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+}
+
+/* =================================================================
+   CARD COM IMAGEM
+================================================================= */
+
+.card-image {
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-lg) calc(-1 * var(--spacing-lg));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-image-sm img {
+    height: 150px;
+}
+
+.card-image-lg img {
+    height: 250px;
+}
+
+/* Card com imagem à esquerda */
+.card-horizontal {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+}
+
+.card-horizontal .card-image {
+    margin: 0;
+    flex-shrink: 0;
+    width: 120px;
+    height: 80px;
+    border-radius: var(--radius-md);
+}
+
+.card-horizontal .card-image img {
+    width: 100%;
+    height: 100%;
+}
+
+/* =================================================================
+   CARD ESPECIAIS
+================================================================= */
+
+/* Card de estatística */
+.card-stat {
+    text-align: center;
+}
+
 .stat-number {
     font-size: 2.5rem;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
     color: var(--dark);
     line-height: 1;
+    margin: 0;
 }
 
 .stat-label {
     color: var(--gray-600);
-    font-size: 0.875rem;
-    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    margin: var(--spacing-sm) 0 0 0;
+    font-weight: var(--font-weight-medium);
 }
 
 .stat-subtitle {
     color: var(--gray-400);
-    font-size: 0.75rem;
-    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    margin: var(--spacing-xs) 0 0 0;
 }
 
 .stat-change {
-    font-size: 0.875rem;
-    margin-top: var(--spacing-md);
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    margin: var(--spacing-md) 0 0 0;
+    font-weight: var(--font-weight-medium);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
 }
 
 .stat-change.positive {
@@ -106,4 +274,196 @@
 
 .stat-change.negative {
     color: var(--error);
+}
+
+.stat-change.neutral {
+    color: var(--gray-500);
+}
+
+/* Card de ação */
+.card-action {
+    cursor: pointer;
+    user-select: none;
+}
+
+.card-action:hover {
+    transform: translateY(-2px);
+}
+
+.card-action:active {
+    transform: translateY(0);
+}
+
+/* Card loading */
+.card-loading {
+    position: relative;
+}
+
+.card-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.card-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray-300);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 2;
+}
+
+/* Card vazio */
+.card-empty {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--gray-500);
+}
+
+.card-empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.5;
+}
+
+.card-empty-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.card-empty-text {
+    margin: 0 0 var(--spacing-lg) 0;
+    color: var(--gray-400);
+}
+
+/* =================================================================
+   CARD GRUPOS
+================================================================= */
+
+.card-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.card-deck {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.card-deck .card {
+    flex: 1;
+}
+
+.card-columns {
+    column-count: 3;
+    column-gap: var(--spacing-lg);
+    break-inside: avoid;
+}
+
+.card-columns .card {
+    break-inside: avoid;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* =================================================================
+   RESPONSIVIDADE
+================================================================= */
+
+@media (max-width: 768px) {
+    .card {
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+    }
+    
+    .card-lg {
+        padding: var(--spacing-lg);
+    }
+    
+    .card-xl {
+        padding: var(--spacing-lg);
+    }
+    
+    .card-group {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .card-deck {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .card-columns {
+        column-count: 1;
+    }
+    
+    .card-horizontal {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .card-horizontal .card-image {
+        width: 100%;
+        height: 150px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: var(--spacing-sm);
+    }
+    
+    .card-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .card-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* =================================================================
+   ANIMAÇÕES
+================================================================= */
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.card-fade-in {
+    animation: cardFadeIn 0.3s ease-out;
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

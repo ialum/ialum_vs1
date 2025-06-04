@@ -320,6 +320,330 @@ background: #f3f4f6;
 .meu-componente .btn-especial { ... }
 ```
 
+**Formulários**: Use APENAS classes base em `base/forms.css`
+
+### **Inputs básicos:**
+```html
+<!-- Input de texto -->
+<div class="form-group">
+    <label class="form-label">Nome completo</label>
+    <input type="text" class="form-control" placeholder="Digite seu nome">
+    <div class="form-text">Texto de ajuda opcional</div>
+</div>
+
+<!-- Textarea -->
+<div class="form-group">
+    <label class="form-label">Descrição</label>
+    <textarea class="form-control form-textarea" placeholder="Descreva..."></textarea>
+</div>
+
+<!-- Select -->
+<div class="form-group">
+    <label class="form-label">Estado</label>
+    <select class="form-select">
+        <option>Selecione...</option>
+        <option>São Paulo</option>
+        <option>Rio de Janeiro</option>
+    </select>
+</div>
+```
+
+### **Tamanhos de inputs:**
+```html
+<input class="form-control form-control-xs" placeholder="Extra pequeno">
+<input class="form-control form-control-sm" placeholder="Pequeno">
+<input class="form-control" placeholder="Normal">
+<input class="form-control form-control-lg" placeholder="Grande">
+<input class="form-control form-control-xl" placeholder="Extra grande">
+```
+
+### **Checkboxes e Radios:**
+```html
+<!-- Checkbox -->
+<div class="form-check">
+    <input class="form-check-input" type="checkbox" id="check1">
+    <label class="form-check-label" for="check1">Aceito os termos</label>
+</div>
+
+<!-- Radio -->
+<div class="form-check">
+    <input class="form-check-input" type="radio" name="opcao" id="radio1">
+    <label class="form-check-label" for="radio1">Opção 1</label>
+</div>
+
+<!-- Switch/Toggle -->
+<div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="switch1">
+    <label class="form-check-label" for="switch1">Ativar notificações</label>
+</div>
+
+<!-- Inline -->
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inline" id="inline1">
+    <label class="form-check-label" for="inline1">Sim</label>
+</div>
+<div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" name="inline" id="inline2">
+    <label class="form-check-label" for="inline2">Não</label>
+</div>
+```
+
+### **Input Groups:**
+```html
+<!-- Com ícone/texto -->
+<div class="input-group">
+    <div class="input-group-prepend">
+        <span class="input-group-text">@</span>
+    </div>
+    <input type="text" class="form-control" placeholder="Username">
+</div>
+
+<!-- Com botão -->
+<div class="input-group">
+    <input type="text" class="form-control" placeholder="Buscar...">
+    <div class="input-group-append">
+        <button class="btn btn-primary" type="button">🔍</button>
+    </div>
+</div>
+```
+
+### **Estados de validação:**
+```html
+<!-- Campo válido -->
+<input type="email" class="form-control is-valid" value="email@example.com">
+<div class="valid-feedback">Email válido!</div>
+
+<!-- Campo inválido -->
+<input type="email" class="form-control is-invalid" value="email-inválido">
+<div class="invalid-feedback">Por favor, insira um email válido.</div>
+
+<!-- Campo obrigatório -->
+<div class="form-group required">
+    <label class="form-label">Email</label>
+    <input type="email" class="form-control" required>
+</div>
+```
+
+### **Layouts de formulário:**
+```html
+<!-- Formulário em linha -->
+<div class="form-row">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Nome">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Sobrenome">
+    </div>
+</div>
+
+<!-- Grid de formulário -->
+<div class="form-grid form-grid-3">
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Campo 1">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Campo 2">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Campo 3">
+    </div>
+</div>
+```
+
+### **Labels flutuantes:**
+```html
+<div class="form-floating">
+    <input type="email" class="form-control" id="email" placeholder="name@example.com">
+    <label for="email">Endereço de email</label>
+</div>
+```
+
+### **Upload de arquivos:**
+```html
+<!-- Input file simples -->
+<div class="form-file">
+    <input type="file" class="form-file-input" id="file">
+    <label class="form-file-label" for="file">Escolher arquivo</label>
+</div>
+
+<!-- Dropzone -->
+<div class="form-dropzone">
+    <p>Arraste arquivos aqui ou clique para selecionar</p>
+    <input type="file" multiple style="display: none;">
+</div>
+```
+
+### **Range/Slider:**
+```html
+<div class="form-group">
+    <label class="form-label">Volume: <span id="volume-value">50</span></label>
+    <input type="range" class="form-range" min="0" max="100" value="50" id="volume">
+</div>
+```
+
+**Layouts**: Use APENAS classes base em `base/layouts.css`
+
+### **Containers:**
+```html
+<div class="container">Container padrão (1200px)</div>
+<div class="container-sm">Container pequeno (800px)</div>
+<div class="container-lg">Container grande (1400px)</div>
+<div class="container-fluid">Container fluido (100%)</div>
+```
+
+### **Grid System:**
+```html
+<!-- Grid básico -->
+<div class="grid grid-cols-3 gap-lg">
+    <div>Item 1</div>
+    <div>Item 2</div>
+    <div>Item 3</div>
+</div>
+
+<!-- Grid responsivo -->
+<div class="grid-responsive">
+    <div>Item 1</div>
+    <div>Item 2</div>
+    <div>Item 3</div>
+</div>
+
+<!-- Grid para cards -->
+<div class="grid-cards">
+    <div class="card">Card 1</div>
+    <div class="card">Card 2</div>
+</div>
+```
+
+### **Flex Layouts:**
+```html
+<div class="flex justify-between items-center">
+    <div>Esquerda</div>
+    <div>Direita</div>
+</div>
+
+<div class="flex flex-col gap-md">
+    <div>Item 1</div>
+    <div>Item 2</div>
+</div>
+```
+
+### **Stack Layouts (Espaçamento Vertical):**
+```html
+<div class="stack-lg">
+    <h2>Título</h2>
+    <p>Parágrafo com espaçamento automático</p>
+    <button class="btn btn-primary">Botão</button>
+</div>
+```
+
+**Utilities**: Use classes em `base/utilities.css`
+
+### **Spacing:**
+```html
+<!-- Margin -->
+<div class="mt-lg mb-xl mx-auto">Margem top/bottom/center</div>
+
+<!-- Padding -->
+<div class="p-lg">Padding em todos os lados</div>
+<div class="px-md py-sm">Padding horizontal e vertical</div>
+```
+
+### **Colors:**
+```html
+<!-- Text colors -->
+<p class="text-primary">Texto primário</p>
+<p class="text-muted">Texto muted</p>
+<p class="text-error">Texto de erro</p>
+
+<!-- Background colors -->
+<div class="bg-primary text-white">Background primário</div>
+<div class="bg-light">Background claro</div>
+```
+
+### **Display & Layout:**
+```html
+<div class="flex justify-center items-center">Centro total</div>
+<div class="grid grid-cols-2 gap-md">Grid 2 colunas</div>
+<div class="hidden mobile-block">Oculto no desktop, visível no mobile</div>
+```
+
+### **Transform & Animation:**
+```html
+<div class="hover-lift transition-all">Hover com elevação</div>
+<div class="hover-scale">Hover com escala</div>
+<button class="btn btn-primary btn-loading">Botão loading</button>
+```
+
+**Cards**: Use sistema em `components/cards.css`
+
+### **Cards básicos:**
+```html
+<!-- Card padrão -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Título do Card</h3>
+        <span class="card-icon">📊</span>
+    </div>
+    <div class="card-body">
+        <p>Conteúdo do card</p>
+    </div>
+    <div class="card-footer">
+        <div class="card-actions">
+            <button class="btn btn-primary btn-sm">Ação</button>
+        </div>
+    </div>
+</div>
+
+<!-- Card de estatística -->
+<div class="card card-stat">
+    <div class="stat-number">1,234</div>
+    <div class="stat-label">Total de Usuários</div>
+    <div class="stat-change positive">+12% desde ontem</div>
+</div>
+
+<!-- Card com imagem -->
+<div class="card">
+    <div class="card-image">
+        <img src="image.jpg" alt="Imagem">
+    </div>
+    <div class="card-body">
+        <h3 class="card-title">Card com Imagem</h3>
+    </div>
+</div>
+```
+
+### **Variações de Cards:**
+```html
+<!-- Tamanhos -->
+<div class="card card-sm">Card pequeno</div>
+<div class="card card-lg">Card grande</div>
+
+<!-- Cores -->
+<div class="card card-primary">Card primário</div>
+<div class="card card-success">Card sucesso</div>
+
+<!-- Estilos -->
+<div class="card card-outline">Card com contorno</div>
+<div class="card card-elevated">Card elevado</div>
+<div class="card card-action">Card clicável</div>
+```
+
+### **Grupos de Cards:**
+```html
+<!-- Grid automático -->
+<div class="card-group">
+    <div class="card">Card 1</div>
+    <div class="card">Card 2</div>
+    <div class="card">Card 3</div>
+</div>
+
+<!-- Flex deck -->
+<div class="card-deck">
+    <div class="card">Card 1</div>
+    <div class="card">Card 2</div>
+</div>
+```
+
 **Tipografia**: Use classes base em `base/typography.css`
 ```html
 <!-- ✅ CORRETO -->
@@ -341,26 +665,30 @@ margin: 16px;
 padding: 8px 24px;
 ```
 
-### **Estrutura CSS Base**
+### **Estrutura CSS Base (SEMPRE OBRIGATÓRIO)**
 ```
 css/base/
 ├── reset.css          # Reset CSS global
 ├── variables.css      # Variáveis CSS (cores, espaçamentos, etc)
 ├── typography.css     # Fontes, headings, texto
-└── buttons.css        # Botões base do sistema
+├── buttons.css        # Sistema completo de botões (160+ variações)
+├── forms.css          # Sistema completo de formulários (400+ variações)
+├── layouts.css        # Sistema de layouts e grids
+└── utilities.css      # Classes utilitárias (spacing, colors, etc.)
 
 css/components/
-├── page-layout.css    # Layout base das páginas (page-container, page-header, etc)
+├── page-layout.css    # Layout base das páginas (DEPRECIADO - usar base/layouts.css)
 ├── header.css         # Header/top-bar com hamburger, AI agent e notificações
 ├── tabs.css           # Sistema de abas reutilizável (tabs-nav, tab-btn, etc)
 ├── config-list.css    # Componente de listas CRUD
-├── forms.css          # Formulários base
 ├── sidebar.css        # Menu lateral
-├── cards.css          # Cards reutilizáveis
+├── cards.css          # Sistema completo de cards (30+ variações)
 ├── notifications.css  # Sistema de notificações
 └── [outros...]        # Mais componentes modulares
 
-IMPORTANTE: NÃO há components/buttons.css - usar apenas base/buttons.css
+IMPORTANTE: 
+- NÃO há components/buttons.css - usar apenas base/buttons.css
+- NÃO há components/forms.css - usar apenas base/forms.css
 
 ### **Sistema de Visibilidade por Dispositivo**
 Use classes utilitárias para mostrar/ocultar elementos:
