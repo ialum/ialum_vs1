@@ -305,8 +305,8 @@ export class SearchAutocomplete {
         }
         
         // Esconder botão clear por enquanto
-        const clearBtn = this.container.querySelector('.search-clear');
-        clearBtn.style.display = 'none';
+        const clearBtn = DOM.select('.search-clear', this.container);
+        if (clearBtn) DOM.hide(clearBtn);
     }
     
     // Mostrar preview

@@ -1,0 +1,548 @@
+/**
+ * ui.css
+ * Estilos específicos para o sistema UI.js
+ * Dependências: variables.css
+ * Usado por: js/core/ui.js
+ * 
+ * IMPORTANTE: Estas animações e efeitos dependem do UI.js
+ * Para animações CSS puras, use utilities.css
+ */
+
+/* =================================================================
+   FADE ANIMATIONS - Animações de fade
+================================================================= */
+
+.ui-fade-in {
+    animation: uiFadeIn 0.3s ease-in forwards;
+}
+
+.ui-fade-out {
+    animation: uiFadeOut 0.3s ease-out forwards;
+}
+
+@keyframes uiFadeIn {
+    from { 
+        opacity: 0;
+        visibility: hidden;
+    }
+    to { 
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@keyframes uiFadeOut {
+    from { 
+        opacity: 1;
+        visibility: visible;
+    }
+    to { 
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* =================================================================
+   SLIDE ANIMATIONS - Animações de slide
+================================================================= */
+
+.ui-slide-up {
+    animation: uiSlideUp 0.3s ease-out forwards;
+}
+
+.ui-slide-down {
+    animation: uiSlideDown 0.3s ease-out forwards;
+}
+
+.ui-slide-left {
+    animation: uiSlideLeft 0.3s ease-out forwards;
+}
+
+.ui-slide-right {
+    animation: uiSlideRight 0.3s ease-out forwards;
+}
+
+@keyframes uiSlideUp {
+    from { 
+        transform: translateY(0);
+        max-height: 500px;
+        opacity: 1;
+    }
+    to { 
+        transform: translateY(-10px);
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+}
+
+@keyframes uiSlideDown {
+    from { 
+        transform: translateY(-10px);
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+    to { 
+        transform: translateY(0);
+        max-height: 500px;
+        opacity: 1;
+    }
+}
+
+@keyframes uiSlideLeft {
+    from { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to { 
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes uiSlideRight {
+    from { 
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to { 
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* =================================================================
+   SHAKE ANIMATION - Animação de tremor
+================================================================= */
+
+.ui-shake {
+    animation: uiShake 0.5s ease-in-out;
+}
+
+.ui-shake-horizontal {
+    animation: uiShakeHorizontal 0.5s ease-in-out;
+}
+
+.ui-shake-vertical {
+    animation: uiShakeVertical 0.5s ease-in-out;
+}
+
+@keyframes uiShake {
+    0%, 100% { transform: translate(0); }
+    10% { transform: translate(-2px, -2px); }
+    20% { transform: translate(2px, -2px); }
+    30% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, 2px); }
+    50% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, -2px); }
+    70% { transform: translate(-2px, 2px); }
+    80% { transform: translate(-2px, -2px); }
+    90% { transform: translate(2px, -2px); }
+}
+
+@keyframes uiShakeHorizontal {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes uiShakeVertical {
+    0%, 100% { transform: translateY(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateY(-5px); }
+    20%, 40%, 60%, 80% { transform: translateY(5px); }
+}
+
+/* =================================================================
+   HIGHLIGHT ANIMATIONS - Animações de destaque
+================================================================= */
+
+.ui-highlight {
+    animation: uiHighlight 1s ease-in-out;
+}
+
+.ui-highlight-success {
+    animation: uiHighlightSuccess 1s ease-in-out;
+}
+
+.ui-highlight-error {
+    animation: uiHighlightError 1s ease-in-out;
+}
+
+.ui-highlight-warning {
+    animation: uiHighlightWarning 1s ease-in-out;
+}
+
+.ui-highlight-info {
+    animation: uiHighlightInfo 1s ease-in-out;
+}
+
+@keyframes uiHighlight {
+    0% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+    50% { 
+        background-color: var(--yellow-100);
+        box-shadow: 0 0 0 3px var(--yellow-200);
+    }
+    100% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+@keyframes uiHighlightSuccess {
+    0% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+    50% { 
+        background-color: var(--green-100);
+        box-shadow: 0 0 0 3px var(--green-200);
+    }
+    100% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+@keyframes uiHighlightError {
+    0% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+    50% { 
+        background-color: var(--red-100);
+        box-shadow: 0 0 0 3px var(--red-200);
+    }
+    100% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+@keyframes uiHighlightWarning {
+    0% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+    50% { 
+        background-color: var(--orange-100);
+        box-shadow: 0 0 0 3px var(--orange-200);
+    }
+    100% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+@keyframes uiHighlightInfo {
+    0% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+    50% { 
+        background-color: var(--blue-100);
+        box-shadow: 0 0 0 3px var(--blue-200);
+    }
+    100% { 
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+/* =================================================================
+   PULSE ANIMATION - Animação de pulso
+================================================================= */
+
+.ui-pulse {
+    animation: uiPulse 2s ease-in-out infinite;
+}
+
+.ui-pulse-fast {
+    animation: uiPulse 1s ease-in-out infinite;
+}
+
+.ui-pulse-slow {
+    animation: uiPulse 3s ease-in-out infinite;
+}
+
+@keyframes uiPulse {
+    0% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* =================================================================
+   BOUNCE ANIMATION - Animação de salto
+================================================================= */
+
+.ui-bounce {
+    animation: uiBounce 0.6s ease-out;
+}
+
+.ui-bounce-in {
+    animation: uiBounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes uiBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-20px); }
+    60% { transform: translateY(-10px); }
+}
+
+@keyframes uiBounceIn {
+    0% { 
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% { 
+        transform: scale(1.05);
+    }
+    70% { 
+        transform: scale(0.9);
+    }
+    100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* =================================================================
+   ROTATE ANIMATIONS - Animações de rotação
+================================================================= */
+
+.ui-rotate {
+    animation: uiRotate 0.5s ease-in-out;
+}
+
+.ui-rotate-180 {
+    animation: uiRotate180 0.3s ease-in-out forwards;
+}
+
+.ui-rotate-continuous {
+    animation: uiRotateContinuous 2s linear infinite;
+}
+
+@keyframes uiRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes uiRotate180 {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(180deg); }
+}
+
+@keyframes uiRotateContinuous {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* =================================================================
+   SCALE ANIMATIONS - Animações de escala
+================================================================= */
+
+.ui-scale-in {
+    animation: uiScaleIn 0.3s ease-out forwards;
+}
+
+.ui-scale-out {
+    animation: uiScaleOut 0.3s ease-in forwards;
+}
+
+.ui-scale-hover:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+@keyframes uiScaleIn {
+    from { 
+        transform: scale(0);
+        opacity: 0;
+    }
+    to { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes uiScaleOut {
+    from { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    to { 
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* =================================================================
+   RIPPLE EFFECT - Efeito de ondulação
+================================================================= */
+
+.ui-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ui-ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(0);
+    animation: uiRipple 0.6s ease-out;
+}
+
+@keyframes uiRipple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* =================================================================
+   TOOLTIP STYLES - Estilos de tooltip
+================================================================= */
+
+.ui-tooltip {
+    position: absolute;
+    z-index: 1000;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--gray-900);
+    color: var(--white);
+    font-size: var(--font-size-xs);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ui-tooltip.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ui-tooltip::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+/* Posições do tooltip */
+.ui-tooltip-top::before {
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px 4px 0 4px;
+    border-color: var(--gray-900) transparent transparent transparent;
+}
+
+.ui-tooltip-bottom::before {
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 4px 4px 4px;
+    border-color: transparent transparent var(--gray-900) transparent;
+}
+
+.ui-tooltip-left::before {
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 4px 0 4px 4px;
+    border-color: transparent transparent transparent var(--gray-900);
+}
+
+.ui-tooltip-right::before {
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 4px 4px 4px 0;
+    border-color: transparent var(--gray-900) transparent transparent;
+}
+
+/* =================================================================
+   SMOOTH SCROLL - Rolagem suave
+================================================================= */
+
+.ui-smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* =================================================================
+   COPY FEEDBACK - Feedback de cópia
+================================================================= */
+
+.ui-copy-feedback {
+    position: fixed;
+    bottom: var(--spacing-lg);
+    right: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--gray-900);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.ui-copy-feedback.show {
+    animation: uiCopyFeedback 2s ease-out;
+}
+
+@keyframes uiCopyFeedback {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    80% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* =================================================================
+   TRANSITIONS - Classes de transição
+================================================================= */
+
+.ui-transition-all {
+    transition: all 0.3s ease;
+}
+
+.ui-transition-fast {
+    transition-duration: 0.15s;
+}
+
+.ui-transition-slow {
+    transition-duration: 0.5s;
+}
+
+.ui-transition-none {
+    transition: none !important;
+}

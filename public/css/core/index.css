@@ -1,0 +1,41 @@
+/**
+ * CSS Core System
+ * 
+ * Este diretório contém estilos específicos para os sistemas JavaScript em js/core.
+ * 
+ * IMPORTANTE: Estes arquivos CSS devem ser carregados APENAS quando o JavaScript
+ * correspondente estiver ativo. Eles não funcionam sozinhos.
+ * 
+ * Estrutura:
+ * - dom.css    → Suporte para DOM.js (show/hide, estados)
+ * - loader.css → Suporte para Loader.js (spinners, loading states)  
+ * - ui.css     → Suporte para UI.js (animações, efeitos)
+ * 
+ * Como usar:
+ * 
+ * 1. No HTML principal (app.html):
+ *    <!-- CSS Base - Sempre carregue primeiro -->
+ *    <link rel="stylesheet" href="/css/base/variables.css">
+ *    <link rel="stylesheet" href="/css/base/reset.css">
+ *    <link rel="stylesheet" href="/css/base/typography.css">
+ *    <link rel="stylesheet" href="/css/base/buttons.css">
+ *    <link rel="stylesheet" href="/css/base/forms.css">
+ *    
+ *    <!-- CSS Core - Carregue apenas se JS estiver ativo -->
+ *    <link rel="stylesheet" href="/css/core/dom.css">
+ *    <link rel="stylesheet" href="/css/core/loader.css">
+ *    <link rel="stylesheet" href="/css/core/ui.css">
+ * 
+ * 2. Ou carregue dinamicamente via JavaScript:
+ *    import { DOM } from '/js/core/dom.js';
+ *    DOM.loadCSS('/css/core/dom.css');
+ * 
+ * Convenções de nomenclatura:
+ * - Classes DOM: dom-* (ex: dom-show, dom-hide)
+ * - Classes Loader: loader-* (ex: loader-spinner, loader-overlay)
+ * - Classes UI: ui-* (ex: ui-fade-in, ui-shake)
+ * 
+ * Isso evita conflitos com classes do css/base e css/components.
+ */
+
+/* Este arquivo está vazio intencionalmente - serve apenas como documentação */

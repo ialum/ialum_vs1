@@ -1,13 +1,15 @@
 /**
  * app.js
- * Inicialização e controle geral do app
- * Dependências: router.js, notifications.js
- * Usado em: app.html
- * Tamanho alvo: <150 linhas
+ * Inicialização e controle geral da aplicação
+ * Documentação: /docs/0_16-sistemas-core.md#app
+ * Localização: /js/core/app.js
+ * 
+ * NOTA: Apenas inicialização. Para DOM use dom.js, para rotas use router.js
  */
 
 // Importar dependências
 import { Router } from './router.js';
+import { DOM } from './dom.js';
 import { showToast } from '../components/notifications.js';
 
 // Estado do app
@@ -33,10 +35,10 @@ export function init() {
 
 // Sidebar
 function initSidebar() {
-    const navItems = document.querySelectorAll('.nav-item');
+    const navItems = DOM.selectAll('.nav-item');
     
     navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
+        DOM.on(item, 'click', (e) => {
             // Não fazer nada se for link externo
             if (item.getAttribute('href').startsWith('http')) return;
             
@@ -44,14 +46,14 @@ function initSidebar() {
             if (item.getAttribute('href').startsWith('#')) {
                 // Router já está escutando cliques em links com #
                 // Apenas atualizar visual se necessário
-                navItems.forEach(nav => nav.classList.remove('active'));
-                item.classList.add('active');
+                navItems.forEach(nav => DOM.removeClass(nav, 'active'));
+                DOM.addClass(item, 'active');
             }
         });
     });
     
     // Escutar mudanças de rota para atualizar menu ativo
-    window.addEventListener('hashchange', () => {
+    DOM.on(window, 'hashchange', () => {
         updateActiveMenu();
     });
 }
@@ -59,32 +61,32 @@ function initSidebar() {
 // Atualizar menu ativo baseado na rota atual
 function updateActiveMenu() {
     const currentHash = window.location.hash;
-    const navItems = document.querySelectorAll('.nav-item');
+    const navItems = DOM.selectAll('.nav-item');
     
     navItems.forEach(item => {
-        item.classList.remove('active');
+        DOM.removeClass(item, 'active');
         if (item.getAttribute('href') === currentHash) {
-            item.classList.add('active');
+            DOM.addClass(item, 'active');
         }
     });
 }
 
 // Menu mobile
 function initMobileMenu() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
+    const menuToggle = DOM.select('#menu-toggle');
+    const sidebar = DOM.select('#sidebar');
     
     if (menuToggle && sidebar) {
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-            menuToggle.classList.toggle('active');
+        DOM.on(menuToggle, 'click', () => {
+            DOM.toggleClass(sidebar, 'active');
+            DOM.toggleClass(menuToggle, 'active');
         });
         
         // Fechar ao clicar fora
-        document.addEventListener('click', (e) => {
+        DOM.on(document, 'click', (e) => {
             if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
-                menuToggle.classList.remove('active');
+                DOM.removeClass(sidebar, 'active');
+                DOM.removeClass(menuToggle, 'active');
             }
         });
     }
@@ -93,9 +95,9 @@ function initMobileMenu() {
 // Header components
 function initHeader() {
     // AI Agent button
-    const aiAgentBtn = document.getElementById('ai-agent-btn');
+    const aiAgentBtn = DOM.select('#ai-agent-btn');
     if (aiAgentBtn) {
-        aiAgentBtn.addEventListener('click', () => {
+        DOM.on(aiAgentBtn, 'click', () => {
             showToast('🤖 Agente IA em breve!', 'info');
         });
     }
@@ -106,40 +108,11 @@ function initQuickActions() {
     // Funcionalidades globais podem ser adicionadas aqui
 }
 
-// Helpers públicos
-export function showLoading(show = true) {
-    const pageContent = document.getElementById('page-content');
-    if (pageContent && show) {
-        pageContent.innerHTML = `
-            <div class="loading-container">
-                <div class="spinner"></div>
-                <p>Carregando...</p>
-            </div>
-        `;
-    }
-}
-
-export function showError(message = 'Algo deu errado') {
-    const pageContent = document.getElementById('page-content');
-    if (pageContent) {
-        pageContent.innerHTML = `
-            <div class="error-container">
-                <h2>Ops!</h2>
-                <p>${message}</p>
-                <button class="btn btn-primary" onclick="location.reload()">
-                    Tentar novamente
-                </button>
-            </div>
-        `;
-    }
-}
-
 // Inicializar quando DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
+DOM.ready(() => {
     // Inicializar o Router primeiro
     Router.init();
     
     // Depois inicializar o App
     init();
-})
-;
+});

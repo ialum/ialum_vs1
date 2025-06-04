@@ -1,9 +1,14 @@
 # 📋 INSTRUÇÕES TEMPORARIAS
 
+## **IA PRECISA LER ANTES DE COMEÇAR**
+ - ialum_vs1/docs/0_1-paginas.md
+ - ialum_vs1/docs/0_2-componentes.md
+ - ialum_vs1/docs/0_3-carregamento.md
+
 ## 🚀 Status Atual:
  - Validando e melhorando DOCUMENTAÇÃO DO SAAS IALUM
  - Desenvolvendo wireframe das páginas e comportamento dos componentes
- - backend funcionando apenas com a autenticação para testes.
+ - backend funcionando apenas com a autenticação para testes por enquanto.
 
 ## 🔄 Próximo:
  - depois de todas as páginas e componentes validadas vamos desenvolver o backend no n8n e supabase

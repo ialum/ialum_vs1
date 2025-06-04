@@ -2,49 +2,57 @@
  * sidebar.js
  * Controle do menu lateral da aplicação Ialum
  * Estrutura baseada na documentação 0_1-paginas.md
- * Dependências: router.js
+ * Dependências: router.js, DOM, State, UI, Cache
  * Localização: public/js/components/sidebar.js
  * Tamanho alvo: <200 linhas
  */
 import { Router } from '../core/router.js';
+import { DOM } from '../core/dom.js';
+import { State } from '../core/state.js';
+import { UI } from '../core/ui.js';
+import { Cache } from '../core/cache.js';
 // Estado do sidebar
 let isInitialized = false;
-let isMobileMenuOpen = false;
 // Inicializar sidebar
 export function init() {
-if (isInitialized) return;
-
-// Inicializar estado dos submenus (todos fechados)
-initializeSubmenus();
-
-bindNavigation();
-bindMobileToggle();
-updateActiveState();
-
-// Escutar mudanças de rota
-window.addEventListener('hashchange', updateActiveState);
-
-isInitialized = true;
+    if (isInitialized) return;
+    
+    DOM.ready(() => {
+        // Inicializar estado dos submenus (todos fechados)
+        initializeSubmenus();
+        
+        bindNavigation();
+        bindMobileToggle();
+        updateActiveState();
+        
+        // Escutar mudanças de rota
+        DOM.on(window, 'hashchange', updateActiveState);
+        
+        // Restaurar estado dos submenus do cache
+        const expandedMenus = Cache.get('sidebar.expanded') || [];
+        expandedMenus.forEach(selector => expandSubmenu(selector));
+    });
+    
+    isInitialized = true;
 }
 
 // Inicializar submenus no estado fechado
 function initializeSubmenus() {
-const submenus = document.querySelectorAll('.nav-submenu');
-submenus.forEach(submenu => {
-    submenu.style.maxHeight = '0';
-    submenu.style.overflow = 'hidden';
-});
-
-const arrows = document.querySelectorAll('.nav-arrow');
-arrows.forEach(arrow => {
-    arrow.style.transform = 'rotate(0deg)';
-});
+    const submenus = DOM.selectAll('.nav-submenu');
+    submenus.forEach(submenu => {
+        submenu.style.maxHeight = '0';
+        submenu.style.overflow = 'hidden';
+    });
+    
+    const arrows = DOM.selectAll('.nav-arrow');
+    arrows.forEach(arrow => {
+        arrow.style.transform = 'rotate(0deg)';
+    });
 }
 // Bind da navegação
 function bindNavigation() {
-const navLinks = document.querySelectorAll('.nav-link, .nav-subitem');
-navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
+    // Usar event delegation para melhor performance
+    DOM.delegate(document, 'click', '.nav-link, .nav-subitem', (e, link) => {
         const href = link.getAttribute('href');
         
         // Ignorar links externos e javascript:void(0)
@@ -55,7 +63,7 @@ navLinks.forEach(link => {
             e.preventDefault();
             
             // Fechar menu mobile se estiver aberto
-            if (isMobileMenuOpen) {
+            if (State.get('sidebar.mobileOpen')) {
                 closeMobileMenu();
             }
             
@@ -64,247 +72,297 @@ navLinks.forEach(link => {
             Router.navigate(route);
         }
     });
-});
 
-// Bind dos toggles de submenu
-const submenuToggles = document.querySelectorAll('.nav-item-submenu > .nav-link');
-submenuToggles.forEach(toggle => {
-    toggle.addEventListener('click', (e) => {
+    // Bind dos toggles de submenu
+    DOM.delegate(document, 'click', '.nav-item-submenu > .nav-link', (e, toggle) => {
         e.preventDefault();
         e.stopPropagation();
         
         const parent = toggle.closest('.nav-item-submenu');
-        const submenu = parent.querySelector('.nav-submenu');
-        const arrow = toggle.querySelector('.nav-arrow');
+        const submenu = DOM.select('.nav-submenu', parent);
+        const arrow = DOM.select('.nav-arrow', toggle);
         
         // Verificar se está expandido
-        const isExpanded = parent.classList.contains('expanded');
+        const isExpanded = DOM.hasClass(parent, 'expanded');
         
         // Fechar todos os outros submenus primeiro
         closeAllSubmenus(parent);
         
         // Toggle do submenu atual
-        parent.classList.toggle('expanded');
+        DOM.toggleClass(parent, 'expanded');
         
         if (submenu) {
             if (isExpanded) {
                 submenu.style.maxHeight = '0';
-                arrow.style.transform = 'rotate(0deg)';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
             } else {
                 submenu.style.maxHeight = submenu.scrollHeight + 'px';
-                arrow.style.transform = 'rotate(90deg)';
+                if (arrow) arrow.style.transform = 'rotate(90deg)';
             }
+            
+            // Salvar estado no cache
+            saveExpandedState();
         }
     });
-});
 }
 // Controle do menu mobile
 function bindMobileToggle() {
-const menuToggle = document.getElementById('menu-toggle');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('mobile-overlay');
-if (!menuToggle || !sidebar) return;
-
-// Toggle do menu
-menuToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleMobileMenu();
-});
-
-// Fechar ao clicar no overlay
-overlay?.addEventListener('click', () => {
-    closeMobileMenu();
-});
-
-// Fechar ao clicar fora
-document.addEventListener('click', (e) => {
-    if (isMobileMenuOpen && 
-        !sidebar.contains(e.target) && 
-        !menuToggle.contains(e.target)) {
-        closeMobileMenu();
+    const menuToggle = DOM.select('#menu-toggle');
+    const sidebar = DOM.select('#sidebar');
+    const overlay = DOM.select('#mobile-overlay');
+    
+    if (!menuToggle || !sidebar) return;
+    
+    // Toggle do menu
+    DOM.on(menuToggle, 'click', (e) => {
+        e.stopPropagation();
+        toggleMobileMenu();
+    });
+    
+    // Fechar ao clicar no overlay
+    if (overlay) {
+        DOM.on(overlay, 'click', () => {
+            closeMobileMenu();
+        });
     }
-});
-
-// Fechar com ESC
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isMobileMenuOpen) {
-        closeMobileMenu();
-    }
-});
+    
+    // Fechar ao clicar fora
+    DOM.on(document, 'click', (e) => {
+        if (State.get('sidebar.mobileOpen') && 
+            !sidebar.contains(e.target) && 
+            !menuToggle.contains(e.target)) {
+            closeMobileMenu();
+        }
+    });
+    
+    // Fechar com ESC
+    DOM.on(document, 'keydown', (e) => {
+        if (e.key === 'Escape' && State.get('sidebar.mobileOpen')) {
+            closeMobileMenu();
+        }
+    });
 }
 // Toggle menu mobile
 function toggleMobileMenu() {
-const sidebar = document.getElementById('sidebar');
-const menuToggle = document.getElementById('menu-toggle');
-const overlay = document.getElementById('mobile-overlay');
-if (!sidebar) return;
-
-isMobileMenuOpen = !isMobileMenuOpen;
-
-if (isMobileMenuOpen) {
-    sidebar.classList.add('active');
-    menuToggle?.classList.add('active');
-    overlay?.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevenir scroll
-} else {
-    sidebar.classList.remove('active');
-    menuToggle?.classList.remove('active');
-    overlay?.classList.remove('active');
-    document.body.style.overflow = '';
-}
+    const sidebar = DOM.select('#sidebar');
+    const menuToggle = DOM.select('#menu-toggle');
+    const overlay = DOM.select('#mobile-overlay');
+    
+    if (!sidebar) return;
+    
+    const isOpen = !State.get('sidebar.mobileOpen');
+    State.set('sidebar.mobileOpen', isOpen);
+    
+    if (isOpen) {
+        DOM.addClass(sidebar, 'active');
+        if (menuToggle) DOM.addClass(menuToggle, 'active');
+        if (overlay) DOM.addClass(overlay, 'active');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll
+    } else {
+        DOM.removeClass(sidebar, 'active');
+        if (menuToggle) DOM.removeClass(menuToggle, 'active');
+        if (overlay) DOM.removeClass(overlay, 'active');
+        document.body.style.overflow = '';
+    }
 }
 // Fechar menu mobile
 function closeMobileMenu() {
-const sidebar = document.getElementById('sidebar');
-const menuToggle = document.getElementById('menu-toggle');
-const overlay = document.getElementById('mobile-overlay');
-sidebar?.classList.remove('active');
-menuToggle?.classList.remove('active');
-overlay?.classList.remove('active');
-document.body.style.overflow = '';
-isMobileMenuOpen = false;
+    const sidebar = DOM.select('#sidebar');
+    const menuToggle = DOM.select('#menu-toggle');
+    const overlay = DOM.select('#mobile-overlay');
+    
+    if (sidebar) DOM.removeClass(sidebar, 'active');
+    if (menuToggle) DOM.removeClass(menuToggle, 'active');
+    if (overlay) DOM.removeClass(overlay, 'active');
+    
+    document.body.style.overflow = '';
+    State.set('sidebar.mobileOpen', false);
 }
 // Atualizar estado ativo do menu
 function updateActiveState() {
-const currentHash = window.location.hash || '#dashboard';
-const navLinks = document.querySelectorAll('.nav-link, .nav-subitem');
-
-// Remover estado ativo de todos
-navLinks.forEach(link => {
-    link.classList.remove('active');
-});
-
-navLinks.forEach(link => {
-    const href = link.getAttribute('href');
+    const currentHash = window.location.hash || '#dashboard';
+    const navLinks = DOM.selectAll('.nav-link, .nav-subitem');
     
-    // Marcar item ativo exato
-    if (href === currentHash) {
-        link.classList.add('active');
-        
-        // Se for um subitem, expandir o menu pai
-        const parentSubmenu = link.closest('.nav-item-submenu');
-        if (parentSubmenu && link.classList.contains('nav-subitem')) {
-            expandSubmenuByParent(parentSubmenu);
-        }
-    }
+    // Remover estado ativo de todos
+    navLinks.forEach(link => {
+        DOM.removeClass(link, 'active');
+    });
     
-    // Para itens com submenu, marcar como ativo se a rota começar com o prefixo
-    if (link.classList.contains('nav-link') && link.closest('.nav-item-submenu')) {
-        const submenuParent = link.closest('.nav-item-submenu');
-        const hasActiveChild = submenuParent.querySelector('.nav-subitem.active');
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
         
-        if (hasActiveChild || 
-            (currentHash.startsWith('#redacao') && link.textContent.includes('Redação')) ||
-            (currentHash.startsWith('#configuracoes') && link.textContent.includes('Configurações')) ||
-            (currentHash.startsWith('#conta') && link.textContent.includes('Conta'))) {
-            link.classList.add('active');
-            expandSubmenuByParent(submenuParent);
+        // Marcar item ativo exato
+        if (href === currentHash) {
+            DOM.addClass(link, 'active');
+            
+            // Se for um subitem, expandir o menu pai
+            const parentSubmenu = link.closest('.nav-item-submenu');
+            if (parentSubmenu && DOM.hasClass(link, 'nav-subitem')) {
+                expandSubmenuByParent(parentSubmenu);
+            }
         }
-    }
-});
+        
+        // Para itens com submenu, marcar como ativo se a rota começar com o prefixo
+        if (DOM.hasClass(link, 'nav-link') && link.closest('.nav-item-submenu')) {
+            const submenuParent = link.closest('.nav-item-submenu');
+            const hasActiveChild = DOM.select('.nav-subitem.active', submenuParent);
+            
+            if (hasActiveChild || 
+                (currentHash.startsWith('#redacao') && link.textContent.includes('Redação')) ||
+                (currentHash.startsWith('#configuracoes') && link.textContent.includes('Configurações')) ||
+                (currentHash.startsWith('#conta') && link.textContent.includes('Conta'))) {
+                DOM.addClass(link, 'active');
+                expandSubmenuByParent(submenuParent);
+            }
+        }
+    });
 }
 
 // Expandir submenu por elemento pai
 function expandSubmenuByParent(parent) {
-if (!parent) return;
-
-const submenu = parent.querySelector('.nav-submenu');
-const arrow = parent.querySelector('.nav-arrow');
-
-if (submenu && !parent.classList.contains('expanded')) {
-    // Fechar todos os outros submenus primeiro
-    closeAllSubmenus(parent);
+    if (!parent) return;
     
-    parent.classList.add('expanded');
-    submenu.style.maxHeight = submenu.scrollHeight + 'px';
-    if (arrow) arrow.style.transform = 'rotate(90deg)';
-}
+    const submenu = DOM.select('.nav-submenu', parent);
+    const arrow = DOM.select('.nav-arrow', parent);
+    
+    if (submenu && !DOM.hasClass(parent, 'expanded')) {
+        // Fechar todos os outros submenus primeiro
+        closeAllSubmenus(parent);
+        
+        DOM.addClass(parent, 'expanded');
+        submenu.style.maxHeight = submenu.scrollHeight + 'px';
+        if (arrow) arrow.style.transform = 'rotate(90deg)';
+        
+        // Salvar estado
+        saveExpandedState();
+    }
 }
 
 // Fechar todos os submenus exceto o atual
 function closeAllSubmenus(exceptParent = null) {
-const allSubmenus = document.querySelectorAll('.nav-item-submenu');
-allSubmenus.forEach(submenuParent => {
-    if (submenuParent !== exceptParent && submenuParent.classList.contains('expanded')) {
-        const submenu = submenuParent.querySelector('.nav-submenu');
-        const arrow = submenuParent.querySelector('.nav-arrow');
-        
-        submenuParent.classList.remove('expanded');
-        if (submenu) submenu.style.maxHeight = '0';
-        if (arrow) arrow.style.transform = 'rotate(0deg)';
-    }
-});
+    const allSubmenus = DOM.selectAll('.nav-item-submenu');
+    allSubmenus.forEach(submenuParent => {
+        if (submenuParent !== exceptParent && DOM.hasClass(submenuParent, 'expanded')) {
+            const submenu = DOM.select('.nav-submenu', submenuParent);
+            const arrow = DOM.select('.nav-arrow', submenuParent);
+            
+            DOM.removeClass(submenuParent, 'expanded');
+            if (submenu) submenu.style.maxHeight = '0';
+            if (arrow) arrow.style.transform = 'rotate(0deg)';
+        }
+    });
+    
+    // Salvar estado
+    saveExpandedState();
+}
+
+// Salvar estado dos menus expandidos
+function saveExpandedState() {
+    const expanded = DOM.selectAll('.nav-item-submenu.expanded');
+    const selectors = Array.from(expanded).map(el => {
+        const text = DOM.select('.nav-link', el)?.textContent.trim();
+        return text ? `[data-menu="${text}"]` : null;
+    }).filter(Boolean);
+    
+    Cache.set('sidebar.expanded', selectors, 60); // Cache por 60 minutos
 }
 // Mostrar/esconder item do menu
 export function toggleMenuItem(selector, show = true) {
-const item = document.querySelector(selector);
-if (item) {
-item.style.display = show ? '' : 'none';
-}
+    const item = DOM.select(selector);
+    if (item) {
+        if (show) {
+            DOM.show(item);
+        } else {
+            DOM.hide(item);
+        }
+    }
 }
 // Adicionar badge a um item do menu
 export function addBadge(selector, count, type = 'primary') {
-const item = document.querySelector(selector);
-if (!item) return;
-// Remover badge existente
-const existingBadge = item.querySelector('.nav-badge');
-if (existingBadge) {
-    existingBadge.remove();
-}
-
-// Adicionar novo badge se count > 0
-if (count > 0) {
-    const badge = document.createElement('span');
-    badge.className = `nav-badge nav-badge--${type}`;
-    badge.textContent = count > 99 ? '99+' : count;
-    item.appendChild(badge);
-}
+    const item = DOM.select(selector);
+    if (!item) return;
+    
+    // Remover badge existente
+    const existingBadge = DOM.select('.nav-badge', item);
+    if (existingBadge) {
+        existingBadge.remove();
+    }
+    
+    // Adicionar novo badge se count > 0
+    if (count > 0) {
+        const badge = DOM.create('span', {
+            className: `nav-badge nav-badge--${type}`,
+            textContent: count > 99 ? '99+' : count
+        });
+        item.appendChild(badge);
+    }
 }
 // Atualizar informações do usuário
 export function updateUserInfo(user) {
-const userName = document.querySelector('.user-name');
-const userEmail = document.querySelector('.user-email');
-if (userName && user.name) {
-    userName.textContent = user.name;
-}
-
-if (userEmail && user.email) {
-    userEmail.textContent = user.email;
-}
+    const userName = DOM.select('.user-name');
+    const userEmail = DOM.select('.user-email');
+    
+    if (userName && user.name) {
+        userName.textContent = user.name;
+    }
+    
+    if (userEmail && user.email) {
+        userEmail.textContent = user.email;
+    }
+    
+    // Salvar no estado global
+    State.set('user', user);
 }
 // Controlar visibilidade de submenus
 export function toggleSubmenu(parentSelector, show = true) {
-const parent = document.querySelector(parentSelector);
-if (!parent) return;
-
-const submenu = parent.querySelector('.nav-submenu');
-if (submenu) {
-    submenu.style.display = show ? 'block' : 'none';
-    parent.classList.toggle('has-submenu-open', show);
-}
+    const parent = DOM.select(parentSelector);
+    if (!parent) return;
+    
+    const submenu = DOM.select('.nav-submenu', parent);
+    if (submenu) {
+        submenu.style.display = show ? 'block' : 'none';
+        DOM.toggleClass(parent, 'has-submenu-open', show);
+    }
 }
 
 // Expandir/contrair submenu
 export function expandSubmenu(parentSelector) {
-const parent = document.querySelector(parentSelector);
-if (!parent) return;
-
-const submenu = parent.querySelector('.nav-submenu');
-const isExpanded = parent.classList.contains('expanded');
-
-if (submenu) {
-    parent.classList.toggle('expanded', !isExpanded);
-    submenu.style.maxHeight = isExpanded ? '0' : submenu.scrollHeight + 'px';
-}
+    const parent = DOM.select(parentSelector);
+    if (!parent) return;
+    
+    const submenu = DOM.select('.nav-submenu', parent);
+    const arrow = DOM.select('.nav-arrow', parent);
+    const isExpanded = DOM.hasClass(parent, 'expanded');
+    
+    if (submenu) {
+        DOM.toggleClass(parent, 'expanded', !isExpanded);
+        submenu.style.maxHeight = isExpanded ? '0' : submenu.scrollHeight + 'px';
+        
+        if (arrow) {
+            arrow.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
+        }
+        
+        // Animar com UI
+        if (!isExpanded) {
+            UI.slideDown(submenu);
+        } else {
+            UI.slideUp(submenu);
+        }
+    }
 }
 
 // Controlar estado de integração
 export function updateIntegrationStatus(network, isActive) {
-const item = document.querySelector(`[data-network="${network}"]`);
-if (item) {
-    item.classList.toggle('integration-active', isActive);
-    item.classList.toggle('integration-inactive', !isActive);
-}
+    const item = DOM.select(`[data-network="${network}"]`);
+    if (item) {
+        DOM.toggleClass(item, 'integration-active', isActive);
+        DOM.toggleClass(item, 'integration-inactive', !isActive);
+        
+        // Adicionar efeito visual
+        if (isActive) {
+            UI.highlight(item, 'success');
+        }
+    }
 }
 
 // Exportar objeto Sidebar

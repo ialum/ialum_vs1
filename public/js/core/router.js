@@ -1,14 +1,17 @@
 /**
  * router.js
  * Sistema de rotas e navegação SPA
- * Dependências: api.js, utils.js
- * Localização: public/js/core/router.js
- * Tamanho alvo: <200 linhas
+ * Documentação: /docs/0_16-sistemas-core.md#router
+ * Localização: /js/core/router.js
+ * 
+ * NOTA: Focado apenas em navegação. Para DOM use dom.js
  */
 
 // Importar dependências
 import { API } from './api.js';
-import { Utils } from './utils.js';
+import { Cache } from './cache.js';
+import { DOM } from './dom.js';
+import { Loader } from './loader.js';
 
 // Configuração das rotas
 const routes = {
@@ -83,7 +86,7 @@ export function init() {
 export function navigate(route, params = {}) {
     // Guardar parâmetros se existirem
     if (Object.keys(params).length > 0) {
-        Utils.storage.set(`route_params_${route}`, params);
+        Cache.set(`route_params_${route}`, params, 5); // 5 minutos
     }
     
     window.location.hash = route;
@@ -123,7 +126,7 @@ async function handleRoute() {
         const html = await loadView(routeConfig.view);
         
         // Inserir no DOM
-        const contentElement = document.getElementById('page-content');
+        const contentElement = DOM.select('#page-content');
         if (contentElement) {
             contentElement.innerHTML = html;
             
@@ -145,7 +148,7 @@ async function handleRoute() {
         
     } catch (error) {
         console.error('Erro ao carregar página:', error);
-        showError();
+        Loader.showError('Não foi possível carregar esta página');
     }
 }
 
@@ -178,10 +181,10 @@ function updateUI(route, routeConfig) {
     document.title = `${routeConfig.title} - Ialum`;
     
     // Atualizar menu ativo
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
+    DOM.selectAll('.nav-item').forEach(item => {
+        DOM.removeClass(item, 'active');
         if (item.getAttribute('href') === `#${route}`) {
-            item.classList.add('active');
+            DOM.addClass(item, 'active');
         }
     });
 }
@@ -194,7 +197,7 @@ async function loadView(viewPath) {
     }
     
     // Mostrar loading
-    showLoading();
+    Loader.show();
     
     try {
         const response = await fetch(viewPath);
@@ -235,42 +238,13 @@ async function loadController(route, controllerPath, args = []) {
     }
 }
 
-// Mostrar loading
-function showLoading() {
-    const contentElement = document.getElementById('page-content');
-    if (contentElement) {
-        contentElement.innerHTML = `
-            <div class="loading-container">
-                <div class="spinner"></div>
-                <p>Carregando...</p>
-            </div>
-        `;
-    }
-}
-
-// Mostrar erro
-function showError() {
-    const contentElement = document.getElementById('page-content');
-    if (contentElement) {
-        contentElement.innerHTML = `
-            <div class="error-container">
-                <h2>Ops! Algo deu errado</h2>
-                <p>Não foi possível carregar esta página.</p>
-                <button class="btn btn-primary" onclick="location.reload()">
-                    Tentar novamente
-                </button>
-            </div>
-        `;
-    }
-}
-
 // Helpers públicos
 export function getParams() {
-    return Utils.storage.get(`route_params_${currentRoute}`) || {};
+    return Cache.get(`route_params_${currentRoute}`) || {};
 }
 
 export function clearParams() {
-    Utils.storage.remove(`route_params_${currentRoute}`);
+    Cache.remove(`route_params_${currentRoute}`);
 }
 
 // Exportar objeto Router para compatibilidade

@@ -1,22 +1,28 @@
 /**
  * config-list.js
  * Componente modular para listas de configuração (CRUD)
- * Dependências: validators.js
+ * Dependências: DOM, UI, Loader, Cache, Backup, validators
  * Localização: public/js/components/config-list.js
  * Tamanho alvo: <200 linhas
  */
 
-import { validateObject } from '../utils/validators.js';
+import { DOM } from '../core/dom.js';
+import { UI } from '../core/ui.js';
+import { Loader } from '../core/loader.js';
+// Cache não está sendo usado neste componente por enquanto
+import { Backup } from '../core/backup.js';
+import { validators } from '../core/validators.js';
 
 export class ConfigList {
     constructor(container, config) {
-        this.container = container;
+        this.container = typeof container === 'string' ? DOM.select(container) : container;
         this.type = config.type;
         this.fields = config.fields;
-        this.validators = config.validators;
+        this.fieldValidators = config.validators || {};
         this.items = config.items || [];
         this.expandedItems = new Set(); // IDs dos itens expandidos
         this.isCreating = false; // Flag para modo de criação
+        this.backupKey = `config-list-${this.type}`;
         
         this.init();
     }
@@ -24,6 +30,9 @@ export class ConfigList {
     init() {
         this.render();
         this.bindEvents();
+        
+        // Inicializar backup automático
+        Backup.init(this.backupKey);
     }
 
     // Renderiza toda a lista
@@ -166,7 +175,8 @@ export class ConfigList {
 
     // Bind de eventos
     bindEvents() {
-        this.container.addEventListener('click', (e) => {
+        // Usar event delegation para melhor performance
+        DOM.delegate(this.container, 'click', '[data-action]', (e) => {
             const action = e.target.dataset.action;
             const id = e.target.dataset.id;
 
@@ -194,12 +204,23 @@ export class ConfigList {
                     break;
             }
         });
+        
+        // Backup automático em campos de formulário
+        DOM.delegate(this.container, 'input', 'input, textarea', () => {
+            Backup.save(this.backupKey);
+        });
     }
 
     // Editar item
     editItem(id) {
         this.expandedItems.add(id);
         this.render();
+        
+        // Focar no primeiro campo após renderizar
+        setTimeout(() => {
+            const firstInput = DOM.select(`[data-id="${id}"] input, [data-id="${id}"] textarea`);
+            if (firstInput) firstInput.focus();
+        }, 100);
     }
 
     // Cancelar edição
@@ -209,35 +230,57 @@ export class ConfigList {
     }
 
     // Salvar item
-    saveItem(id) {
-        const form = this.container.querySelector(`[data-id="${id}"] .config-form`);
+    async saveItem(id) {
+        const form = DOM.select(`[data-id="${id}"] .config-form`, this.container);
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
 
         // Validar dados
-        const errors = validateObject(data, this.validators);
+        const errors = this.validateData(data);
         if (errors) {
             this.showErrors(form, errors);
+            UI.shake(form);
             return;
         }
 
-        // Encontrar e atualizar item
-        const itemIndex = this.items.findIndex(item => item.id === id);
-        if (itemIndex !== -1) {
-            this.items[itemIndex] = { ...this.items[itemIndex], ...data };
-            this.expandedItems.delete(id);
-            this.render();
-            this.onItemSaved?.(this.items[itemIndex]);
+        // Mostrar loading
+        Loader.showInline(form, 'Salvando...');
+
+        try {
+            // Simular delay de API
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Encontrar e atualizar item
+            const itemIndex = this.items.findIndex(item => item.id === id);
+            if (itemIndex !== -1) {
+                this.items[itemIndex] = { ...this.items[itemIndex], ...data };
+                this.expandedItems.delete(id);
+                
+                // Limpar backup
+                Backup.clear(this.backupKey);
+                
+                this.render();
+                UI.highlight(DOM.select(`[data-id="${id}"]`, this.container), 'success');
+                this.onItemSaved?.(this.items[itemIndex]);
+            }
+        } catch (error) {
+            Loader.hideInline(form);
+            Loader.showError('Erro ao salvar', form);
         }
     }
 
     // Deletar item
-    deleteItem(id) {
+    async deleteItem(id) {
         if (confirm('Tem certeza que deseja excluir este item?')) {
-            this.items = this.items.filter(item => item.id !== id);
-            this.expandedItems.delete(id);
-            this.render();
-            this.onItemDeleted?.(id);
+            const itemEl = DOM.select(`[data-id="${id}"]`, this.container);
+            
+            // Animar saída
+            UI.fadeOut(itemEl, () => {
+                this.items = this.items.filter(item => item.id !== id);
+                this.expandedItems.delete(id);
+                this.render();
+                this.onItemDeleted?.(id);
+            });
         }
     }
 
@@ -245,6 +288,12 @@ export class ConfigList {
     startCreating() {
         this.isCreating = true;
         this.render();
+        
+        // Focar no primeiro campo
+        setTimeout(() => {
+            const firstInput = DOM.select('.config-new-item input, .config-new-item textarea', this.container);
+            if (firstInput) firstInput.focus();
+        }, 100);
     }
 
     // Cancelar criação
@@ -254,42 +303,125 @@ export class ConfigList {
     }
 
     // Criar novo item
-    createItem() {
-        const form = this.container.querySelector('.config-new-item .config-form');
+    async createItem() {
+        const form = DOM.select('.config-new-item .config-form', this.container);
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
 
         // Validar dados
-        const errors = validateObject(data, this.validators);
+        const errors = this.validateData(data);
         if (errors) {
             this.showErrors(form, errors);
+            UI.shake(form);
             return;
         }
 
-        // Criar novo item
-        const newItem = {
-            id: Date.now().toString(), // ID temporário
-            ...data
-        };
+        // Mostrar loading
+        Loader.showInline(form, 'Criando...');
 
-        this.items.push(newItem);
-        this.isCreating = false;
-        this.render();
-        this.onItemCreated?.(newItem);
+        try {
+            // Simular delay de API
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Criar novo item
+            const newItem = {
+                id: UI.generateId(),
+                ...data
+            };
+
+            this.items.push(newItem);
+            this.isCreating = false;
+            
+            // Limpar backup
+            Backup.clear(this.backupKey);
+            
+            this.render();
+            
+            // Destacar novo item
+            const newItemEl = DOM.select(`[data-id="${newItem.id}"]`, this.container);
+            if (newItemEl) {
+                UI.highlight(newItemEl, 'success');
+            }
+            
+            this.onItemCreated?.(newItem);
+        } catch (error) {
+            Loader.hideInline(form);
+            Loader.showError('Erro ao criar', form);
+        }
     }
 
     // Mostrar erros de validação
     showErrors(form, errors) {
         // Limpar erros anteriores
-        form.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+        DOM.selectAll('.field-error', form).forEach(el => {
+            el.textContent = '';
+            DOM.removeClass(el.previousElementSibling, 'is-invalid');
+        });
 
         // Mostrar novos erros
         for (const [field, error] of Object.entries(errors)) {
-            const errorEl = form.querySelector(`[data-field="${field}"]`);
+            const errorEl = DOM.select(`[data-field="${field}"]`, form);
             if (errorEl) {
                 errorEl.textContent = error;
+                const input = errorEl.previousElementSibling;
+                if (input) {
+                    DOM.addClass(input, 'is-invalid');
+                }
             }
         }
+    }
+    
+    // Validar dados usando validators do core
+    validateData(data) {
+        const errors = {};
+        
+        for (const [field, rules] of Object.entries(this.fieldValidators)) {
+            const value = data[field];
+            
+            // Verificar required
+            if (rules.required && !value) {
+                errors[field] = 'Este campo é obrigatório';
+                continue;
+            }
+            
+            // Aplicar validators específicos
+            if (value && rules.type) {
+                switch (rules.type) {
+                    case 'email':
+                        if (!validators.email(value)) {
+                            errors[field] = 'Email inválido';
+                        }
+                        break;
+                    case 'url':
+                        if (!validators.url(value)) {
+                            errors[field] = 'URL inválida';
+                        }
+                        break;
+                    case 'cpf':
+                        if (!validators.cpf(value)) {
+                            errors[field] = 'CPF inválido';
+                        }
+                        break;
+                    case 'phone':
+                        if (!validators.phone(value)) {
+                            errors[field] = 'Telefone inválido';
+                        }
+                        break;
+                }
+            }
+            
+            // Verificar minLength
+            if (value && rules.minLength && value.length < rules.minLength) {
+                errors[field] = `Mínimo ${rules.minLength} caracteres`;
+            }
+            
+            // Verificar maxLength
+            if (value && rules.maxLength && value.length > rules.maxLength) {
+                errors[field] = `Máximo ${rules.maxLength} caracteres`;
+            }
+        }
+        
+        return Object.keys(errors).length > 0 ? errors : null;
     }
 
     // Callbacks (podem ser definidos externamente)

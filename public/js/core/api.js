@@ -1,43 +1,54 @@
 /**
  * api.js
- * Módulo para chamadas HTTP ao backend (N8N)
- * Dependências: utils.js
- * Localização: public/js/core/api.js
- * Tamanho alvo: <150 linhas
+ * Sistema de chamadas HTTP ao backend (N8N)
+ * Documentação: /docs/0_16-sistemas-core.md#api
+ * Localização: /js/core/api.js
+ * 
+ * COMO USAR:
+ * 1. Importar: import { API } from '/js/core/api.js'
+ * 2. Usar: API.auth.login(email, senha)
+ * 3. Ou: API.data.getTopics()
  */
 
 // Importar dependências
-import { Utils } from './utils.js';
+import { Cache } from './cache.js';
+import { State } from './state.js';
 
-// Configuração base
-const config = {
-    // URLs diretas dos webhooks N8N
-    endpoints: {
-        auth: 'https://webhook.ialum.com.br/webhook/api-auth',
-        data: 'https://webhook.ialum.com.br/webhook/api-data',
-        actions: 'https://webhook.ialum.com.br/webhook/api-actions'
+// Configuração centralizada
+export const Config = {
+    environment: window.location.hostname === 'localhost' ? 'development' : 'production',
+    app: {
+        name: 'Ialum',
+        version: '1.0.0'
     },
-    timeout: 30000,
-    headers: {
-        'Content-Type': 'application/json'
+    api: {
+        endpoints: {
+            auth: 'https://webhook.ialum.com.br/webhook/api-auth',
+            data: 'https://webhook.ialum.com.br/webhook/api-data',
+            actions: 'https://webhook.ialum.com.br/webhook/api-actions'
+        },
+        timeout: 30000,
+        headers: {
+            'Content-Type': 'application/json'
+        }
     }
 };
 
 // Token de autenticação
 function getToken() {
-    return Utils.storage.get('auth_token');
+    return State.get('auth_token');
 }
 
 // Adicionar headers de autenticação
 function getHeaders() {
-    const headers = { ...config.headers };
+    const headers = { ...Config.api.headers };
     const token = getToken();
     
     if (token) {
         headers['Authorization'] = `Bearer ${token}`;
     }
     
-    const tenantId = Utils.storage.get('tenant_id');
+    const tenantId = State.get('tenant_id');
     if (tenantId) {
         headers['X-Tenant-ID'] = tenantId;
     }
@@ -48,7 +59,7 @@ function getHeaders() {
 // Requisição genérica
 async function request(url, options = {}) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), config.timeout);
+    const timeoutId = setTimeout(() => controller.abort(), Config.api.timeout);
     
     try {
         const response = await fetch(url, {
@@ -102,7 +113,7 @@ async function request(url, options = {}) {
 
 // Métodos HTTP
 async function get(endpoint, path, params = {}) {
-    const baseUrl = config.endpoints[endpoint];
+    const baseUrl = Config.api.endpoints[endpoint];
     const queryString = new URLSearchParams(params).toString();
     const fullUrl = `${baseUrl}${path}${queryString ? '?' + queryString : ''}`;
     
@@ -110,7 +121,7 @@ async function get(endpoint, path, params = {}) {
 }
 
 async function post(endpoint, path, data = {}) {
-    const baseUrl = config.endpoints[endpoint];
+    const baseUrl = Config.api.endpoints[endpoint];
     const fullUrl = `${baseUrl}${path}`;
     
     return request(fullUrl, {
@@ -120,7 +131,7 @@ async function post(endpoint, path, data = {}) {
 }
 
 async function put(endpoint, path, data = {}) {
-    const baseUrl = config.endpoints[endpoint];
+    const baseUrl = Config.api.endpoints[endpoint];
     const fullUrl = `${baseUrl}${path}`;
     
     return request(fullUrl, {
@@ -130,7 +141,7 @@ async function put(endpoint, path, data = {}) {
 }
 
 async function del(endpoint, path) {
-    const baseUrl = config.endpoints[endpoint];
+    const baseUrl = Config.api.endpoints[endpoint];
     const fullUrl = `${baseUrl}${path}`;
     
     return request(fullUrl, { method: 'DELETE' });
@@ -143,12 +154,12 @@ export const auth = {
             const response = await post('auth', '/login', { email, password });
             
             if (response.token) {
-                Utils.storage.set('auth_token', response.token);
+                State.set('auth_token', response.token);
                 
                 if (response.user) {
-                    Utils.storage.set('user', response.user);
+                    State.set('user', response.user);
                     if (response.user.tenant_id) {
-                        Utils.storage.set('tenant_id', response.user.tenant_id);
+                        State.set('tenant_id', response.user.tenant_id);
                     }
                 }
             }
@@ -166,7 +177,8 @@ export const auth = {
         } catch (error) {
             console.error('Erro no logout:', error);
         } finally {
-            Utils.storage.clear();
+            State.clear();
+            Cache.clear();
             window.location.href = '/login.html';
         }
     },
