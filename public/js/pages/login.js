@@ -60,7 +60,7 @@ async function handleLogin(e) {
         return;
     }
     
-    if (!validators.email(email)) {
+    if (validators.email(email)) {
         showMessage('Por favor, insira um email válido.');
         return;
     }
