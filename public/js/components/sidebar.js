@@ -64,6 +64,8 @@ function bindNavigation() {
         if (href === 'javascript:void(0)') {
             // É um toggle de submenu
             console.log('🔧 Submenu toggle clicked:', element);
+            console.log('🔍 Element text:', element.textContent.trim());
+            console.log('🔍 Closest submenu parent:', element.closest('.nav-item-submenu'));
             e.preventDefault();
             e.stopPropagation();
             handleSubmenuToggle(element);
@@ -85,14 +87,21 @@ function bindNavigation() {
 
 // Função para gerenciar toggle de submenu
 function handleSubmenuToggle(toggle) {
+    console.log('🚀 handleSubmenuToggle called with:', toggle);
+    
     const parent = toggle.closest('.nav-item-submenu');
     const submenu = DOM.select('.nav-submenu', parent);
     const arrow = DOM.select('.nav-arrow', toggle);
     
-    console.log('📦 Elements found:', { parent, submenu, arrow });
+    console.log('📦 Elements found:');
+    console.log('  - parent:', parent);
+    console.log('  - submenu:', submenu);
+    console.log('  - arrow:', arrow);
     
     if (!parent || !submenu) {
         console.error('❌ Elementos de submenu não encontrados');
+        console.error('  - parent existe:', !!parent);
+        console.error('  - submenu existe:', !!submenu);
         return;
     }
     
@@ -219,7 +228,7 @@ function updateActiveState() {
         // Para itens com submenu, marcar como ativo se a rota começar com o prefixo
         if (DOM.hasClass(link, 'nav-link') && link.closest('.nav-item-submenu')) {
             const submenuParent = link.closest('.nav-item-submenu');
-            const hasActiveChild = DOM.select('.nav-subitem.active', submenuParent);
+            const hasActiveChild = submenuParent.querySelector('.nav-subitem.active');
             
             if (hasActiveChild || 
                 (currentHash.startsWith('#redacao-') && link.textContent.includes('Redação')) ||

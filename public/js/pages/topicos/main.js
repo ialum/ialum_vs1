@@ -10,7 +10,7 @@ import { API } from '../../core/api.js';
 import { UI } from '../../core/ui.js';
 import { format } from '../../core/formatters.js';
 import { showToast } from '../../components/notifications.js';
-import { SearchAutocomplete } from '../../components/search-autocomplete.js';
+// import { SearchAutocomplete } from '../../components/search-autocomplete.js'; // TODO: Implementar componente
 
 // Estado da página
 let currentFilter = 'all';
