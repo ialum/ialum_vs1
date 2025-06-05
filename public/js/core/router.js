@@ -27,10 +27,22 @@ const routes = {
         controller: '/js/pages/topicos/main.js',
         requiresAuth: true
     },
-    'configuracoes': {
-        title: 'Configurações',
-        view: '/app/views/configuracoes.html',
-        controller: '/js/pages/configuracoes/main.js',
+    'embasamentos': {
+        title: 'Embasamentos',
+        view: '/app/views/embasamentos.html',
+        controller: '/js/pages/embasamentos/main.js',
+        requiresAuth: true
+    },
+    'publicacoes': {
+        title: 'Publicações',
+        view: '/app/views/publicacoes.html',
+        controller: '/js/pages/publicacoes/main.js',
+        requiresAuth: true
+    },
+    'redacao-instagram': {
+        title: 'Redação Instagram',
+        view: '/app/views/redacao-instagram.html',
+        controller: '/js/pages/redacao-instagram/main.js',
         requiresAuth: true
     },
     'agendamentos': {
@@ -39,22 +51,64 @@ const routes = {
         controller: '/js/pages/agendamentos/main.js',
         requiresAuth: true
     },
-    'banco-imagens': {
-        title: 'Banco de Imagens',
-        view: '/app/views/banco-imagens.html',
-        controller: '/js/pages/banco-imagens/main.js',
-        requiresAuth: true
-    },
     'relatorios': {
         title: 'Relatórios',
         view: '/app/views/relatorios.html',
         controller: '/js/pages/relatorios/main.js',
         requiresAuth: true
     },
-    'financeiro': {
-        title: 'Financeiro',
-        view: '/app/views/financeiro.html',
-        controller: '/js/pages/financeiro/main.js',
+    'configuracoes-banca': {
+        title: 'Configurações - Banca',
+        view: '/app/views/configuracoes-banca.html',
+        controller: '/js/pages/configuracoes-banca/main.js',
+        requiresAuth: true
+    },
+    'configuracoes-banco-imagens': {
+        title: 'Configurações - Banco de Imagens',
+        view: '/app/views/configuracoes-banco-imagens.html',
+        controller: '/js/pages/configuracoes-banco-imagens/main.js',
+        requiresAuth: true
+    },
+    'configuracoes-templates': {
+        title: 'Configurações - Templates',
+        view: '/app/views/configuracoes-templates.html',
+        controller: '/js/pages/configuracoes-templates/main.js',
+        requiresAuth: true
+    },
+    'configuracoes-integracoes': {
+        title: 'Configurações - Integrações',
+        view: '/app/views/configuracoes-integracoes.html',
+        controller: '/js/pages/configuracoes-integracoes/main.js',
+        requiresAuth: true
+    },
+    'configuracoes-sistema': {
+        title: 'Configurações - Sistema',
+        view: '/app/views/configuracoes-sistema.html',
+        controller: '/js/pages/configuracoes-sistema/main.js',
+        requiresAuth: true
+    },
+    'ajuda': {
+        title: 'Ajuda',
+        view: '/app/views/ajuda.html',
+        controller: '/js/pages/ajuda/main.js',
+        requiresAuth: true
+    },
+    'conta-usuarios': {
+        title: 'Conta - Usuários',
+        view: '/app/views/conta-usuarios.html',
+        controller: '/js/pages/conta-usuarios/main.js',
+        requiresAuth: true
+    },
+    'conta-financeiro': {
+        title: 'Conta - Financeiro',
+        view: '/app/views/conta-financeiro.html',
+        controller: '/js/pages/conta-financeiro/main.js',
+        requiresAuth: true
+    },
+    'conta-parcerias': {
+        title: 'Conta - Parcerias',
+        view: '/app/views/conta-parcerias.html',
+        controller: '/js/pages/conta-parcerias/main.js',
         requiresAuth: true
     }
 };

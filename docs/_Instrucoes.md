@@ -1,30 +1,29 @@
 # 📋 INSTRUÇÕES TEMPORARIAS
 
 ## **IA PRECISA LER ANTES DE COMEÇAR**
- - ialum_vs1/docs/0_1-paginas.md
- - ialum_vs1/docs/0_2-componentes.md
- - ialum_vs1/docs/0_3-carregamento.md
- - ialum_vs1/docs/0_16-sistemas-core.md
+ - ialum_vs1/docs/tecnologia-sistemas-js-core.md
+ - ialum_vs1/docs/tecnologia-utilities-css.md
 
 ## 🚀 Status Atual:
  - Validando e melhorando DOCUMENTAÇÃO DO SAAS IALUM
+ - estruturando componentização de css e js para facilitar manutenção e interpretação
  - Desenvolvendo wireframe das páginas e comportamento dos componentes
  - backend funcionando apenas com a autenticação para testes por enquanto.
+
+## 📊 Foco Atual:
+- validação da estrutura de componentes em CSS e JS
 
 ## 🔄 Próximo:
  - depois de todas as páginas e componentes validadas vamos desenvolver o backend no n8n e supabase
 
 
-## 📊 Foco Atual:
- - Melhora da navegação e funcionamento dos componentes do saas em wireframe com manutenção de documentação e estrutura de arquivos e códigos especialmente organizados
-
 ---
 
-## 📋 CHECKLIST DE PÁGINAS DO SISTEMA
+## 📋 CHECKLIST DE PÁGINAS DO SISTEMA - STATUS
 
 ### Menu Principal
 - [ ] Dashboard - `/app/dashboard` ⏳ Pendente
-- [ ] Tópicos - `/app/topicos` 🚧 Em desenvolvimento
+- [ ] Tópicos - `/app/topicos` ⏳ Pendente
 - [ ] Embasamentos - `/app/embasamentos` ⏳ Pendente
 - [ ] Publicações - `/app/publicacoes` ⏳ Pendente
 

@@ -89,20 +89,20 @@ function bindNavigation() {
         closeAllSubmenus(parent);
         
         // Toggle do submenu atual
-        DOM.toggleClass(parent, 'expanded');
-        
-        if (submenu) {
-            if (isExpanded) {
-                submenu.style.maxHeight = '0';
-                if (arrow) arrow.style.transform = 'rotate(0deg)';
-            } else {
+        if (isExpanded) {
+            DOM.removeClass(parent, 'expanded');
+            if (submenu) submenu.style.maxHeight = '0';
+            if (arrow) arrow.style.transform = 'rotate(0deg)';
+        } else {
+            DOM.addClass(parent, 'expanded');
+            if (submenu) {
                 submenu.style.maxHeight = submenu.scrollHeight + 'px';
-                if (arrow) arrow.style.transform = 'rotate(90deg)';
             }
-            
-            // Salvar estado no cache
-            saveExpandedState();
+            if (arrow) arrow.style.transform = 'rotate(90deg)';
         }
+        
+        // Salvar estado no cache
+        saveExpandedState();
     });
 }
 // Controle do menu mobile
@@ -208,9 +208,9 @@ function updateActiveState() {
             const hasActiveChild = DOM.select('.nav-subitem.active', submenuParent);
             
             if (hasActiveChild || 
-                (currentHash.startsWith('#redacao') && link.textContent.includes('Redação')) ||
-                (currentHash.startsWith('#configuracoes') && link.textContent.includes('Configurações')) ||
-                (currentHash.startsWith('#conta') && link.textContent.includes('Conta'))) {
+                (currentHash.startsWith('#redacao-') && link.textContent.includes('Redação')) ||
+                (currentHash.startsWith('#configuracoes-') && link.textContent.includes('Configurações')) ||
+                (currentHash.startsWith('#conta-') && link.textContent.includes('Conta'))) {
                 DOM.addClass(link, 'active');
                 expandSubmenuByParent(submenuParent);
             }
