@@ -123,7 +123,7 @@ export function delegate(container, selector, event, handler) {
     on(parent, event, (e) => {
         const target = e.target.closest(selector);
         if (target && parent.contains(target)) {
-            handler.call(target, e);
+            handler.call(target, e, target);
         }
     });
 }

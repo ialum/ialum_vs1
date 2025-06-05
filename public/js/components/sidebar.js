@@ -51,15 +51,21 @@ function initializeSubmenus() {
 }
 // Bind da navegação
 function bindNavigation() {
-    // Usar event delegation para melhor performance
-    DOM.delegate(document, 'click', '.nav-link, .nav-subitem', (e, link) => {
-        const href = link.getAttribute('href');
+    // Event delegation unificado para todos os cliques em links do sidebar
+    DOM.delegate(document, 'click', '.nav-link, .nav-subitem', (e, element) => {
+        const href = element.getAttribute('href');
         
-        // Ignorar links externos e javascript:void(0)
-        if (!href || href.startsWith('http') || href === 'javascript:void(0)') return;
+        // Ignorar links externos ou sem href
+        if (!href || href.startsWith('http')) return;
         
-        // Para links internos com #
-        if (href.startsWith('#')) {
+        if (href === 'javascript:void(0)') {
+            // É um toggle de submenu
+            console.log('🔧 Submenu toggle clicked:', element);
+            e.preventDefault();
+            e.stopPropagation();
+            handleSubmenuToggle(element);
+        } else if (href.startsWith('#')) {
+            // É navegação normal
             e.preventDefault();
             
             // Fechar menu mobile se estiver aberto
@@ -72,38 +78,43 @@ function bindNavigation() {
             Router.navigate(route);
         }
     });
+}
 
-    // Bind dos toggles de submenu
-    DOM.delegate(document, 'click', '.nav-item-submenu > .nav-link', (e, toggle) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const parent = toggle.closest('.nav-item-submenu');
-        const submenu = DOM.select('.nav-submenu', parent);
-        const arrow = DOM.select('.nav-arrow', toggle);
-        
-        // Verificar se está expandido
-        const isExpanded = DOM.hasClass(parent, 'expanded');
-        
-        // Fechar todos os outros submenus primeiro
-        closeAllSubmenus(parent);
-        
-        // Toggle do submenu atual
-        if (isExpanded) {
-            DOM.removeClass(parent, 'expanded');
-            if (submenu) submenu.style.maxHeight = '0';
-            if (arrow) arrow.style.transform = 'rotate(0deg)';
-        } else {
-            DOM.addClass(parent, 'expanded');
-            if (submenu) {
-                submenu.style.maxHeight = submenu.scrollHeight + 'px';
-            }
-            if (arrow) arrow.style.transform = 'rotate(90deg)';
-        }
-        
-        // Salvar estado no cache
-        saveExpandedState();
-    });
+// Função para gerenciar toggle de submenu
+function handleSubmenuToggle(toggle) {
+    const parent = toggle.closest('.nav-item-submenu');
+    const submenu = DOM.select('.nav-submenu', parent);
+    const arrow = DOM.select('.nav-arrow', toggle);
+    
+    console.log('📦 Elements found:', { parent, submenu, arrow });
+    
+    if (!parent || !submenu) {
+        console.error('❌ Elementos de submenu não encontrados');
+        return;
+    }
+    
+    // Verificar se está expandido
+    const isExpanded = DOM.hasClass(parent, 'expanded');
+    console.log('📊 Is expanded:', isExpanded);
+    
+    // Fechar todos os outros submenus primeiro
+    closeAllSubmenus(parent);
+    
+    // Toggle do submenu atual
+    if (isExpanded) {
+        DOM.removeClass(parent, 'expanded');
+        submenu.style.maxHeight = '0';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+        console.log('📂 Submenu fechado');
+    } else {
+        DOM.addClass(parent, 'expanded');
+        submenu.style.maxHeight = submenu.scrollHeight + 'px';
+        if (arrow) arrow.style.transform = 'rotate(90deg)';
+        console.log('📂 Submenu aberto');
+    }
+    
+    // Salvar estado no cache
+    saveExpandedState();
 }
 // Controle do menu mobile
 function bindMobileToggle() {
