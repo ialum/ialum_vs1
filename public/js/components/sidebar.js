@@ -55,8 +55,11 @@ function bindNavigation() {
     DOM.delegate(document, 'click', '.nav-link, .nav-subitem', (e, element) => {
         const href = element.getAttribute('href');
         
-        // Ignorar links externos ou sem href
-        if (!href || href.startsWith('http')) return;
+        // Verificação segura: se não tem href, ignore
+        if (!href) return;
+        
+        // Ignorar links externos
+        if (href.startsWith('http')) return;
         
         if (href === 'javascript:void(0)') {
             // É um toggle de submenu
