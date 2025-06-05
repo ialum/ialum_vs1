@@ -1,0 +1,19 @@
+/**
+ * CSS Principal - Base System
+ * 
+ * Importa apenas os estilos base necessários para páginas simples
+ * (landing page, login, etc.)
+ * 
+ * Para a área logada (SPA), use app.css
+ */
+
+/* CSS Base - Ordem crítica */
+@import 'base/01-variables.css';
+@import 'base/02-reset.css';
+@import 'base/03-typography.css';
+@import 'base/04-layouts.css';
+@import 'base/05-buttons.css';
+@import 'base/06-forms.css';
+
+/* CSS Utilities - Classes utilitárias */
+@import 'base/utilities/index.css';

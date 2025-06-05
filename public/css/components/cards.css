@@ -1,0 +1,1003 @@
+/**
+ * cards.css
+ * Sistema completo de cards reutilizáveis
+ * Dependências: variables.css, typography.css, utilities
+ * Usado em: Todas as páginas
+ * Versão: 3.0 - Sistema completo de cards com variáveis utilitárias
+ */
+
+/* =================================================================
+   CARD BASE
+================================================================= */
+
+.card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-lg);
+    transition: all 0.2s ease;
+    border: 1px solid var(--gray-200);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+    border-color: var(--gray-300);
+}
+
+/* =================================================================
+   CARD ESTRUTURA
+================================================================= */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+    flex-shrink: 0;
+}
+
+.card-header-simple {
+    margin-bottom: var(--spacing-lg);
+    flex-shrink: 0;
+}
+
+.card-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--dark);
+    margin: 0;
+    line-height: var(--line-height-tight);
+}
+
+.card-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    margin: var(--spacing-xs) 0 0 0;
+    line-height: var(--line-height-normal);
+}
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content {
+    flex: 1;
+    margin-bottom: auto;
+}
+
+.card-footer {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--gray-200);
+    flex-shrink: 0;
+}
+
+.card-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.card-icon {
+    font-size: var(--font-size-xl);
+    color: var(--gray-400);
+    flex-shrink: 0;
+    width: var(--size-xl);
+    height: var(--size-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-badge {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    background: var(--gray-100);
+    color: var(--gray-700);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+}
+
+/* =================================================================
+   CARD TAMANHOS
+================================================================= */
+
+.card-xs {
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+}
+
+.card-sm {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+/* Padrão já definido em .card */
+
+.card-lg {
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+}
+
+.card-xl {
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+}
+
+.card-2xl {
+    padding: var(--spacing-3xl);
+    border-radius: var(--radius-lg);
+}
+
+/* =================================================================
+   CARD VARIANTES DE COR - SOLID
+================================================================= */
+
+.card-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+.card-primary .card-title,
+.card-primary .card-subtitle,
+.card-primary .card-icon {
+    color: var(--white);
+}
+
+.card-primary .card-subtitle {
+    color: var(--alpha-white-50);
+}
+
+.card-primary .card-footer {
+    border-color: var(--alpha-white-20);
+}
+
+.card-secondary {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+    color: var(--white);
+    border-color: var(--secondary);
+}
+
+.card-secondary .card-title,
+.card-secondary .card-subtitle,
+.card-secondary .card-icon {
+    color: var(--white);
+}
+
+.card-secondary .card-subtitle {
+    color: var(--alpha-white-50);
+}
+
+.card-secondary .card-footer {
+    border-color: var(--alpha-white-20);
+}
+
+.card-success {
+    background: linear-gradient(135deg, var(--success) 0%, var(--success-dark) 100%);
+    color: var(--white);
+    border-color: var(--success);
+}
+
+.card-success .card-title,
+.card-success .card-subtitle,
+.card-success .card-icon {
+    color: var(--white);
+}
+
+.card-success .card-subtitle {
+    color: var(--alpha-white-50);
+}
+
+.card-success .card-footer {
+    border-color: var(--alpha-white-20);
+}
+
+.card-warning {
+    background: linear-gradient(135deg, var(--warning) 0%, var(--warning-dark) 100%);
+    color: var(--white);
+    border-color: var(--warning);
+}
+
+.card-warning .card-title,
+.card-warning .card-subtitle,
+.card-warning .card-icon {
+    color: var(--white);
+}
+
+.card-warning .card-subtitle {
+    color: var(--alpha-white-50);
+}
+
+.card-warning .card-footer {
+    border-color: var(--alpha-white-20);
+}
+
+.card-error,
+.card-danger {
+    background: linear-gradient(135deg, var(--error) 0%, var(--error-dark) 100%);
+    color: var(--white);
+    border-color: var(--error);
+}
+
+.card-error .card-title,
+.card-error .card-subtitle,
+.card-error .card-icon,
+.card-danger .card-title,
+.card-danger .card-subtitle,
+.card-danger .card-icon {
+    color: var(--white);
+}
+
+.card-error .card-subtitle,
+.card-danger .card-subtitle {
+    color: var(--alpha-white-50);
+}
+
+.card-error .card-footer,
+.card-danger .card-footer {
+    border-color: var(--alpha-white-20);
+}
+
+.card-info {
+    background: linear-gradient(135deg, var(--info) 0%, var(--info-dark) 100%);
+    color: var(--white);
+    border-color: var(--info);
+}
+
+.card-info .card-title,
+.card-info .card-subtitle,
+.card-info .card-icon {
+    color: var(--white);
+}
+
+.card-info .card-subtitle {
+    color: var(--alpha-white-50);
+}
+
+.card-info .card-footer {
+    border-color: var(--alpha-white-20);
+}
+
+.card-dark {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark-dark) 100%);
+    color: var(--white);
+    border-color: var(--dark);
+}
+
+.card-dark .card-title,
+.card-dark .card-subtitle,
+.card-dark .card-icon {
+    color: var(--white);
+}
+
+.card-dark .card-subtitle {
+    color: var(--alpha-white-50);
+}
+
+.card-dark .card-footer {
+    border-color: var(--alpha-white-20);
+}
+
+.card-light {
+    background: var(--light);
+    color: var(--gray-800);
+    border-color: var(--gray-200);
+}
+
+.card-light .card-title {
+    color: var(--gray-800);
+}
+
+.card-light .card-subtitle {
+    color: var(--gray-600);
+}
+
+.card-light .card-icon {
+    color: var(--gray-500);
+}
+
+/* =================================================================
+   CARD VARIANTES - SOFT (CORES SUAVES)
+================================================================= */
+
+.card-soft {
+    background: var(--alpha-black-5);
+    border-color: var(--alpha-black-10);
+}
+
+.card-soft.card-primary {
+    background: var(--primary-very-light);
+    color: var(--primary);
+    border-color: var(--primary-light);
+}
+
+.card-soft.card-primary .card-title {
+    color: var(--primary-dark);
+}
+
+.card-soft.card-primary .card-icon {
+    color: var(--primary);
+}
+
+.card-soft.card-secondary {
+    background: var(--alpha-black-5);
+    color: var(--secondary);
+    border-color: var(--secondary);
+}
+
+.card-soft.card-secondary .card-title {
+    color: var(--secondary-dark);
+}
+
+.card-soft.card-success {
+    background: var(--alpha-black-5);
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.card-soft.card-success .card-title {
+    color: var(--success-dark);
+}
+
+.card-soft.card-warning {
+    background: var(--alpha-black-5);
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+.card-soft.card-warning .card-title {
+    color: var(--warning-dark);
+}
+
+.card-soft.card-error,
+.card-soft.card-danger {
+    background: var(--alpha-black-5);
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.card-soft.card-error .card-title,
+.card-soft.card-danger .card-title {
+    color: var(--error-dark);
+}
+
+.card-soft.card-info {
+    background: var(--alpha-black-5);
+    color: var(--info);
+    border-color: var(--info);
+}
+
+.card-soft.card-info .card-title {
+    color: var(--info-dark);
+}
+
+/* =================================================================
+   CARD VARIANTES - OUTLINE
+================================================================= */
+
+.card-outline {
+    background: var(--white);
+    border-width: 2px;
+    box-shadow: none;
+}
+
+.card-outline:hover {
+    box-shadow: var(--shadow-sm);
+}
+
+.card-outline.card-primary {
+    border-color: var(--primary);
+    background: var(--white);
+    color: var(--dark);
+}
+
+.card-outline.card-primary .card-title {
+    color: var(--primary);
+}
+
+.card-outline.card-primary .card-icon {
+    color: var(--primary);
+}
+
+.card-outline.card-secondary {
+    border-color: var(--secondary);
+}
+
+.card-outline.card-secondary .card-title {
+    color: var(--secondary);
+}
+
+.card-outline.card-secondary .card-icon {
+    color: var(--secondary);
+}
+
+.card-outline.card-success {
+    border-color: var(--success);
+}
+
+.card-outline.card-success .card-title {
+    color: var(--success);
+}
+
+.card-outline.card-success .card-icon {
+    color: var(--success);
+}
+
+.card-outline.card-warning {
+    border-color: var(--warning);
+}
+
+.card-outline.card-warning .card-title {
+    color: var(--warning);
+}
+
+.card-outline.card-warning .card-icon {
+    color: var(--warning);
+}
+
+.card-outline.card-error,
+.card-outline.card-danger {
+    border-color: var(--error);
+}
+
+.card-outline.card-error .card-title,
+.card-outline.card-danger .card-title {
+    color: var(--error);
+}
+
+.card-outline.card-error .card-icon,
+.card-outline.card-danger .card-icon {
+    color: var(--error);
+}
+
+.card-outline.card-info {
+    border-color: var(--info);
+}
+
+.card-outline.card-info .card-title {
+    color: var(--info);
+}
+
+.card-outline.card-info .card-icon {
+    color: var(--info);
+}
+
+/* =================================================================
+   CARD VARIANTES - GHOST (TRANSPARENTE)
+================================================================= */
+
+.card-ghost {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.card-ghost:hover {
+    background: var(--alpha-black-5);
+    border-color: var(--alpha-black-10);
+    box-shadow: var(--shadow-sm);
+}
+
+/* =================================================================
+   CARD VARIANTES DE ESTILO
+================================================================= */
+
+.card-flat {
+    box-shadow: none;
+    border: none;
+}
+
+.card-elevated {
+    box-shadow: var(--shadow-lg);
+}
+
+.card-elevated:hover {
+    box-shadow: 0 20px 25px -5px var(--alpha-black-10), 0 10px 10px -5px var(--alpha-black-5);
+    transform: translateY(-2px);
+}
+
+.card-floating {
+    box-shadow: 0 10px 15px -3px var(--alpha-black-10), 0 4px 6px -2px var(--alpha-black-5);
+}
+
+.card-floating:hover {
+    box-shadow: 0 25px 50px -12px var(--alpha-black-15);
+    transform: translateY(-3px);
+}
+
+/* =================================================================
+   CARD COM IMAGEM
+================================================================= */
+
+.card-image {
+    margin: calc(-1 * var(--spacing-lg)) calc(-1 * var(--spacing-lg)) var(--spacing-lg) calc(-1 * var(--spacing-lg));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.card-image-xs img {
+    height: 120px;
+}
+
+.card-image-sm img {
+    height: 150px;
+}
+
+.card-image-lg img {
+    height: 250px;
+}
+
+.card-image-xl img {
+    height: 300px;
+}
+
+/* Card com imagem à esquerda/horizontal */
+.card-horizontal {
+    display: flex;
+    align-items: stretch;
+    gap: var(--spacing-lg);
+    flex-direction: row;
+}
+
+.card-horizontal .card-image {
+    margin: 0;
+    flex-shrink: 0;
+    width: 120px;
+    height: auto;
+    border-radius: var(--radius-md);
+    align-self: stretch;
+}
+
+.card-horizontal .card-image img {
+    width: 100%;
+    height: 100%;
+    min-height: 80px;
+}
+
+.card-horizontal .card-body {
+    flex: 1;
+}
+
+/* =================================================================
+   CARD ESPECIAIS
+================================================================= */
+
+/* Card de estatística */
+.card-stat {
+    text-align: center;
+    padding: var(--spacing-xl);
+}
+
+.stat-number {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--dark);
+    line-height: var(--line-height-tight);
+    margin: 0;
+    letter-spacing: var(--letter-spacing-tight);
+}
+
+.stat-label {
+    color: var(--gray-600);
+    font-size: var(--font-size-sm);
+    margin: var(--spacing-sm) 0 0 0;
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wide);
+}
+
+.stat-subtitle {
+    color: var(--gray-400);
+    font-size: var(--font-size-xs);
+    margin: var(--spacing-xs) 0 0 0;
+}
+
+.stat-change {
+    font-size: var(--font-size-sm);
+    margin: var(--spacing-md) 0 0 0;
+    font-weight: var(--font-weight-medium);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+}
+
+.stat-change.positive {
+    color: var(--success);
+    background: var(--alpha-black-5);
+}
+
+.stat-change.negative {
+    color: var(--error);
+    background: var(--alpha-black-5);
+}
+
+.stat-change.neutral {
+    color: var(--gray-500);
+    background: var(--alpha-black-5);
+}
+
+/* Card de ação/clicável */
+.card-action {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.card-action:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-action:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-md);
+}
+
+.card-action:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Card de loading */
+.card-loading {
+    position: relative;
+    pointer-events: none;
+}
+
+.card-loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--alpha-white-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    border-radius: inherit;
+}
+
+.card-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--size-xl);
+    height: var(--size-xl);
+    border: 2px solid var(--gray-300);
+    border-top: 2px solid var(--primary);
+    border-radius: var(--radius-full);
+    animation: spin 1s linear infinite;
+    z-index: 11;
+}
+
+/* Card vazio/placeholder */
+.card-empty {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--gray-500);
+    background: var(--gray-50);
+    border-style: dashed;
+}
+
+.card-empty-icon {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--spacing-lg);
+    opacity: 0.5;
+    color: var(--gray-400);
+}
+
+.card-empty-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    margin: 0 0 var(--spacing-sm) 0;
+    color: var(--gray-600);
+}
+
+.card-empty-text {
+    margin: 0 0 var(--spacing-lg) 0;
+    color: var(--gray-400);
+    font-size: var(--font-size-sm);
+}
+
+/* Card colapsável */
+.card-collapsible .card-header {
+    cursor: pointer;
+    user-select: none;
+}
+
+.card-collapsible .card-header::after {
+    content: '▼';
+    font-size: var(--font-size-sm);
+    color: var(--gray-400);
+    transition: transform 0.2s ease;
+}
+
+.card-collapsible.collapsed .card-header::after {
+    transform: rotate(-90deg);
+}
+
+.card-collapsible.collapsed .card-body,
+.card-collapsible.collapsed .card-footer {
+    display: none;
+}
+
+/* =================================================================
+   CARD GRUPOS E LAYOUTS
+================================================================= */
+
+.card-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.card-group-2 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.card-group-3 {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card-group-4 {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.card-deck {
+    display: flex;
+    gap: var(--spacing-lg);
+    align-items: stretch;
+}
+
+.card-deck .card {
+    flex: 1;
+}
+
+.card-columns {
+    column-count: 3;
+    column-gap: var(--spacing-lg);
+}
+
+.card-columns .card {
+    break-inside: avoid;
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-auto-rows: min-content;
+    gap: var(--spacing-lg);
+}
+
+/* =================================================================
+   CARD ESTADOS
+================================================================= */
+
+.card:disabled,
+.card.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.card.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--alpha-black-5), 0 0 0 4px var(--primary);
+}
+
+.card.highlighted {
+    border-color: var(--warning);
+    background: var(--alpha-black-5);
+}
+
+/* =================================================================
+   RESPONSIVIDADE
+================================================================= */
+
+@media (max-width: 768px) {
+    .card {
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+    }
+    
+    .card-lg {
+        padding: var(--spacing-lg);
+    }
+    
+    .card-xl,
+    .card-2xl {
+        padding: var(--spacing-lg);
+    }
+    
+    .card-group,
+    .card-group-2,
+    .card-group-3,
+    .card-group-4 {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .card-deck {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .card-columns {
+        column-count: 1;
+    }
+    
+    .card-horizontal {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .card-horizontal .card-image {
+        width: 100%;
+        height: 150px;
+    }
+    
+    .stat-number {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .card-stat {
+        padding: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: var(--spacing-sm);
+    }
+    
+    .card-xs {
+        padding: var(--spacing-xs);
+    }
+    
+    .card-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-xs);
+    }
+    
+    .card-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .stat-number {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .card-empty {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* =================================================================
+   MODO ESCURO (quando implementado)
+================================================================= */
+
+@media (prefers-color-scheme: dark) {
+    .card {
+        background: var(--gray-800);
+        border-color: var(--gray-700);
+        color: var(--gray-100);
+    }
+    
+    .card:hover {
+        border-color: var(--gray-600);
+    }
+    
+    .card-title {
+        color: var(--gray-100);
+    }
+    
+    .card-subtitle {
+        color: var(--gray-400);
+    }
+    
+    .card-footer {
+        border-color: var(--gray-700);
+    }
+    
+    .card-light {
+        background: var(--gray-700);
+        color: var(--gray-200);
+    }
+    
+    .card-empty {
+        background: var(--gray-700);
+        color: var(--gray-400);
+    }
+    
+    .card-ghost:hover {
+        background: var(--alpha-white-10);
+        border-color: var(--alpha-white-20);
+    }
+}
+
+/* =================================================================
+   ANIMAÇÕES
+================================================================= */
+
+@keyframes spin {
+    to { 
+        transform: translate(-50%, -50%) rotate(360deg); 
+    }
+}
+
+.card-fade-in {
+    animation: cardFadeIn 0.3s ease-out;
+}
+
+@keyframes cardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(var(--spacing-md));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card-slide-in {
+    animation: cardSlideIn 0.4s ease-out;
+}
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-var(--spacing-lg));
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.card-scale-in {
+    animation: cardScaleIn 0.3s ease-out;
+}
+
+@keyframes cardScaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

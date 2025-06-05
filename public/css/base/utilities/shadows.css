@@ -1,0 +1,33 @@
+/**
+ * shadows.css
+ * Classes utilitárias de sombras
+ * Usa variáveis definidas em variables.css
+ */
+
+/* =================================================================
+   BOX SHADOWS
+================================================================= */
+
+.shadow-none { box-shadow: none; }
+.shadow-xs { box-shadow: var(--shadow-xs); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow { box-shadow: var(--shadow-md); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-2xl { box-shadow: var(--shadow-2xl); }
+.shadow-inner { box-shadow: var(--shadow-inner); }
+
+/* =================================================================
+   SHADOW ON HOVER
+================================================================= */
+
+.hover-shadow:hover { box-shadow: var(--shadow-md); }
+.hover-shadow-lg:hover { box-shadow: var(--shadow-lg); }
+.hover-shadow-xl:hover { box-shadow: var(--shadow-xl); }
+.hover-shadow-none:hover { box-shadow: none; }
+
+/* Transition for smooth shadow changes */
+.shadow-transition {
+    transition: box-shadow 0.3s ease;
+}

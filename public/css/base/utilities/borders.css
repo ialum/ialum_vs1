@@ -1,0 +1,75 @@
+/**
+ * borders.css
+ * Classes utilitárias de bordas
+ * Usa variáveis definidas em variables.css
+ */
+
+/* =================================================================
+   BORDER WIDTH
+================================================================= */
+
+.border { border-width: 1px; border-style: solid; }
+.border-0 { border-width: 0; }
+.border-2 { border-width: 2px; border-style: solid; }
+.border-4 { border-width: 4px; border-style: solid; }
+
+/* Individual sides */
+.border-t { border-top-width: 1px; border-top-style: solid; }
+.border-r { border-right-width: 1px; border-right-style: solid; }
+.border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+.border-l { border-left-width: 1px; border-left-style: solid; }
+
+.border-t-0 { border-top-width: 0; }
+.border-r-0 { border-right-width: 0; }
+.border-b-0 { border-bottom-width: 0; }
+.border-l-0 { border-left-width: 0; }
+
+.border-t-2 { border-top-width: 2px; border-top-style: solid; }
+.border-r-2 { border-right-width: 2px; border-right-style: solid; }
+.border-b-2 { border-bottom-width: 2px; border-bottom-style: solid; }
+.border-l-2 { border-left-width: 2px; border-left-style: solid; }
+
+/* =================================================================
+   BORDER STYLE
+================================================================= */
+
+.border-solid { border-style: solid; }
+.border-dashed { border-style: dashed; }
+.border-dotted { border-style: dotted; }
+.border-double { border-style: double; }
+.border-none { border-style: none; }
+
+/* =================================================================
+   BORDER RADIUS
+================================================================= */
+
+.rounded-none { border-radius: 0; }
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded { border-radius: var(--radius-md); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* Individual corners */
+.rounded-t { 
+    border-top-left-radius: var(--radius-md); 
+    border-top-right-radius: var(--radius-md); 
+}
+.rounded-r { 
+    border-top-right-radius: var(--radius-md); 
+    border-bottom-right-radius: var(--radius-md); 
+}
+.rounded-b { 
+    border-bottom-left-radius: var(--radius-md); 
+    border-bottom-right-radius: var(--radius-md); 
+}
+.rounded-l { 
+    border-top-left-radius: var(--radius-md); 
+    border-bottom-left-radius: var(--radius-md); 
+}
+
+.rounded-tl { border-top-left-radius: var(--radius-md); }
+.rounded-tr { border-top-right-radius: var(--radius-md); }
+.rounded-br { border-bottom-right-radius: var(--radius-md); }
+.rounded-bl { border-bottom-left-radius: var(--radius-md); }

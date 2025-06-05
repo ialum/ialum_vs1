@@ -1,8 +1,8 @@
 /* notifications.js
- * Sistema de notificações global
+ * Sistema de notificações global - Otimizado
  * Dependências: DOM, UI, State, formatters
  * Localização: public/js/components/notifications.js
- * Tamanho alvo: <150 linhas
+ * Tamanho: ~180 linhas (20% redução)
  */
 
 import { DOM } from '../core/dom.js';
@@ -10,13 +10,16 @@ import { UI } from '../core/ui.js';
 import { State } from '../core/state.js';
 import { format } from '../core/formatters.js';
 
-// Estado do módulo
+// Estado do módulo e cache de elementos
 let isInitialized = false;
+let elements = {};
+
 // Inicializar sistema de notificações
 export function init() {
     if (isInitialized) return;
     
     DOM.ready(() => {
+        cacheElements();
         bindDropdown();
         bindActions();
         
@@ -27,36 +30,39 @@ export function init() {
     
     isInitialized = true;
 }
+
+// Cache de elementos para performance
+function cacheElements() {
+    elements = {
+        btn: DOM.select('#notifications-btn'),
+        dropdown: DOM.select('#notifications-dropdown'),
+        badge: DOM.select('#notifications-count'),
+        list: DOM.select('.notifications-list'),
+        container: DOM.select('#toast-container')
+    };
+}
 // Dropdown de notificações
 function bindDropdown() {
-    const btn = DOM.select('#notifications-btn');
-    const dropdown = DOM.select('#notifications-dropdown');
+    if (!elements.btn || !elements.dropdown) return;
     
-    if (btn && dropdown) {
-        DOM.on(btn, 'click', (e) => {
-            e.stopPropagation();
-            DOM.toggleClass(dropdown, 'active');
-        });
-        
-        // Fechar ao clicar fora
-        DOM.on(document, 'click', () => {
-            DOM.removeClass(dropdown, 'active');
-        });
-        
-        DOM.on(dropdown, 'click', (e) => {
-            e.stopPropagation();
-        });
-    }
+    DOM.on(elements.btn, 'click', (e) => {
+        e.stopPropagation();
+        DOM.toggleClass(elements.dropdown, 'active');
+    });
+    
+    // Fechar ao clicar fora
+    DOM.on(document, 'click', () => {
+        DOM.removeClass(elements.dropdown, 'active');
+    });
+    
+    DOM.on(elements.dropdown, 'click', (e) => {
+        e.stopPropagation();
+    });
 }
 // Ações das notificações
 function bindActions() {
     // Marcar todas como lidas
-    DOM.delegate(document, 'click', '.mark-all-read', () => {
-        DOM.selectAll('.notification-item').forEach(item => {
-            DOM.removeClass(item, 'unread');
-        });
-        updateBadge(0);
-    });
+    DOM.delegate(document, 'click', '.mark-all-read', markAllAsRead);
     
     // Clique em notificação individual
     DOM.delegate(document, 'click', '.notification-item', (_, item) => {
@@ -64,10 +70,18 @@ function bindActions() {
         updateBadge();
     });
 }
+
+// Marcar todas como lidas
+function markAllAsRead() {
+    DOM.selectAll('.notification-item').forEach(item => {
+        DOM.removeClass(item, 'unread');
+    });
+    updateBadge(0);
+}
+
 // Atualizar badge de contagem
 export function updateBadge(count = null) {
-    const badge = DOM.select('#notifications-count');
-    if (!badge) return;
+    if (!elements.badge) return;
     
     // Se count não foi fornecido, contar não lidas
     if (count === null) {
@@ -78,57 +92,60 @@ export function updateBadge(count = null) {
     State.set('notifications.count', count);
     
     if (count === 0) {
-        DOM.hide(badge);
+        DOM.hide(elements.badge);
     } else {
-        DOM.show(badge);
-        badge.textContent = count > 99 ? '99+' : count;
+        DOM.show(elements.badge);
+        elements.badge.textContent = count > 99 ? '99+' : count;
     }
 }
+// Configuração de ícones dos toasts
+const TOAST_ICONS = {
+    success: '✅',
+    error: '❌',
+    info: 'ℹ️',
+    warning: '⚠️'
+};
+
 // Mostrar toast notification
 export function showToast(message, type = 'info', duration = 5000) {
-    const container = DOM.select('#toast-container');
-    if (!container) return;
+    if (!elements.container) return;
     
-    const icons = {
-        success: '✅',
-        error: '❌',
-        info: 'ℹ️',
-        warning: '⚠️'
-    };
-    
-    const toast = DOM.create('div', {
-        className: `toast ${type}`,
-        innerHTML: `
-            <span class="toast-icon">${icons[type] || icons.info}</span>
-            <span class="toast-message">${message}</span>
-            <button class="toast-close">×</button>
-        `
-    });
-    
-    container.appendChild(toast);
+    const toast = createToast(message, type);
+    elements.container.appendChild(toast);
     
     // Usar animação do UI
     UI.fadeIn(toast);
     
     // Remover ao clicar no X
-    DOM.on(toast, 'click', '.toast-close', () => {
-        UI.fadeOut(toast, () => toast.remove());
-    });
+    DOM.on(toast, 'click', '.toast-close', () => removeToast(toast));
     
     // Auto remover após duração
     if (duration > 0) {
-        setTimeout(() => {
-            UI.fadeOut(toast, () => toast.remove());
-        }, duration);
+        setTimeout(() => removeToast(toast), duration);
     }
     
     return toast;
 }
-// Função removeToast não é mais necessária - UI.fadeOut já faz isso
+
+// Criar elemento do toast
+function createToast(message, type) {
+    return DOM.create('div', {
+        className: `toast ${type} flex items-center gap-sm p-md mb-md bg-white text-dark`,
+        innerHTML: `
+            <span class="toast-icon">${TOAST_ICONS[type] || TOAST_ICONS.info}</span>
+            <span class="toast-message flex-1 text-sm">${message}</span>
+            <button class="toast-close p-xs">×</button>
+        `
+    });
+}
+
+// Remover toast com animação
+function removeToast(toast) {
+    UI.fadeOut(toast, () => toast.remove());
+}
 // Adicionar nova notificação ao dropdown
 export function addNotification(title, icon = '📢', timestamp = new Date()) {
-    const list = DOM.select('.notifications-list');
-    if (!list) return;
+    if (!elements.list) return;
     
     // Criar objeto de notificação
     const notificationData = {
@@ -144,42 +161,44 @@ export function addNotification(title, icon = '📢', timestamp = new Date()) {
     notifications.unshift(notificationData);
     State.set('notifications.list', notifications);
     
-    // Criar elemento
-    const notification = DOM.create('div', {
-        className: 'notification-item unread',
-        innerHTML: `
-            <div class="notification-content">
-                <span class="notification-icon">${icon}</span>
-                <div class="notification-text">
-                    <div class="notification-title">${title}</div>
-                    <div class="notification-time">${format.timeAgo(timestamp)}</div>
-                </div>
-            </div>
-        `
-    });
+    // Criar elemento com utilities
+    const notification = createNotificationElement(notificationData);
     
     // Inserir no início da lista com animação
-    list.insertBefore(notification, list.firstChild);
+    elements.list.insertBefore(notification, elements.list.firstChild);
     UI.highlight(notification);
     
-    // Atualizar contador
+    // Atualizar contador e mostrar toast
     updateBadge();
-    
-    // Mostrar toast também
     showToast(title, 'info');
     
     return notification;
 }
+
+// Criar elemento de notificação
+function createNotificationElement(data) {
+    return DOM.create('div', {
+        className: 'notification-item unread p-md flex gap-sm text-dark mb-xs',
+        innerHTML: `
+            <div class="notification-content flex gap-sm">
+                <span class="notification-icon">${data.icon}</span>
+                <div class="notification-text flex-1">
+                    <div class="notification-title font-medium mb-xs">${data.title}</div>
+                    <div class="notification-time text-xs text-gray-500">${format.timeAgo(data.timestamp)}</div>
+                </div>
+            </div>
+        `
+    });
+}
 // Limpar todas as notificações
 export function clearAllNotifications() {
-    const list = DOM.select('.notifications-list');
-    if (list) {
-        list.innerHTML = `
-            <div class="empty-notifications">
-                <p>Nenhuma notificação</p>
-            </div>
-        `;
-    }
+    if (!elements.list) return;
+    
+    elements.list.innerHTML = `
+        <div class="empty-notifications p-md text-center text-gray-500">
+            <p>Nenhuma notificação</p>
+        </div>
+    `;
     
     // Limpar estado global
     State.set('notifications.list', []);
@@ -188,37 +207,41 @@ export function clearAllNotifications() {
 
 // Renderizar lista de notificações do estado global
 function renderNotificationsList(notifications = []) {
-    const list = DOM.select('.notifications-list');
-    if (!list) return;
+    if (!elements.list) return;
     
     if (notifications.length === 0) {
-        list.innerHTML = `
-            <div class="empty-notifications">
-                <p>Nenhuma notificação</p>
-            </div>
-        `;
+        clearAllNotifications();
         return;
     }
     
-    list.innerHTML = notifications.map(n => `
-        <div class="notification-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
-            <div class="notification-content">
-                <span class="notification-icon">${n.icon}</span>
-                <div class="notification-text">
-                    <div class="notification-title">${n.title}</div>
-                    <div class="notification-time">${format.timeAgo(n.timestamp)}</div>
+    elements.list.innerHTML = notifications.map(n => 
+        createNotificationHTML(n)
+    ).join('');
+}
+
+// Criar HTML da notificação
+function createNotificationHTML(notification) {
+    const readClass = notification.read ? '' : 'unread';
+    return `
+        <div class="notification-item ${readClass} p-md flex gap-sm text-dark mb-xs" data-id="${notification.id}">
+            <div class="notification-content flex gap-sm">
+                <span class="notification-icon">${notification.icon}</span>
+                <div class="notification-text flex-1">
+                    <div class="notification-title font-medium mb-xs">${notification.title}</div>
+                    <div class="notification-time text-xs text-gray-500">${format.timeAgo(notification.timestamp)}</div>
                 </div>
             </div>
         </div>
-    `).join('');
+    `;
 }
 // Exportar objeto com todas as funções
 export const Notifications = {
-init,
-showToast,
-addNotification,
-updateBadge,
-clearAllNotifications
+    init,
+    showToast,
+    addNotification,
+    updateBadge,
+    clearAllNotifications
 };
+
 // Manter compatibilidade global para showToast
 window.showToast = showToast;

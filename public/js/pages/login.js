@@ -1,17 +1,17 @@
 /**
  * login.js
  * Lógica da página de login
- * Dependências: api.js, utils.js
+ * Dependências: api.js, validators.js, cache.js
  * Localização: public/js/pages/login.js
  * Tamanho alvo: <150 linhas
  */
 
 import { auth } from '../core/api.js';
-import { Utils } from '../core/utils.js';
+import { validators } from '../core/validators.js';
+import { Cache } from '../core/cache.js';
 // Verificar se o usuário já está logado
 
-// Inicializar quando DOM estiver pronto
-document.addEventListener('DOMContentLoaded', init);
+// Remover auto-inicialização (será chamado do HTML)
 
 function init() {
     const loginForm = document.getElementById('login-form');
@@ -60,7 +60,7 @@ async function handleLogin(e) {
         return;
     }
     
-    if (!Utils.validateEmail(email)) {
+    if (!validators.email(email)) {
         showMessage('Por favor, insira um email válido.');
         return;
     }
@@ -85,9 +85,9 @@ async function handleLogin(e) {
             
             // Salvar "lembrar de mim" se marcado
             if (remember) {
-                Utils.storage.set('remember_email', email);
+                Cache.set('remember_email', email, 30 * 24 * 60); // 30 dias
             } else {
-                Utils.storage.remove('remember_email');
+                Cache.remove('remember_email');
             }
             
             // Aguardar um pouco para mostrar a mensagem
@@ -129,7 +129,7 @@ function focusEmailField() {
     const emailInput = document.getElementById('email');
     if (emailInput) {
         // Verificar se tem email salvo
-        const savedEmail = Utils.storage.get('remember_email');
+        const savedEmail = Cache.get('remember_email');
         if (savedEmail) {
             emailInput.value = savedEmail;
             // Focus na senha se email já preenchido

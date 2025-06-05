@@ -1,0 +1,32 @@
+/**
+ * CSS App - SPA System
+ * 
+ * Importa TODOS os estilos necessários para a área logada (SPA)
+ * Inclui base + core + components
+ */
+
+/* CSS Base - Ordem crítica */
+@import 'base/01-variables.css';
+@import 'base/02-reset.css';
+@import 'base/03-typography.css';
+@import 'base/04-layouts.css';
+@import 'base/05-buttons.css';
+@import 'base/06-forms.css';
+
+/* CSS Utilities - Classes utilitárias */
+@import 'base/utilities/index.css';
+
+/* CSS Core - Para sistemas JavaScript */
+@import 'core/dom.css';
+@import 'core/loader.css';
+@import 'core/ui.css';
+
+/* CSS Components - Componentes da aplicação */
+@import 'components/badges.css';
+@import 'components/cards.css';
+@import 'components/tabs.css';
+@import 'components/header.css';
+@import 'components/sidebar.css';
+@import 'components/app-layout.css';
+@import 'components/notifications.css';
+@import 'components/card-list.css';

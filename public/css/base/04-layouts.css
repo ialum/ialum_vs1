@@ -616,3 +616,177 @@
         min-height: auto;
     }
 }
+
+/* =================================================================
+   PAGE LAYOUT PATTERNS - Substitui CSS de páginas individuais
+================================================================= */
+
+/* Container padrão para páginas internas */
+.page-container {
+    min-height: 100vh;
+    background-color: var(--gray-50);
+}
+
+/* Header padrão de página */
+.page-header {
+    background-color: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+}
+
+.page-subtitle {
+    color: var(--gray-600);
+    margin-top: var(--spacing-xs);
+}
+
+/* Conteúdo principal da página */
+.page-content {
+    padding: 0 var(--spacing-xl) var(--spacing-xl);
+    max-width: var(--container-xl);
+    margin: 0 auto;
+}
+
+/* Seções de conteúdo */
+.content-section {
+    background-color: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--gray-100);
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+}
+
+/* Grid de conteúdo (cards, estatísticas, etc) */
+.content-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+}
+
+.content-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.content-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.content-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Layout de lista */
+.content-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.list-item {
+    padding: var(--spacing-md);
+    background-color: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.list-item:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Layout de formulário */
+.form-page {
+    max-width: var(--container-md);
+    margin: 0 auto;
+}
+
+.form-section {
+    background-color: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Layout de tabela */
+.table-container {
+    background-color: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Layout vazio/empty state */
+.empty-state {
+    text-align: center;
+    padding: var(--spacing-3xl) var(--spacing-xl);
+}
+
+.empty-icon {
+    font-size: 3rem;
+    opacity: 0.3;
+    margin-bottom: var(--spacing-lg);
+}
+
+.empty-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: var(--spacing-sm);
+}
+
+.empty-message {
+    color: var(--gray-600);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Responsividade para layouts de página */
+@media (max-width: 768px) {
+    .page-header {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .page-content {
+        padding: 0 var(--spacing-md) var(--spacing-md);
+    }
+    
+    .content-section {
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .content-grid-2,
+    .content-grid-3,
+    .content-grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+}

@@ -1,0 +1,431 @@
+/**
+ * card-list.css
+ * Componente de lista expansível de cards para CRUD
+ * Dependências: cards.css, forms.css, buttons.css, variables.css
+ * Usado em: Páginas de configuração e gerenciamento de dados
+ * Versão: 1.0 - Sistema limpo baseado em cards
+ */
+
+/* =================================================================
+   CARD LIST BASE
+================================================================= */
+
+.card-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.card-list-container {
+    background: var(--gray-50);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    border: 1px solid var(--gray-200);
+}
+
+.card-list-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.card-list-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--dark);
+    margin: 0 0 var(--spacing-xs) 0;
+    line-height: var(--line-height-tight);
+}
+
+.card-list-description {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+    margin: 0;
+    line-height: var(--line-height-normal);
+}
+
+/* =================================================================
+   CARD LIST ITEMS
+================================================================= */
+
+.card-list-items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Card List Item - extends base card */
+.card-list-item {
+    /* Herda do sistema de cards */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.card-list-item.expanded {
+    /* Estado expandido usa card-elevated */
+    transform: translateY(-2px);
+}
+
+/* Header do item (modo contraído) */
+.card-list-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+    width: 100%;
+}
+
+.card-list-item-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--dark);
+    flex: 1;
+    margin: 0;
+    line-height: var(--line-height-tight);
+}
+
+.card-list-item-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--gray-500);
+    margin: var(--spacing-xs) 0 0 0;
+    line-height: var(--line-height-normal);
+}
+
+.card-list-item-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
+}
+
+/* =================================================================
+   CARD LIST FORM (modo expandido)
+================================================================= */
+
+.card-list-form {
+    /* Usa sistema de forms base - sem customização */
+    width: 100%;
+}
+
+.card-list-form-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--gray-200);
+    justify-content: flex-start;
+}
+
+/* =================================================================
+   CARD LIST NEW ITEM (criação)
+================================================================= */
+
+.card-list-new {
+    /* Quando contraído - usa card-empty style */
+    text-align: center;
+    padding: var(--spacing-xl);
+    background: var(--gray-50);
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card-list-new:hover {
+    border-color: var(--primary);
+    background: var(--primary-very-light);
+}
+
+.card-list-new.expanded {
+    /* Quando expandido - usa card normal */
+    background: var(--white);
+    border: 1px solid var(--primary);
+    border-style: solid;
+    text-align: left;
+    cursor: default;
+    padding: var(--spacing-lg);
+}
+
+.card-list-new-icon {
+    font-size: var(--font-size-2xl);
+    color: var(--gray-400);
+    margin-bottom: var(--spacing-sm);
+    display: block;
+}
+
+.card-list-new.expanded .card-list-new-icon {
+    display: none;
+}
+
+.card-list-new-text {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--gray-600);
+    margin: 0;
+}
+
+.card-list-new.expanded .card-list-new-text {
+    font-size: var(--font-size-lg);
+    color: var(--dark);
+    margin-bottom: var(--spacing-lg);
+    text-align: left;
+}
+
+/* =================================================================
+   CARD LIST ESTADOS
+================================================================= */
+
+/* Loading state */
+.card-list-item.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.card-list-item.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: var(--spacing-md);
+    transform: translateY(-50%);
+    width: var(--size-md);
+    height: var(--size-md);
+    border: 2px solid var(--gray-300);
+    border-top: 2px solid var(--primary);
+    border-radius: var(--radius-full);
+    animation: spin 1s linear infinite;
+}
+
+/* Success state */
+.card-list-item.success {
+    border-color: var(--success);
+    background: var(--alpha-black-5);
+    animation: successFlash 0.6s ease-out;
+}
+
+@keyframes successFlash {
+    0% { background: var(--success); }
+    100% { background: var(--alpha-black-5); }
+}
+
+/* Error state */
+.card-list-item.error {
+    border-color: var(--error);
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* =================================================================
+   CARD LIST BADGES E INDICADORES
+================================================================= */
+
+.card-list-item-badge {
+    /* Usa sistema de badges - sem customização */
+    margin-left: var(--spacing-sm);
+}
+
+.card-list-item-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--gray-500);
+}
+
+.card-list-item-status::before {
+    content: '';
+    width: var(--size-2xs);
+    height: var(--size-2xs);
+    border-radius: var(--radius-full);
+    background: var(--gray-400);
+}
+
+.card-list-item-status.active::before {
+    background: var(--success);
+}
+
+.card-list-item-status.inactive::before {
+    background: var(--error);
+}
+
+.card-list-item-status.pending::before {
+    background: var(--warning);
+}
+
+/* =================================================================
+   CARD LIST LAYOUTS
+================================================================= */
+
+/* Layout em grid para múltiplas colunas */
+.card-list.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.card-list.grid .card-list-items {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.card-list.grid .card-list-new {
+    grid-column: 1 / -1;
+}
+
+/* Layout compacto */
+.card-list.compact .card-list-items {
+    gap: var(--spacing-sm);
+}
+
+.card-list.compact .card-list-item {
+    padding: var(--spacing-md);
+}
+
+.card-list.compact .card-list-new {
+    padding: var(--spacing-lg);
+}
+
+/* =================================================================
+   RESPONSIVIDADE
+================================================================= */
+
+@media (max-width: 768px) {
+    .card-list-container {
+        padding: var(--spacing-md);
+    }
+    
+    .card-list-item-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-sm);
+    }
+    
+    .card-list-item-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+    
+    .card-list-form-actions {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .card-list.grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-list.grid .card-list-items {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-list {
+        gap: var(--spacing-md);
+    }
+    
+    .card-list-items {
+        gap: var(--spacing-sm);
+    }
+    
+    .card-list-item-actions .btn {
+        flex: 1;
+        min-width: 80px;
+        justify-content: center;
+    }
+    
+    .card-list-form-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .card-list-new {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* =================================================================
+   MODO ESCURO (quando implementado)
+================================================================= */
+
+@media (prefers-color-scheme: dark) {
+    .card-list-container {
+        background: var(--gray-800);
+        border-color: var(--gray-700);
+    }
+    
+    .card-list-title {
+        color: var(--gray-100);
+    }
+    
+    .card-list-description {
+        color: var(--gray-400);
+    }
+    
+    .card-list-new {
+        background: var(--gray-700);
+        border-color: var(--gray-600);
+    }
+    
+    .card-list-new:hover {
+        background: var(--gray-600);
+        border-color: var(--primary);
+    }
+    
+    .card-list-new.expanded {
+        background: var(--gray-800);
+    }
+    
+    .card-list-new-text {
+        color: var(--gray-300);
+    }
+    
+    .card-list-new.expanded .card-list-new-text {
+        color: var(--gray-100);
+    }
+}
+
+/* =================================================================
+   ANIMAÇÕES
+================================================================= */
+
+@keyframes spin {
+    to { 
+        transform: translateY(-50%) rotate(360deg); 
+    }
+}
+
+.card-list-item-enter {
+    animation: cardListItemEnter 0.4s ease-out;
+}
+
+@keyframes cardListItemEnter {
+    from {
+        opacity: 0;
+        transform: translateY(var(--spacing-md)) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.card-list-item-exit {
+    animation: cardListItemExit 0.3s ease-in;
+}
+
+@keyframes cardListItemExit {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-var(--spacing-sm)) scale(0.95);
+    }
+}

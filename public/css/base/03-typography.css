@@ -36,6 +36,13 @@
     --line-height-tight: 1.25;
     --line-height-normal: 1.5;
     --line-height-relaxed: 1.75;
+    
+    /* Letter spacing */
+    --letter-spacing-tight: -0.025em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.025em;
+    --letter-spacing-wider: 0.05em;
+    --letter-spacing-widest: 0.1em;
 }
 
 /* Configuração global */
@@ -82,7 +89,7 @@ h6 {
     font-weight: var(--font-weight-medium);
     color: var(--gray-600);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--letter-spacing-wider);
 }
 
 /* Parágrafos */

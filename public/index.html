@@ -6,17 +6,9 @@
     <title>Ialum - Automação de Marketing Jurídico com IA</title>
     <link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg">
     
-    <!-- CSS Base (ordem importante) -->
-    <link rel="stylesheet" href="/css/base/reset.css">
-    <link rel="stylesheet" href="/css/base/variables.css">
-    <link rel="stylesheet" href="/css/base/typography.css">
-    <link rel="stylesheet" href="/css/base/buttons.css">
-    <link rel="stylesheet" href="/css/base/forms.css">
-    <link rel="stylesheet" href="/css/base/layouts.css">
-    <link rel="stylesheet" href="/css/base/utilities.css">
+    <!-- CSS Principal - Base system para páginas simples -->
+    <link rel="stylesheet" href="/css/index.css">
     
-    <!-- CSS Específico da página -->
-    <link rel="stylesheet" href="/css/pages/landing.css">
 </head>
 <body>
     <!-- Header -->
@@ -129,7 +121,13 @@
         <p>&copy; 2025 Ialum. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="/js/pages/landing.js"></script>
+    <!-- JavaScript Modular -->
+    <script type="module">
+    // Aguardar DOM antes de carregar
+    document.addEventListener('DOMContentLoaded', async () => {
+        const { init } = await import('/js/pages/landing.js');
+        init();
+    });
+    </script>
 </body>
 </html>

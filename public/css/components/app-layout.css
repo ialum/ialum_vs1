@@ -1,0 +1,43 @@
+/**
+ * app-layout.css
+ * App shell layout structure
+ * 
+ * Este arquivo contém os estilos de layout principal do aplicativo,
+ * incluindo o container principal e o comportamento responsivo
+ * que considera a sidebar.
+ * 
+ * Dependências: variables.css
+ * Usado em: app.html
+ */
+
+/* App Container */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* Width of sidebar */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Page Content Wrapper */
+.page-content {
+    flex: 1;
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+}
+
+/* Responsive Behavior */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0; /* Remove sidebar margin on mobile */
+    }
+    
+    .page-content {
+        padding: var(--spacing-md);
+    }
+}

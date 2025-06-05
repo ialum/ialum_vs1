@@ -1,6 +1,9 @@
-// landing.js - Scripts da Landing Page
+/**
+ * landing.js - Scripts da Landing Page
+ * Módulo ES6 para página inicial
+ */
 
-document.addEventListener('DOMContentLoaded', function() {
+export function init() {
     
     // Smooth scroll para links internos
     const links = document.querySelectorAll('a[href^="#"]');
@@ -94,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             mobileMenu.classList.toggle('active');
         });
     }
-});
+}
 
 // Função auxiliar para validar email
 function isValidEmail(email) {

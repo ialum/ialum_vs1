@@ -1,0 +1,45 @@
+/**
+ * interactions.css
+ * Classes utilitárias de interações (cursor, pointer events)
+ */
+
+/* =================================================================
+   CURSOR
+================================================================= */
+
+.cursor-auto { cursor: auto; }
+.cursor-default { cursor: default; }
+.cursor-pointer { cursor: pointer; }
+.cursor-wait { cursor: wait; }
+.cursor-text { cursor: text; }
+.cursor-move { cursor: move; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-help { cursor: help; }
+.cursor-crosshair { cursor: crosshair; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+.cursor-zoom-in { cursor: zoom-in; }
+.cursor-zoom-out { cursor: zoom-out; }
+
+/* =================================================================
+   POINTER EVENTS
+================================================================= */
+
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+
+/* =================================================================
+   RESIZE
+================================================================= */
+
+.resize-none { resize: none; }
+.resize-y { resize: vertical; }
+.resize-x { resize: horizontal; }
+.resize { resize: both; }
+
+/* =================================================================
+   SCROLL BEHAVIOR
+================================================================= */
+
+.scroll-auto { scroll-behavior: auto; }
+.scroll-smooth { scroll-behavior: smooth; }

@@ -1,0 +1,73 @@
+/**
+ * display.css
+ * Classes utilitárias de display e visibilidade
+ */
+
+/* =================================================================
+   DISPLAY
+================================================================= */
+
+.block { display: block; }
+.inline-block { display: inline-block; }
+.inline { display: inline; }
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+.inline-grid { display: inline-grid; }
+.table { display: table; }
+.table-cell { display: table-cell; }
+.table-row { display: table-row; }
+.hidden { display: none; }
+
+/* =================================================================
+   VISIBILITY
+================================================================= */
+
+.visible { visibility: visible; }
+.invisible { visibility: hidden; }
+
+/* =================================================================
+   OVERFLOW
+================================================================= */
+
+.overflow-auto { overflow: auto; }
+.overflow-hidden { overflow: hidden; }
+.overflow-visible { overflow: visible; }
+.overflow-scroll { overflow: scroll; }
+
+.overflow-x-auto { overflow-x: auto; }
+.overflow-x-hidden { overflow-x: hidden; }
+.overflow-x-visible { overflow-x: visible; }
+.overflow-x-scroll { overflow-x: scroll; }
+
+.overflow-y-auto { overflow-y: auto; }
+.overflow-y-hidden { overflow-y: hidden; }
+.overflow-y-visible { overflow-y: visible; }
+.overflow-y-scroll { overflow-y: scroll; }
+
+/* =================================================================
+   SCREEN READER ONLY
+================================================================= */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.not-sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+}

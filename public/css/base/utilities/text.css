@@ -1,0 +1,70 @@
+/**
+ * text.css
+ * Classes utilitárias de texto
+ */
+
+/* =================================================================
+   TEXT ALIGNMENT
+================================================================= */
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+
+/* =================================================================
+   TEXT TRANSFORM
+================================================================= */
+
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.capitalize { text-transform: capitalize; }
+.normal-case { text-transform: none; }
+
+/* =================================================================
+   TEXT DECORATION
+================================================================= */
+
+.underline { text-decoration: underline; }
+.line-through { text-decoration: line-through; }
+.no-underline { text-decoration: none; }
+
+/* =================================================================
+   TEXT OVERFLOW
+================================================================= */
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-ellipsis { text-overflow: ellipsis; }
+.text-clip { text-overflow: clip; }
+
+/* =================================================================
+   TEXT WRAP
+================================================================= */
+
+.whitespace-normal { white-space: normal; }
+.whitespace-nowrap { white-space: nowrap; }
+.whitespace-pre { white-space: pre; }
+.whitespace-pre-line { white-space: pre-line; }
+.whitespace-pre-wrap { white-space: pre-wrap; }
+
+/* =================================================================
+   WORD BREAK
+================================================================= */
+
+.break-normal { overflow-wrap: normal; word-break: normal; }
+.break-words { overflow-wrap: break-word; }
+.break-all { word-break: break-all; }
+
+/* =================================================================
+   USER SELECT
+================================================================= */
+
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+.select-auto { user-select: auto; }

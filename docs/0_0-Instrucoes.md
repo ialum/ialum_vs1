@@ -4,6 +4,7 @@
  - ialum_vs1/docs/0_1-paginas.md
  - ialum_vs1/docs/0_2-componentes.md
  - ialum_vs1/docs/0_3-carregamento.md
+ - ialum_vs1/docs/0_16-sistemas-core.md
 
 ## 🚀 Status Atual:
  - Validando e melhorando DOCUMENTAÇÃO DO SAAS IALUM

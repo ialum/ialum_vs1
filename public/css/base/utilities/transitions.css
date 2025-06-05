@@ -1,0 +1,49 @@
+/**
+ * transitions.css
+ * Classes utilitárias de transições e animações
+ */
+
+/* =================================================================
+   TRANSITIONS
+================================================================= */
+
+.transition-none { transition: none; }
+.transition-all { transition: all 0.3s ease; }
+.transition { transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform; transition-duration: 0.3s; }
+
+/* Specific properties */
+.transition-colors { transition-property: background-color, border-color, color, fill, stroke; transition-duration: 0.3s; }
+.transition-opacity { transition-property: opacity; transition-duration: 0.3s; }
+.transition-shadow { transition-property: box-shadow; transition-duration: 0.3s; }
+.transition-transform { transition-property: transform; transition-duration: 0.3s; }
+
+/* Duration */
+.duration-75 { transition-duration: 75ms; }
+.duration-100 { transition-duration: 100ms; }
+.duration-150 { transition-duration: 150ms; }
+.duration-200 { transition-duration: 200ms; }
+.duration-300 { transition-duration: 300ms; }
+.duration-500 { transition-duration: 500ms; }
+.duration-700 { transition-duration: 700ms; }
+.duration-1000 { transition-duration: 1000ms; }
+
+/* Timing functions */
+.ease-linear { transition-timing-function: linear; }
+.ease-in { transition-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+.ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+.ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* =================================================================
+   OPACITY
+================================================================= */
+
+.opacity-0 { opacity: 0; }
+.opacity-25 { opacity: 0.25; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }
+
+/* Opacity on hover */
+.hover-opacity-75:hover { opacity: 0.75; }
+.hover-opacity-50:hover { opacity: 0.5; }
+.hover-opacity-25:hover { opacity: 0.25; }
