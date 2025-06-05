@@ -24,6 +24,20 @@ export function set(key, value) {
     const oldValue = state.get(key);
     state.set(key, value);
     
+    // Persistir no localStorage se for chave crítica
+    if (PERSISTENT_KEYS.has(key)) {
+        try {
+            if (value === null || value === undefined) {
+                localStorage.removeItem(key);
+            } else {
+                const serialized = typeof value === 'object' ? JSON.stringify(value) : value;
+                localStorage.setItem(key, serialized);
+            }
+        } catch (error) {
+            console.error('Erro ao salvar no localStorage:', error);
+        }
+    }
+    
     // Notificar listeners
     if (listeners.has(key)) {
         listeners.get(key).forEach(callback => {
@@ -39,7 +53,34 @@ export function set(key, value) {
  * @returns {*} Valor armazenado
  */
 export function get(key, defaultValue = null) {
-    return state.has(key) ? state.get(key) : defaultValue;
+    // Se já está na memória, retorna
+    if (state.has(key)) {
+        return state.get(key);
+    }
+    
+    // Se é chave persistente, tenta recuperar do localStorage
+    if (PERSISTENT_KEYS.has(key)) {
+        try {
+            const stored = localStorage.getItem(key);
+            if (stored !== null) {
+                // Tentar fazer parse JSON, se falhar retorna string
+                let value;
+                try {
+                    value = JSON.parse(stored);
+                } catch {
+                    value = stored;
+                }
+                
+                // Restaurar na memória
+                state.set(key, value);
+                return value;
+            }
+        } catch (error) {
+            console.error('Erro ao ler do localStorage:', error);
+        }
+    }
+    
+    return defaultValue;
 }
 
 /**
@@ -49,6 +90,15 @@ export function get(key, defaultValue = null) {
 export function remove(key) {
     const value = state.get(key);
     state.delete(key);
+    
+    // Remover do localStorage se for chave persistente
+    if (PERSISTENT_KEYS.has(key)) {
+        try {
+            localStorage.removeItem(key);
+        } catch (error) {
+            console.error('Erro ao remover do localStorage:', error);
+        }
+    }
     
     // Notificar listeners
     if (listeners.has(key)) {
@@ -87,6 +137,15 @@ export function watch(key, callback) {
  * Limpa todo o estado
  */
 export function clear() {
+    // Limpar localStorage apenas das chaves persistentes
+    PERSISTENT_KEYS.forEach(key => {
+        try {
+            localStorage.removeItem(key);
+        } catch (error) {
+            console.error('Erro ao limpar localStorage:', error);
+        }
+    });
+    
     state.clear();
     listeners.clear();
 }
@@ -99,11 +158,20 @@ export function getAll() {
     return Object.fromEntries(state);
 }
 
+// Estados que devem ser persistidos no localStorage
+const PERSISTENT_KEYS = new Set([
+    'auth_token',
+    'user', 
+    'tenant_id',
+    'theme'
+]);
+
 // Estados padrão da aplicação
 export const KEYS = {
-    USER: 'usuario',
-    TENANT: 'tenant',
-    THEME: 'tema',
+    USER: 'user',
+    TENANT: 'tenant_id',
+    THEME: 'theme',
+    AUTH_TOKEN: 'auth_token',
     SETTINGS: 'configuracoes',
     TOPICS_CACHE: 'topicos_cache',
     CURRENT_PAGE: 'pagina_atual'
