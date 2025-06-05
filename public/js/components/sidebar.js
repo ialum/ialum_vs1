@@ -15,15 +15,25 @@ import { Cache } from '../core/cache.js';
 let isInitialized = false;
 // Inicializar sidebar
 export function init() {
+    console.log('🎯 Sidebar.init() chamado');
     if (isInitialized) return;
     
     DOM.ready(() => {
+        console.log('📋 DOM ready - inicializando sidebar...');
         // Inicializar estado dos submenus (todos fechados)
         initializeSubmenus();
         
         bindNavigation();
         bindMobileToggle();
         updateActiveState();
+        
+        // Teste alternativo: listener direto
+        console.log('🧪 Adicionando listener direto para teste...');
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.nav-link')) {
+                console.log('🎯 TESTE: Clique em nav-link detectado!', e.target.closest('.nav-link'));
+            }
+        });
         
         // Escutar mudanças de rota
         DOM.on(window, 'hashchange', updateActiveState);
@@ -51,8 +61,13 @@ function initializeSubmenus() {
 }
 // Bind da navegação
 function bindNavigation() {
+    console.log('🔗 bindNavigation() chamado - configurando event delegation');
+    
     // Event delegation unificado para todos os cliques em links do sidebar
     DOM.delegate(document, 'click', '.nav-link, .nav-subitem', (e, element) => {
+        console.log('👆 Clique detectado em:', element);
+        console.log('🎯 Elemento target:', e.target);
+        console.log('🔍 Elemento delegado:', element);
         const href = element.getAttribute('href');
         
         // Verificação segura: se não tem href, ignore
