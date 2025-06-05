@@ -33,26 +33,9 @@ export function init() {
     console.log('App inicializado com sucesso!');
 }
 
-// Sidebar
+// Sidebar - Gerenciado pelo sidebar.js component
 function initSidebar() {
-    const navItems = DOM.selectAll('.nav-item');
-    
-    navItems.forEach(item => {
-        DOM.on(item, 'click', (e) => {
-            // Não fazer nada se for link externo
-            if (item.getAttribute('href').startsWith('http')) return;
-            
-            // Para links internos, prevenir default (router cuidará disso)
-            if (item.getAttribute('href').startsWith('#')) {
-                // Router já está escutando cliques em links com #
-                // Apenas atualizar visual se necessário
-                navItems.forEach(nav => DOM.removeClass(nav, 'active'));
-                DOM.addClass(item, 'active');
-            }
-        });
-    });
-    
-    // Escutar mudanças de rota para atualizar menu ativo
+    // Apenas escutar mudanças de rota para atualizar menu ativo
     DOM.on(window, 'hashchange', () => {
         updateActiveMenu();
     });
