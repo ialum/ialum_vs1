@@ -1,7 +1,7 @@
 /**
  * dashboard/main.js
  * Controlador principal do Dashboard
- * Dependências: api.js, utils.js, notifications.js, router.js
+ * Dependências: api.js, ui.js, formatters.js, notifications.js, router.js
  * Localização: public/js/pages/dashboard/main.js
  * Tamanho alvo: <150 linhas
  */
@@ -9,7 +9,8 @@
 // Importar dependências
 import { Router } from '../../core/router.js';
 import { API } from '../../core/api.js';
-import { Utils } from '../../core/utils.js';
+import { UI } from '../../core/ui.js';
+import { format } from '../../core/formatters.js';
 import { showToast } from '../../components/notifications.js';
 
 // Função principal de inicialização

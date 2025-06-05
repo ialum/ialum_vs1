@@ -1,13 +1,14 @@
 /**
  * topicos/main.js
  * Controlador principal da Central de Tópicos
- * Dependências: api.js, utils.js, notifications.js, search-autocomplete.js
+ * Dependências: api.js, ui.js, formatters.js, notifications.js, search-autocomplete.js
  * Localização: public/js/pages/topicos/main.js
  * Tamanho alvo: <200 linhas
  */
 
 import { API } from '../../core/api.js';
-import { Utils } from '../../core/utils.js';
+import { UI } from '../../core/ui.js';
+import { format } from '../../core/formatters.js';
 import { showToast } from '../../components/notifications.js';
 import { SearchAutocomplete } from '../../components/search-autocomplete.js';
 

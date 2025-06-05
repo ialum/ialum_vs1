@@ -24,8 +24,8 @@ export function init() {
         bindActions();
         
         // Sincronizar com estado global
-        State.subscribe('notifications.count', updateBadge);
-        State.subscribe('notifications.list', renderNotificationsList);
+        State.watch('notifications.count', updateBadge);
+        State.watch('notifications.list', renderNotificationsList);
     });
     
     isInitialized = true;

@@ -1,13 +1,14 @@
 /**
  * relatorios/main.js
  * Controlador principal da página de Relatórios
- * Dependências: api.js, utils.js, notifications.js
+ * Dependências: api.js, ui.js, formatters.js, notifications.js
  * Localização: public/js/pages/relatorios/main.js
  * Tamanho alvo: <200 linhas
  */
 
 import { API } from '../../core/api.js';
-import { Utils } from '../../core/utils.js';
+import { UI } from '../../core/ui.js';
+import { format } from '../../core/formatters.js';
 import { showToast } from '../../components/notifications.js';
 
 // Estado da página
