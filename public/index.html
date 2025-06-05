@@ -12,13 +12,13 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <nav>
-            <a href="/" class="logo">
+    <header class="public-header">
+        <nav class="public-nav">
+            <a href="/" class="public-logo">
                 <span>⚖️</span>
                 Ialum
             </a>
-            <div class="nav-links">
+            <div class="public-nav-links">
                 <a href="#features">Recursos</a>
                 <a href="#notify">Avise-me</a>
                 <a href="#about">Sobre</a>
@@ -28,55 +28,57 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <h1>Automatize seu Marketing Jurídico com Inteligência Artificial</h1>
-        <p class="subtitle">
-            Crie conteúdo educativo para redes sociais em minutos. 
-            Aumente sua presença digital e atraia mais clientes.
-        </p>
-        <div class="dev-notice">
-            <strong>🚧 Em Desenvolvimento</strong><br>
-            Estamos trabalhando para lançar a melhor plataforma de marketing jurídico do Brasil.
-            Cadastre-se para ser avisado quando estivermos prontos!
-        </div>
-        <div class="hero-buttons">
-            <a href="#notify" class="btn btn-primary">Quero ser avisado</a>
-            <a href="#features" class="btn btn-secondary">Saiba mais</a>
+    <section class="public-section public-section-primary">
+        <div class="public-hero">
+            <h1>Automatize seu Marketing Jurídico com Inteligência Artificial</h1>
+            <p class="public-subtitle">
+                Crie conteúdo educativo para redes sociais em minutos. 
+                Aumente sua presença digital e atraia mais clientes.
+            </p>
+            <div class="public-notice">
+                <strong>🚧 Em Desenvolvimento</strong><br>
+                Estamos trabalhando para lançar a melhor plataforma de marketing jurídico do Brasil.
+                Cadastre-se para ser avisado quando estivermos prontos!
+            </div>
+            <div class="public-actions">
+                <a href="#notify" class="btn btn-primary">Quero ser avisado</a>
+                <a href="#features" class="btn btn-secondary">Saiba mais</a>
+            </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features" id="features">
+    <section class="public-section public-section-secondary" id="features">
         <div class="container">
             <h2 class="section-title">Tudo que você precisa em um só lugar</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
+            <div class="public-grid public-grid-3">
+                <div class="public-card">
+                    <div class="public-card-icon">🤖</div>
                     <h3>IA Especializada</h3>
                     <p>Inteligência artificial treinada especificamente para conteúdo jurídico brasileiro.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
+                <div class="public-card">
+                    <div class="public-card-icon">📱</div>
                     <h3>Multi-plataformas</h3>
                     <p>Crie conteúdo otimizado para Instagram, LinkedIn, Facebook e TikTok.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
+                <div class="public-card">
+                    <div class="public-card-icon">⚡</div>
                     <h3>Publicação Automática</h3>
                     <p>Agende e publique automaticamente em todas as suas redes sociais.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
+                <div class="public-card">
+                    <div class="public-card-icon">📊</div>
                     <h3>Relatórios Detalhados</h3>
                     <p>Acompanhe o desempenho e otimize sua estratégia com dados reais.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
+                <div class="public-card">
+                    <div class="public-card-icon">🔒</div>
                     <h3>Segurança Total</h3>
                     <p>Seus dados protegidos com criptografia e conformidade LGPD.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
+                <div class="public-card">
+                    <div class="public-card-icon">🎨</div>
                     <h3>Templates Profissionais</h3>
                     <p>Biblioteca de designs criados especialmente para advogados.</p>
                 </div>
@@ -85,26 +87,28 @@
     </section>
 
     <!-- Notify Section -->
-    <section class="notify-section" id="notify">
+    <section class="public-section public-section-tertiary" id="notify">
         <div class="container">
             <h2 class="section-title">Seja o primeiro a saber!</h2>
-            <div class="notify-form">
-                <p>
+            <div class="public-form-container">
+                <p class="public-form-description">
                     Estamos construindo algo incrível. Deixe seu email e seja notificado 
                     assim que lançarmos a plataforma.
                 </p>
                 <form id="notify-form" class="form-group">
-                    <input 
-                        type="email" 
-                        id="email-input"
-                        class="form-input"
-                        placeholder="seu@email.com" 
-                        required
-                    >
-                    <button type="submit" class="btn btn-primary">Notificar-me</button>
+                    <div class="public-form-group-inline">
+                        <input 
+                            type="email" 
+                            id="email-input"
+                            class="form-control"
+                            placeholder="seu@email.com" 
+                            required
+                        >
+                        <button type="submit" class="btn btn-primary">Notificar-me</button>
+                    </div>
                 </form>
-                <div id="success-message" class="message-container"></div>
-                <p class="security-note">
+                <div id="success-message" class="public-message public-message-success" style="display: none;"></div>
+                <p class="public-form-note">
                     🔒 Seus dados estão seguros. Sem spam, prometemos!
                 </p>
             </div>
@@ -112,13 +116,13 @@
     </section>
 
     <!-- Footer -->
-    <footer id="about">
-        <div class="footer-links">
+    <footer class="public-footer" id="about">
+        <div class="public-footer-links">
             <a href="/termos">Termos de Uso</a>
             <a href="/privacidade">Privacidade</a>
             <a href="/contato">Contato</a>
         </div>
-        <p>&copy; 2025 Ialum. Todos os direitos reservados.</p>
+        <p class="public-footer-copyright">&copy; 2025 Ialum. Todos os direitos reservados.</p>
     </footer>
 
     <!-- JavaScript Modular -->

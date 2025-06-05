@@ -17,3 +17,6 @@
 
 /* CSS Utilities - Classes utilitárias */
 @import 'base/utilities/index.css';
+
+/* CSS Components - Layout público */
+@import 'components/public-layout.css';
