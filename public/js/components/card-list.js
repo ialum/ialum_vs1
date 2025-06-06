@@ -62,11 +62,6 @@ export class CardList {
         this.setupStructure();
         this.bindEvents();
         this.renderItems();
-        
-        // Backup automático
-        if (this.config.allowCreate || this.config.allowEdit) {
-            Backup.init(this.backupKey);
-        }
     }
 
     // Criar estrutura base do componente
@@ -112,10 +107,10 @@ export class CardList {
                     <form class="card-list-form">
                         ${this.createFieldsHTML()}
                         <div class="card-list-form-actions">
-                            <button type="button" class="btn btn-primary" data-action="create">
+                            <button type="button" class="btn btn-lg btn-primary" data-action="create">
                                 Criar ${this.config.type}
                             </button>
-                            <button type="button" class="btn btn-secondary" data-action="cancel-create">
+                            <button type="button" class="btn btn-lg btn-secondary" data-action="cancel-create">
                                 Cancelar
                             </button>
                         </div>
@@ -154,8 +149,9 @@ export class CardList {
 
     // Criar HTML de um item
     createItemHTML(item) {
-        const isExpanded = this.state.expandedItems.has(item.id);
-        const isLoading = this.state.loading.has(item.id);
+        const itemIdStr = String(item.id);
+        const isExpanded = this.state.expandedItems.has(itemIdStr) || this.state.expandedItems.has(item.id);
+        const isLoading = this.state.loading.has(itemIdStr) || this.state.loading.has(item.id);
         const displayValue = item[this.config.primaryField] || 'Item sem nome';
         
         const cardClasses = [
@@ -172,13 +168,18 @@ export class CardList {
                         ${this.createFieldsHTML(item)}
                         <div class="card-list-form-actions">
                             ${this.config.allowEdit ? `
-                                <button type="button" class="btn btn-primary" data-action="save" data-item-id="${item.id}">
+                                <button type="button" class="btn btn-lg btn-primary" data-action="save" data-item-id="${item.id}">
                                     Salvar
                                 </button>
                             ` : ''}
-                            <button type="button" class="btn btn-secondary" data-action="cancel" data-item-id="${item.id}">
+                            <button type="button" class="btn btn-lg btn-secondary" data-action="cancel" data-item-id="${item.id}">
                                 Cancelar
                             </button>
+                            ${this.config.allowDelete ? `
+                                <button type="button" class="btn btn-lg btn-outline btn-error" data-action="delete" data-item-id="${item.id}">
+                                    <span>🗑️</span> Excluir
+                                </button>
+                            ` : ''}
                         </div>
                     </form>
                 </div>
@@ -193,13 +194,8 @@ export class CardList {
                         </div>
                         <div class="card-list-item-actions">
                             ${this.config.allowEdit ? `
-                                <button class="btn btn-sm btn-outline btn-primary" data-action="edit" data-item-id="${item.id}">
+                                <button class="btn btn-lg btn-outline btn-primary" data-action="edit" data-item-id="${item.id}">
                                     <span>✏️</span> Editar
-                                </button>
-                            ` : ''}
-                            ${this.config.allowDelete ? `
-                                <button class="btn btn-sm btn-outline btn-error" data-action="delete" data-item-id="${item.id}">
-                                    <span>🗑️</span>
                                 </button>
                             ` : ''}
                         </div>
@@ -265,9 +261,12 @@ export class CardList {
                     `;
             }
 
+            // Determinar classe do label - usar sr-only-ai para labels importantes para IA mas desnecessários visualmente
+            const labelClass = field.hideLabel ? 'form-label sr-only-ai' : 'form-label';
+            
             return `
                 <div class="form-group">
-                    <label class="form-label">${label || placeholder || name}</label>
+                    <label class="${labelClass}">${label || placeholder || name}</label>
                     ${inputHTML}
                     <div class="form-error" data-field="${name}"></div>
                 </div>
@@ -278,16 +277,16 @@ export class CardList {
     // Bind de eventos
     bindEvents() {
         // Event delegation para todos os cliques
-        DOM.delegate(this.container, 'click', '[data-action]', (e) => {
+        DOM.delegate(this.container, '[data-action]', 'click', (e, element) => {
             e.preventDefault();
-            const action = e.target.dataset.action;
-            const itemId = e.target.dataset.itemId;
+            const action = element.dataset.action;
+            const itemId = element.dataset.itemId;
 
-            this.handleAction(action, itemId, e.target);
+            this.handleAction(action, itemId, element);
         });
 
         // Click no novo item
-        DOM.delegate(this.container, 'click', '[data-new-item]', (e) => {
+        DOM.delegate(this.container, '[data-new-item]', 'click', (e, element) => {
             if (!this.state.isCreating && e.target.closest('[data-new-content]')) {
                 this.startCreating();
             }
@@ -295,7 +294,7 @@ export class CardList {
 
         // Backup automático
         if (this.config.allowCreate || this.config.allowEdit) {
-            DOM.delegate(this.container, 'input', '.form-input', () => {
+            DOM.delegate(this.container, '.form-input', 'input', () => {
                 Backup.save(this.backupKey, this.getFormData());
             });
         }
@@ -327,14 +326,16 @@ export class CardList {
 
     // Iniciar edição de item
     editItem(itemId) {
-        this.state.expandedItems.add(itemId);
-        this.renderItem(itemId);
-        this.focusFirstField(itemId);
+        const itemIdStr = String(itemId);
+        this.state.expandedItems.add(itemIdStr);
+        this.renderItem(itemIdStr);
+        this.focusFirstField(itemIdStr);
     }
 
     // Cancelar edição
     cancelEdit(itemId) {
-        this.state.expandedItems.delete(itemId);
+        const itemIdStr = String(itemId);
+        this.state.expandedItems.delete(itemIdStr);
         this.renderItem(itemId);
     }
 
@@ -355,12 +356,13 @@ export class CardList {
 
         try {
             // Encontrar e atualizar item
-            const itemIndex = this.state.items.findIndex(item => item.id === itemId);
+            const itemIdStr = String(itemId);
+            const itemIndex = this.state.items.findIndex(item => String(item.id) === itemIdStr);
             if (itemIndex === -1) throw new Error('Item não encontrado');
 
             const updatedItem = { ...this.state.items[itemIndex], ...data };
             this.state.items[itemIndex] = updatedItem;
-            this.state.expandedItems.delete(itemId);
+            this.state.expandedItems.delete(itemIdStr);
 
             // Render com success animation
             this.renderItem(itemId);
@@ -394,9 +396,10 @@ export class CardList {
             
             // Remover após animação
             setTimeout(() => {
-                this.state.items = this.state.items.filter(item => item.id !== itemId);
-                this.state.expandedItems.delete(itemId);
-                this.state.loading.delete(itemId);
+                const itemIdStr = String(itemId);
+                this.state.items = this.state.items.filter(item => String(item.id) !== itemIdStr);
+                this.state.expandedItems.delete(itemIdStr);
+                this.state.loading.delete(itemIdStr);
                 
                 this.renderItems();
                 this.callbacks.onItemDeleted?.(itemId);
@@ -436,9 +439,11 @@ export class CardList {
 
         // Loading
         const createButton = DOM.select('[data-action="create"]', form);
-        Loader.showInline(createButton, 'Criando...');
-
+        
         try {
+            if (createButton && Loader.showInline) {
+                Loader.showInline(createButton, 'Criando...');
+            }
             const newItem = {
                 id: UI.generateId(),
                 createdAt: new Date().toISOString(),
@@ -472,7 +477,9 @@ export class CardList {
         } catch (error) {
             this.handleError(error, `Erro ao criar ${this.config.type}`);
         } finally {
-            Loader.hideInline(createButton);
+            if (createButton && Loader.hideInline) {
+                Loader.hideInline(createButton);
+            }
         }
     }
 
@@ -494,10 +501,16 @@ export class CardList {
 
     // Renderizar item específico
     renderItem(itemId) {
-        const item = this.state.items.find(item => item.id === itemId);
-        if (!item) return;
+        // Converter para string para garantir comparação correta
+        const itemIdStr = String(itemId);
+        const item = this.state.items.find(item => String(item.id) === itemIdStr);
+        
+        if (!item) {
+            console.error('Item não encontrado:', itemId);
+            return;
+        }
 
-        const itemElement = DOM.select(`[data-item-id="${itemId}"]`, this.container);
+        const itemElement = DOM.select(`[data-item-id="${itemIdStr}"]`, this.container);
         if (itemElement) {
             itemElement.outerHTML = this.createItemHTML(item);
         }
@@ -553,6 +566,11 @@ export class CardList {
     // Validar dados
     validateData(data) {
         const errors = {};
+        
+        // Se não há validadores, retorna null (sem erros)
+        if (!this.config.validators || Object.keys(this.config.validators).length === 0) {
+            return null;
+        }
         
         for (const [fieldName, rules] of Object.entries(this.config.validators)) {
             const value = data[fieldName];
@@ -640,12 +658,8 @@ export class CardList {
         console.error('CardList Error:', error);
         this.callbacks.onError?.(error, message);
         
-        // Mostrar notificação se UI tem método para isso
-        if (UI.showNotification) {
-            UI.showNotification(message, 'error');
-        } else {
-            alert(message);
-        }
+        // Por enquanto, apenas log no console
+        // O callback onError deve cuidar das notificações
     }
 
     // API Pública

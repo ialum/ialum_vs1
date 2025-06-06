@@ -1,16 +1,52 @@
 <!-- 
     configuracoes-banca.html
-    Página de configurações da banca usando APENAS componentes base
+    Página de configurações da banca - Linhas Narrativas
     Localização: public/app/views/configuracoes-banca.html
 -->
 
-<div class="container">
-    <div class="flex justify-center items-center" style="min-height: 400px;">
-        <div class="text-center">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">🚧</div>
-            <h2 class="text-2xl font-bold text-dark mb-md">Configurações - Banca</h2>
-            <p class="text-lg text-muted mb-lg">Esta página está sendo desenvolvida e estará disponível em breve.</p>
-            <div class="badge badge-soft badge-primary">Em desenvolvimento</div>
+<div class="container py-lg">
+    <!-- Header da página -->
+    <div class="mb-xl">
+        <h1 class="text-2xl font-bold text-dark mb-sm">Configurações da Banca</h1>
+        <p class="text-muted">Configure a identidade, temas e narrativas da sua banca para geração de conteúdo com IA.</p>
+    </div>
+
+    <!-- Seção: Linhas Narrativas -->
+    <div class="card mb-lg">
+        <div class="card-header">
+            <div>
+                <h2 class="card-title">Linhas Narrativas</h2>
+                <p class="text-muted">Defina as abordagens narrativas que a IA usará para criar conteúdo alinhado com o posicionamento da sua banca.</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Container para o CardList component -->
+            <div id="narrativas-container"></div>
+        </div>
+    </div>
+
+    <!-- Seções futuras -->
+    <div class="card mb-lg">
+        <div class="card-header">
+            <h2 class="card-title">Identidade Visual</h2>
+        </div>
+        <div class="card-body">
+            <div class="text-center py-xl">
+                <div class="text-4xl mb-md">🎨</div>
+                <p class="text-muted">Em desenvolvimento - Logo, cores e fontes</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-lg">
+        <div class="card-header">
+            <h2 class="card-title">Temas Jurídicos</h2>
+        </div>
+        <div class="card-body">
+            <div class="text-center py-xl">
+                <div class="text-4xl mb-md">⚖️</div>
+                <p class="text-muted">Em desenvolvimento - Áreas de atuação</p>
+            </div>
         </div>
     </div>
 </div>

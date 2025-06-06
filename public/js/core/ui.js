@@ -93,6 +93,44 @@ export const UI = {
         }
     },
     
+    // FadeIn - mostrar elemento com animação
+    fadeIn(element, duration = 300) {
+        element = typeof element === 'string' 
+            ? document.querySelector(element) 
+            : element;
+            
+        if (!element) return;
+        
+        element.style.opacity = '0';
+        element.style.display = '';
+        element.offsetHeight; // Force reflow
+        element.style.transition = `opacity ${duration}ms`;
+        element.style.opacity = '1';
+        
+        setTimeout(() => {
+            element.style.transition = '';
+        }, duration);
+    },
+
+    // FadeOut - esconder elemento com animação
+    fadeOut(element, duration = 300, callback = null) {
+        element = typeof element === 'string' 
+            ? document.querySelector(element) 
+            : element;
+            
+        if (!element) return;
+        
+        element.style.transition = `opacity ${duration}ms`;
+        element.style.opacity = '0';
+        
+        setTimeout(() => {
+            element.style.display = 'none';
+            element.style.opacity = '';
+            element.style.transition = '';
+            if (callback) callback();
+        }, duration);
+    },
+
     // Toggle de visibilidade com fade
     fadeToggle(element, duration = 300) {
         element = typeof element === 'string' 
@@ -104,22 +142,9 @@ export const UI = {
         const isVisible = window.getComputedStyle(element).display !== 'none';
         
         if (isVisible) {
-            element.style.transition = `opacity ${duration}ms`;
-            element.style.opacity = '0';
-            setTimeout(() => {
-                element.style.display = 'none';
-                element.style.opacity = '';
-                element.style.transition = '';
-            }, duration);
+            this.fadeOut(element, duration);
         } else {
-            element.style.display = '';
-            element.style.opacity = '0';
-            element.offsetHeight; // Force reflow
-            element.style.transition = `opacity ${duration}ms`;
-            element.style.opacity = '1';
-            setTimeout(() => {
-                element.style.transition = '';
-            }, duration);
+            this.fadeIn(element, duration);
         }
     },
     

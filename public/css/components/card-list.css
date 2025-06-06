@@ -18,27 +18,28 @@
 }
 
 .card-list-container {
-    background: var(--gray-50);
+    background: var(--theme-bg-secondary);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--theme-border-primary);
+}
+
+/* Garantir espaçamento entre items e botão de criar novo */
+.card-list-items:not(:empty) + .card-list-new {
+    margin-top: var(--spacing-lg);
 }
 
 .card-list-header {
-    margin-bottom: var(--spacing-lg);
+    display: none; /* Ocultar completamente quando vazio para não deixar espaço */
 }
 
 .card-list-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-semibold);
-    color: var(--dark);
-    margin: 0 0 var(--spacing-xs) 0;
-    line-height: var(--line-height-tight);
+    display: none; /* Ocultar título do CardList */
 }
 
 .card-list-description {
     font-size: var(--font-size-sm);
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
     margin: 0;
     line-height: var(--line-height-normal);
 }
@@ -74,10 +75,15 @@
     width: 100%;
 }
 
+.card-list-item-content {
+    flex: 1;
+    padding: var(--spacing-md);
+}
+
 .card-list-item-title {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
-    color: var(--dark);
+    color: var(--theme-text-primary);
     flex: 1;
     margin: 0;
     line-height: var(--line-height-tight);
@@ -85,7 +91,7 @@
 
 .card-list-item-subtitle {
     font-size: var(--font-size-sm);
-    color: var(--gray-500);
+    color: var(--theme-text-tertiary);
     margin: var(--spacing-xs) 0 0 0;
     line-height: var(--line-height-normal);
 }
@@ -105,12 +111,21 @@
     width: 100%;
 }
 
+/* Garantir que textareas tenham largura definida */
+.card-list-form .form-input[name="descricao"],
+.card-list-form textarea.form-input {
+    width: 100%;
+    min-width: 0;
+    resize: vertical;
+}
+
+/* Os forms herdam estilos globais modernos do sistema base
+   Removido override específico para permitir que o sistema global funcione */
+
 .card-list-form-actions {
     display: flex;
     gap: var(--spacing-sm);
     margin-top: var(--spacing-lg);
-    padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--gray-200);
     justify-content: flex-start;
 }
 
@@ -122,8 +137,8 @@
     /* Quando contraído - usa card-empty style */
     text-align: center;
     padding: var(--spacing-xl);
-    background: var(--gray-50);
-    border: 2px dashed var(--gray-300);
+    background: var(--theme-bg-secondary);
+    border: 2px dashed var(--theme-border-secondary);
     border-radius: var(--radius-lg);
     transition: all 0.3s ease;
     cursor: pointer;
@@ -136,7 +151,7 @@
 
 .card-list-new.expanded {
     /* Quando expandido - usa card normal */
-    background: var(--white);
+    background: var(--theme-bg-primary);
     border: 1px solid var(--primary);
     border-style: solid;
     text-align: left;
@@ -146,7 +161,7 @@
 
 .card-list-new-icon {
     font-size: var(--font-size-2xl);
-    color: var(--gray-400);
+    color: var(--theme-text-secondary);
     margin-bottom: var(--spacing-sm);
     display: block;
 }
@@ -156,15 +171,12 @@
 }
 
 .card-list-new-text {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    color: var(--gray-600);
-    margin: 0;
+    display: none; /* Ocultar título "Novo narrativa" */
 }
 
 .card-list-new.expanded .card-list-new-text {
     font-size: var(--font-size-lg);
-    color: var(--dark);
+    color: var(--theme-text-primary);
     margin-bottom: var(--spacing-lg);
     text-align: left;
 }
@@ -187,7 +199,7 @@
     transform: translateY(-50%);
     width: var(--size-md);
     height: var(--size-md);
-    border: 2px solid var(--gray-300);
+    border: 2px solid var(--theme-border-primary);
     border-top: 2px solid var(--primary);
     border-radius: var(--radius-full);
     animation: spin 1s linear infinite;
@@ -231,7 +243,7 @@
     align-items: center;
     gap: var(--spacing-xs);
     font-size: var(--font-size-xs);
-    color: var(--gray-500);
+    color: var(--theme-text-tertiary);
 }
 
 .card-list-item-status::before {
@@ -239,7 +251,7 @@
     width: var(--size-2xs);
     height: var(--size-2xs);
     border-radius: var(--radius-full);
-    background: var(--gray-400);
+    background: var(--theme-text-secondary);
 }
 
 .card-list-item-status.active::before {
@@ -290,12 +302,44 @@
 }
 
 /* =================================================================
+   LABELS PARA IA - OCULTOS VISUALMENTE MAS ACESSÍVEIS
+================================================================= */
+
+/* 
+ * Classe especial para labels que são importantes para IA mas desnecessários visualmente.
+ * Mantém o conteúdo acessível para leitores de tela e ferramentas de IA,
+ * mas oculta visualmente para usuários.
+ * 
+ * USO: <label class="form-label sr-only-ai">Nome da Narrativa</label>
+ */
+.sr-only-ai {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Variante para manter acessível mas com opacidade reduzida */
+.form-label-ai-context {
+    opacity: 0.3;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-normal);
+    color: var(--theme-text-tertiary);
+    margin-bottom: var(--spacing-2xs);
+}
+
+/* =================================================================
    RESPONSIVIDADE
 ================================================================= */
 
 @media (max-width: 768px) {
     .card-list-container {
-        padding: var(--spacing-md);
+        padding: var(--spacing-sm);
     }
     
     .card-list-item-header {
@@ -330,7 +374,7 @@
     }
     
     .card-list-items {
-        gap: var(--spacing-sm);
+        gap: var(--spacing-md);
     }
     
     .card-list-item-actions .btn {
@@ -349,46 +393,6 @@
     }
 }
 
-/* =================================================================
-   MODO ESCURO (quando implementado)
-================================================================= */
-
-@media (prefers-color-scheme: dark) {
-    .card-list-container {
-        background: var(--gray-800);
-        border-color: var(--gray-700);
-    }
-    
-    .card-list-title {
-        color: var(--gray-100);
-    }
-    
-    .card-list-description {
-        color: var(--gray-400);
-    }
-    
-    .card-list-new {
-        background: var(--gray-700);
-        border-color: var(--gray-600);
-    }
-    
-    .card-list-new:hover {
-        background: var(--gray-600);
-        border-color: var(--primary);
-    }
-    
-    .card-list-new.expanded {
-        background: var(--gray-800);
-    }
-    
-    .card-list-new-text {
-        color: var(--gray-300);
-    }
-    
-    .card-list-new.expanded .card-list-new-text {
-        color: var(--gray-100);
-    }
-}
 
 /* =================================================================
    ANIMAÇÕES

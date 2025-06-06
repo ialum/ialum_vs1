@@ -624,13 +624,13 @@
 /* Container padrão para páginas internas */
 .page-container {
     min-height: 100vh;
-    background-color: var(--gray-50);
+    background-color: var(--theme-bg-secondary);
 }
 
 /* Header padrão de página */
 .page-header {
-    background-color: var(--white);
-    border-bottom: 1px solid var(--gray-200);
+    background-color: var(--theme-bg-primary);
+    border-bottom: 1px solid var(--theme-border-primary);
     padding: var(--spacing-lg) var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
 }
@@ -638,12 +638,12 @@
 .page-title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--theme-text-primary);
     margin: 0;
 }
 
 .page-subtitle {
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
     margin-top: var(--spacing-xs);
 }
 
@@ -656,7 +656,7 @@
 
 /* Seções de conteúdo */
 .content-section {
-    background-color: var(--white);
+    background-color: var(--theme-bg-primary);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
@@ -669,13 +669,13 @@
     align-items: center;
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
-    border-bottom: 1px solid var(--gray-100);
+    border-bottom: 1px solid var(--theme-border-primary);
 }
 
 .section-title {
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--dark);
+    color: var(--theme-text-primary);
     margin: 0;
 }
 
@@ -706,8 +706,8 @@
 
 .list-item {
     padding: var(--spacing-md);
-    background-color: var(--white);
-    border: 1px solid var(--gray-200);
+    background-color: var(--theme-bg-primary);
+    border: 1px solid var(--theme-border-primary);
     border-radius: var(--radius-md);
     transition: all 0.2s ease;
 }
@@ -724,7 +724,7 @@
 }
 
 .form-section {
-    background-color: var(--white);
+    background-color: var(--theme-bg-primary);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
@@ -732,7 +732,7 @@
 
 /* Layout de tabela */
 .table-container {
-    background-color: var(--white);
+    background-color: var(--theme-bg-primary);
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
@@ -753,12 +753,12 @@
 .empty-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--gray-700);
+    color: var(--theme-text-primary);
     margin-bottom: var(--spacing-sm);
 }
 
 .empty-message {
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
     margin-bottom: var(--spacing-xl);
 }
 

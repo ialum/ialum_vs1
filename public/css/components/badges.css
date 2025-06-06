@@ -605,24 +605,3 @@
     }
 }
 
-/* =================================================================
-   MODO ESCURO (quando implementado)
-================================================================= */
-
-@media (prefers-color-scheme: dark) {
-    .badge-light {
-        background-color: var(--gray-800);
-        color: var(--gray-100);
-        border-color: var(--gray-700);
-    }
-    
-    .badge-light:hover {
-        background-color: var(--gray-700);
-        border-color: var(--gray-600);
-    }
-    
-    .badge-ghost:hover {
-        background-color: var(--alpha-white-10);
-        border-color: var(--alpha-white-20);
-    }
-}

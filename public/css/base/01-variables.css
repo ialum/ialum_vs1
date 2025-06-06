@@ -105,4 +105,65 @@
     --size-lg: 1rem;       /* 16px */
     --size-xl: 1.25rem;    /* 20px */
     --size-2xl: 1.5rem;    /* 24px */
+    
+    /* ===== SISTEMA DE TEMAS ===== */
+    /* 
+     * Variáveis semânticas para sistema de temas
+     * 
+     * USO CORRETO:
+     * - background: var(--theme-bg-primary);     ✅ CORRETO
+     * - background: var(--white);               ❌ ERRADO
+     * - color: var(--theme-text-primary);       ✅ CORRETO  
+     * - color: var(--dark);                     ❌ ERRADO
+     * 
+     * COMO TROCAR TEMA:
+     * - Tema claro: <html> (sem atributo data-theme)
+     * - Tema escuro: <html data-theme="dark">
+     * - Via JavaScript: State.set('theme', 'dark')
+     * 
+     * DOCUMENTAÇÃO: /docs/tecnologia-utilities-css.md#temas
+     */
+    
+    /* Tema Claro (padrão) - aplicado quando não há data-theme */
+    --theme-bg-primary: var(--white);           /* Backgrounds principais (cards, modals) */
+    --theme-bg-secondary: var(--gray-50);       /* Backgrounds secundários (containers) */
+    --theme-bg-tertiary: var(--gray-100);       /* Backgrounds terciários (sidebar, etc) */
+    --theme-bg-elevated: var(--white);          /* Elementos elevados (dropdowns) */
+    --theme-bg-overlay: rgba(0, 0, 0, 0.5);     /* Overlays e modals */
+    
+    --theme-text-primary: var(--dark);          /* Texto principal */
+    --theme-text-secondary: var(--gray-600);    /* Texto secundário */
+    --theme-text-tertiary: var(--gray-500);     /* Texto auxiliar, placeholders */
+    --theme-text-inverse: var(--white);         /* Texto em fundos escuros */
+    
+    --theme-border-primary: var(--gray-200);    /* Bordas principais */
+    --theme-border-secondary: var(--gray-300);  /* Bordas mais visíveis */
+    --theme-border-focus: var(--primary);       /* Bordas de foco */
+    
+    --theme-surface-hover: var(--gray-50);      /* Estado hover de superfícies */
+    --theme-surface-active: var(--gray-100);    /* Estado ativo de superfícies */
+    --theme-surface-disabled: var(--gray-100);  /* Estado desabilitado */
+}
+
+/* ===== TEMA ESCURO ===== */
+/* Aplicado quando <html data-theme="dark"> */
+[data-theme="dark"] {
+    --theme-bg-primary: var(--gray-800);        /* Backgrounds principais */
+    --theme-bg-secondary: var(--gray-900);      /* Backgrounds secundários */
+    --theme-bg-tertiary: var(--gray-700);       /* Backgrounds terciários */
+    --theme-bg-elevated: var(--gray-700);       /* Elementos elevados */
+    --theme-bg-overlay: rgba(0, 0, 0, 0.7);     /* Overlays mais escuros */
+    
+    --theme-text-primary: var(--gray-100);      /* Texto principal claro */
+    --theme-text-secondary: var(--gray-400);    /* Texto secundário */
+    --theme-text-tertiary: var(--gray-500);     /* Texto auxiliar */
+    --theme-text-inverse: var(--dark);          /* Texto em fundos claros */
+    
+    --theme-border-primary: var(--gray-700);    /* Bordas principais */
+    --theme-border-secondary: var(--gray-600);  /* Bordas mais visíveis */
+    --theme-border-focus: var(--primary-light); /* Bordas de foco (mais clara) */
+    
+    --theme-surface-hover: var(--gray-700);     /* Estado hover */
+    --theme-surface-active: var(--gray-600);    /* Estado ativo */
+    --theme-surface-disabled: var(--gray-800);  /* Estado desabilitado */
 }

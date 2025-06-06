@@ -1,16 +1,285 @@
 <!-- 
     configuracoes-sistema.html
-    Página de configurações de sistema usando APENAS componentes base
+    Página de configurações de sistema
     Localização: public/app/views/configuracoes-sistema.html
 -->
 
 <div class="container">
-    <div class="flex justify-center items-center" style="min-height: 400px;">
-        <div class="text-center">
-            <div style="font-size: 4rem; margin-bottom: 1rem;">🚧</div>
-            <h2 class="text-2xl font-bold text-dark mb-md">Configurações - Sistema</h2>
-            <p class="text-lg text-muted mb-lg">Esta página está sendo desenvolvida e estará disponível em breve.</p>
-            <div class="badge badge-soft badge-primary">Em desenvolvimento</div>
+    <div class="page-header mb-lg">
+        <h1 class="page-title">Configurações do Sistema</h1>
+        <p class="page-description">Gerencie as configurações globais da aplicação</p>
+    </div>
+
+    <!-- Seção de Aparência -->
+    <div class="card mb-lg">
+        <div class="card-header">
+            <h2 class="card-title">🎨 Aparência</h2>
+            <p class="card-subtitle">Personalize a interface da aplicação</p>
+        </div>
+        
+        <div class="card-body">
+            <!-- Toggle de Tema -->
+            <div class="form-group">
+                <label class="form-label">
+                    <span class="form-label-text">Tema da Interface</span>
+                    <span class="form-label-optional">Escolha entre claro e escuro</span>
+                </label>
+                
+                <div class="theme-selector" data-theme-selector>
+                    <div class="theme-option" data-theme="light">
+                        <div class="theme-preview theme-preview-light">
+                            <div class="theme-preview-header"></div>
+                            <div class="theme-preview-content">
+                                <div class="theme-preview-line"></div>
+                                <div class="theme-preview-line short"></div>
+                            </div>
+                        </div>
+                        <div class="theme-option-label">
+                            <span class="theme-option-title">Claro</span>
+                            <span class="theme-option-desc">Interface clara e limpa</span>
+                        </div>
+                        <input type="radio" name="theme" value="light" class="theme-radio" checked>
+                    </div>
+                    
+                    <div class="theme-option" data-theme="dark">
+                        <div class="theme-preview theme-preview-dark">
+                            <div class="theme-preview-header"></div>
+                            <div class="theme-preview-content">
+                                <div class="theme-preview-line"></div>
+                                <div class="theme-preview-line short"></div>
+                            </div>
+                        </div>
+                        <div class="theme-option-label">
+                            <span class="theme-option-title">Escuro</span>
+                            <span class="theme-option-desc">Interface escura para reduzir fadiga</span>
+                        </div>
+                        <input type="radio" name="theme" value="dark" class="theme-radio">
+                    </div>
+                </div>
+                
+                <div class="form-text">
+                    <span class="theme-status" data-theme-status>
+                        ✨ Tema aplicado: <strong>Claro</strong>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Sistema -->
+    <div class="card mb-lg">
+        <div class="card-header">
+            <h2 class="card-title">⚙️ Sistema</h2>
+            <p class="card-subtitle">Configurações técnicas e de performance</p>
+        </div>
+        
+        <div class="card-body">
+            <div class="form-group">
+                <label class="form-label">
+                    <span class="form-label-text">Cache do Sistema</span>
+                    <span class="form-label-optional">Limpar dados em cache para melhor performance</span>
+                </label>
+                <button type="button" class="btn btn-outline btn-secondary" data-action="clear-cache">
+                    🗑️ Limpar Cache
+                </button>
+                <div class="form-text">
+                    Último cache limpo: <span data-cache-status>Nunca</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    <span class="form-label-text">Backup de Dados</span>
+                    <span class="form-label-optional">Backup automático dos rascunhos</span>
+                </label>
+                <div class="form-row">
+                    <button type="button" class="btn btn-outline btn-primary" data-action="backup-now">
+                        💾 Fazer Backup
+                    </button>
+                    <button type="button" class="btn btn-outline btn-secondary" data-action="clear-backups">
+                        🗑️ Limpar Backups Antigos
+                    </button>
+                </div>
+                <div class="form-text">
+                    Backups são mantidos por 7 dias automaticamente
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção de Informações -->
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">ℹ️ Informações</h2>
+            <p class="card-subtitle">Detalhes sobre o sistema e versão</p>
+        </div>
+        
+        <div class="card-body">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Versão:</span>
+                    <span class="info-value">iAlum v1.0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Última atualização:</span>
+                    <span class="info-value" data-last-update>Carregando...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Storage usado:</span>
+                    <span class="info-value" data-storage-usage>Calculando...</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+/* Estilos específicos para configurações de tema */
+.theme-selector {
+    display: flex;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-md) 0;
+}
+
+.theme-option {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    border: 2px solid var(--theme-border-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: all 0.3s ease;
+}
+
+.theme-option:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.theme-option.active {
+    border-color: var(--primary);
+    background: var(--primary-very-light);
+}
+
+.theme-preview {
+    width: 100%;
+    height: 80px;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-preview-light {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.theme-preview-dark {
+    background: #374151;
+    border: 1px solid #4b5563;
+}
+
+.theme-preview-header {
+    height: 20px;
+    width: 100%;
+}
+
+.theme-preview-light .theme-preview-header {
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.theme-preview-dark .theme-preview-header {
+    background: #1f2937;
+    border-bottom: 1px solid #4b5563;
+}
+
+.theme-preview-content {
+    padding: var(--spacing-sm);
+}
+
+.theme-preview-line {
+    height: 8px;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.theme-preview-line.short {
+    width: 60%;
+}
+
+.theme-preview-light .theme-preview-line {
+    background: #d1d5db;
+}
+
+.theme-preview-dark .theme-preview-line {
+    background: #6b7280;
+}
+
+.theme-option-label {
+    text-align: center;
+}
+
+.theme-option-title {
+    display: block;
+    font-weight: var(--font-weight-medium);
+    color: var(--theme-text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.theme-option-desc {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--theme-text-secondary);
+}
+
+.theme-radio {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+}
+
+.form-row {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.info-grid {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--theme-border-primary);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: var(--font-weight-medium);
+    color: var(--theme-text-secondary);
+}
+
+.info-value {
+    color: var(--theme-text-primary);
+    font-weight: var(--font-weight-medium);
+}
+
+@media (max-width: 768px) {
+    .theme-selector {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .form-row {
+        flex-direction: column;
+    }
+}
+</style>

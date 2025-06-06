@@ -27,13 +27,20 @@ export function init() {
         bindMobileToggle();
         updateActiveState();
         
-        // Teste alternativo: listener direto
-        console.log('🧪 Adicionando listener direto para teste...');
+        // CORREÇÃO: Fallback de segurança para submenu toggles
+        console.log('🛡️ Adicionando fallback de segurança para submenus...');
         document.addEventListener('click', (e) => {
-            if (e.target.closest('.nav-link')) {
-                console.log('🎯 TESTE: Clique em nav-link detectado!', e.target.closest('.nav-link'));
+            const navLink = e.target.closest('.nav-link');
+            if (navLink && navLink.closest('#sidebar')) {
+                const href = navLink.getAttribute('href');
+                if (href === 'javascript:void(0)' || href.includes('void(0)')) {
+                    console.log('🚨 FALLBACK: Processando submenu toggle via fallback');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleSubmenuToggle(navLink);
+                }
             }
-        });
+        }, true); // Use capture phase para garantir execução primeiro
         
         // Escutar mudanças de rota
         DOM.on(window, 'hashchange', updateActiveState);
@@ -63,12 +70,12 @@ function initializeSubmenus() {
 function bindNavigation() {
     console.log('🔗 bindNavigation() chamado - configurando event delegation');
     
-    // Event delegation unificado para todos os cliques em links do sidebar
-    DOM.delegate(document, 'click', '.nav-link, .nav-subitem', (e, element) => {
-        console.log('👆 Clique detectado em:', element);
-        console.log('🎯 Elemento target:', e.target);
-        console.log('🔍 Elemento delegado:', element);
+    // CORREÇÃO: Event delegation mais específico para o sidebar
+    DOM.delegate('#sidebar', 'click', '.nav-link', (e, element) => {
+        console.log('👆 Clique detectado em nav-link:', element);
+        
         const href = element.getAttribute('href');
+        console.log('🔍 href:', href);
         
         // Verificação segura: se não tem href, ignore
         if (!href) return;
@@ -76,26 +83,43 @@ function bindNavigation() {
         // Ignorar links externos
         if (href.startsWith('http')) return;
         
-        if (href === 'javascript:void(0)') {
-            // É um toggle de submenu
+        if (href === 'javascript:void(0)' || href.includes('void(0)')) {
+            // É um toggle de submenu - PRIORIDADE ALTA
             console.log('🔧 Submenu toggle clicked:', element);
             console.log('🔍 Element text:', element.textContent.trim());
-            console.log('🔍 Closest submenu parent:', element.closest('.nav-item-submenu'));
+            
             e.preventDefault();
             e.stopPropagation();
             handleSubmenuToggle(element);
-        } else if (href.startsWith('#')) {
-            // É navegação normal
-            e.preventDefault();
+            return;
+        } 
+        
+        if (href.startsWith('#')) {
+            // É navegação normal - deixa router processar naturalmente
+            console.log('🧭 Navegação normal - deixando router processar:', href);
             
             // Fechar menu mobile se estiver aberto
             if (State.get('sidebar.mobileOpen')) {
                 closeMobileMenu();
             }
             
-            // Navegar usando o router
-            const route = href.substring(1);
-            Router.navigate(route);
+            // NÃO preventDefault aqui - deixa o router processar
+        }
+    });
+    
+    // Event delegation separado para subitens
+    DOM.delegate('#sidebar', 'click', '.nav-subitem', (e, element) => {
+        console.log('👆 Clique detectado em nav-subitem:', element);
+        
+        const href = element.getAttribute('href');
+        if (href && href.startsWith('#')) {
+            // Fechar menu mobile se estiver aberto
+            if (State.get('sidebar.mobileOpen')) {
+                closeMobileMenu();
+            }
+            
+            // Deixa o router processar naturalmente
+            console.log('🧭 Subitem navegação - deixando router processar:', href);
         }
     });
 }
@@ -124,8 +148,10 @@ function handleSubmenuToggle(toggle) {
     const isExpanded = DOM.hasClass(parent, 'expanded');
     console.log('📊 Is expanded:', isExpanded);
     
-    // Fechar todos os outros submenus primeiro
-    closeAllSubmenus(parent);
+    // Fechar todos os outros submenus primeiro (só se não estiver expandindo)
+    if (!isExpanded) {
+        closeAllSubmenus(parent);
+    }
     
     // Toggle do submenu atual
     if (isExpanded) {
@@ -135,9 +161,11 @@ function handleSubmenuToggle(toggle) {
         console.log('📂 Submenu fechado');
     } else {
         DOM.addClass(parent, 'expanded');
-        submenu.style.maxHeight = submenu.scrollHeight + 'px';
+        // CORREÇÃO: Usar scrollHeight + margem para garantir expansão completa
+        const fullHeight = submenu.scrollHeight + 20; // +20px de margem
+        submenu.style.maxHeight = fullHeight + 'px';
         if (arrow) arrow.style.transform = 'rotate(90deg)';
-        console.log('📂 Submenu aberto');
+        console.log('📂 Submenu aberto com altura:', fullHeight);
     }
     
     // Salvar estado no cache

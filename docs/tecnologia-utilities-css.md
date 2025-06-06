@@ -80,6 +80,44 @@ public/css/
 --text-4xl: 2.25rem;     /* 36px */
 ```
 
+### Sistema de Temas
+```css
+/* Variáveis semânticas - USE SEMPRE ESTAS */
+--theme-bg-primary         /* Background principal (cards, modals) */
+--theme-bg-secondary       /* Background secundário (containers) */
+--theme-bg-tertiary        /* Background terciário (sidebar) */
+--theme-bg-elevated        /* Elementos elevados (dropdowns) */
+--theme-bg-overlay         /* Overlays e modals */
+
+--theme-text-primary       /* Texto principal */
+--theme-text-secondary     /* Texto secundário */
+--theme-text-tertiary      /* Texto auxiliar, placeholders */
+--theme-text-inverse       /* Texto em fundos escuros */
+
+--theme-border-primary     /* Bordas principais */
+--theme-border-secondary   /* Bordas mais visíveis */
+--theme-border-focus       /* Bordas de foco */
+
+--theme-surface-hover      /* Estado hover */
+--theme-surface-active     /* Estado ativo */
+--theme-surface-disabled   /* Estado desabilitado */
+
+/* COMO USAR TEMAS */
+/* ✅ CORRETO - sempre use variáveis semânticas */
+.meu-componente {
+    background: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
+    border: 1px solid var(--theme-border-primary);
+}
+
+/* ❌ ERRADO - nunca use cores diretas */
+.meu-componente {
+    background: var(--white);
+    color: var(--dark);
+    border: 1px solid var(--gray-200);
+}
+```
+
 ## 🛠️ Classes Utilitárias
 
 ### Espaçamento
@@ -346,6 +384,101 @@ public/css/
 <div class="ui-highlight">Highlight</div>
 ```
 
+## 🌙 Sistema de Temas (Claro/Escuro)
+
+### Como Trocar Tema
+
+#### Via JavaScript (Recomendado)
+```javascript
+import { State } from '/js/core/state.js';
+
+// Definir tema
+State.set('theme', 'dark');    // Tema escuro
+State.set('theme', 'light');   // Tema claro
+
+// Obter tema atual
+const currentTheme = State.get('theme') || 'light';
+
+// Toggle entre temas
+const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+State.set('theme', newTheme);
+```
+
+#### Via Atributo HTML
+```html
+<!-- Tema claro (padrão) -->
+<html>
+
+<!-- Tema escuro -->
+<html data-theme="dark">
+```
+
+### Interface de Configuração
+
+O sistema inclui uma página completa para configuração de temas:
+- **Localização**: Configurações → Sistema
+- **Preview visual** dos temas antes de aplicar
+- **Persistência automática** via localStorage
+- **Aplicação instantânea** em toda a aplicação
+
+### Exemplo de Uso nos Componentes
+
+```css
+/* ✅ CORRETO - Use sempre variáveis semânticas */
+.card {
+    background: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
+    border: 1px solid var(--theme-border-primary);
+}
+
+.card:hover {
+    background: var(--theme-surface-hover);
+}
+
+.form-input {
+    background: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
+    border: 1px solid var(--theme-border-primary);
+}
+
+.form-input:focus {
+    border-color: var(--theme-border-focus);
+}
+
+/* ❌ ERRADO - Nunca use cores fixas */
+.card {
+    background: var(--white);      /* Não funciona no tema escuro */
+    color: var(--dark);           /* Não funciona no tema escuro */
+}
+```
+
+### Migração de Componentes Existentes
+
+Se você encontrar um componente usando cores fixas:
+
+```css
+/* ANTES - cores fixas */
+.meu-componente {
+    background: var(--gray-50);
+    color: var(--dark);
+    border: 1px solid var(--gray-200);
+}
+
+/* DEPOIS - variáveis semânticas */
+.meu-componente {
+    background: var(--theme-bg-secondary);
+    color: var(--theme-text-primary);
+    border: 1px solid var(--theme-border-primary);
+}
+```
+
+### Testando Temas
+
+1. **Acesse** Configurações → Sistema
+2. **Teste ambos os temas** clicando nos previews
+3. **Verifique** se todos os componentes estão legíveis
+4. **Confirme** que as cores fazem sentido contextualmente
+
 ## 📏 Convenções e Boas Práticas
 
 ### 1. **Sempre use variáveis CSS**
@@ -477,7 +610,55 @@ margin: 16px;
 </form>
 ```
 
+## 📋 Status da Migração para Temas
+
+### ✅ Arquivos Atualizados com Sistema de Temas
+
+**Base CSS:**
+- ✅ `01-variables.css` - Sistema de temas implementado
+- ✅ `04-layouts.css` - Migrado para variáveis semânticas
+
+**Componentes:**
+- ✅ `card-list.css` - Totalmente migrado
+- ✅ `sidebar.css` - Totalmente migrado  
+- ✅ `header.css` - Totalmente migrado
+
+**Limpeza Realizada:**
+- ✅ Removido `@media (prefers-color-scheme: dark)` de todos os componentes
+- ✅ Substituído cores fixas por variáveis semânticas
+- ✅ Sistema centralizado em `variables.css`
+
+### 🚀 Como Verificar se um Componente Está Atualizado
+
+Um componente está **corretamente migrado** quando:
+
+```css
+/* ✅ CORRETO - usa variáveis semânticas */
+.meu-componente {
+    background: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
+    border: 1px solid var(--theme-border-primary);
+}
+
+/* ❌ ERRADO - usa cores fixas */
+.meu-componente {
+    background: var(--white);
+    color: var(--dark);
+    border: 1px solid var(--gray-200);
+}
+```
+
+### 📝 Para Novos Componentes
+
+Sempre use as variáveis semânticas de tema ao criar novos componentes:
+
+1. **Backgrounds**: `--theme-bg-primary`, `--theme-bg-secondary`, `--theme-bg-tertiary`
+2. **Textos**: `--theme-text-primary`, `--theme-text-secondary`, `--theme-text-tertiary`  
+3. **Bordas**: `--theme-border-primary`, `--theme-border-secondary`
+4. **Estados**: `--theme-surface-hover`, `--theme-surface-active`
+
 ---
 
 _Última atualização: Janeiro 2025_
 _Sistema CSS modular, escalável e otimizado para performance_
+_Sistema de temas claro/escuro implementado e totalmente funcional_

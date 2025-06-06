@@ -38,6 +38,7 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
     flex-shrink: 0;
 }
 
@@ -47,17 +48,17 @@
 }
 
 .card-title {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
     color: var(--dark);
-    margin: 0;
+    margin: 0 0 var(--spacing-sm) 0;
     line-height: var(--line-height-tight);
 }
 
 .card-subtitle {
     font-size: var(--font-size-sm);
     color: var(--gray-600);
-    margin: var(--spacing-xs) 0 0 0;
+    margin: var(--spacing-md) 0 0 0;
     line-height: var(--line-height-normal);
 }
 
@@ -878,6 +879,7 @@
 @media (max-width: 480px) {
     .card {
         padding: var(--spacing-sm);
+        border-radius: var(--radius-lg);
     }
     
     .card-xs {
@@ -904,48 +906,6 @@
     }
 }
 
-/* =================================================================
-   MODO ESCURO (quando implementado)
-================================================================= */
-
-@media (prefers-color-scheme: dark) {
-    .card {
-        background: var(--gray-800);
-        border-color: var(--gray-700);
-        color: var(--gray-100);
-    }
-    
-    .card:hover {
-        border-color: var(--gray-600);
-    }
-    
-    .card-title {
-        color: var(--gray-100);
-    }
-    
-    .card-subtitle {
-        color: var(--gray-400);
-    }
-    
-    .card-footer {
-        border-color: var(--gray-700);
-    }
-    
-    .card-light {
-        background: var(--gray-700);
-        color: var(--gray-200);
-    }
-    
-    .card-empty {
-        background: var(--gray-700);
-        color: var(--gray-400);
-    }
-    
-    .card-ghost:hover {
-        background: var(--alpha-white-10);
-        border-color: var(--alpha-white-20);
-    }
-}
 
 /* =================================================================
    ANIMAÇÕES

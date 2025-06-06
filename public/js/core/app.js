@@ -93,9 +93,9 @@ function initQuickActions() {
 
 // Inicializar quando DOM estiver pronto
 DOM.ready(() => {
-    // Inicializar o Router primeiro
-    Router.init();
-    
-    // Depois inicializar o App
+    // CORREÇÃO: Inicializar App primeiro (inclui sidebar)
     init();
+    
+    // Depois inicializar o Router (para não interferir com eventos do sidebar)
+    Router.init();
 });

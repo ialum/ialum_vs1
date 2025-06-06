@@ -123,11 +123,24 @@ export function init() {
     // Escutar mudanças de hash
     window.addEventListener('hashchange', () => handleRoute());
     
-    // Escutar cliques em links
+    // Escutar cliques em links - CORRIGIDO: Não capturar javascript:void(0)
     document.addEventListener('click', (e) => {
-        if (e.target.matches('a[href^="#"]')) {
+        const target = e.target.closest('a[href^="#"]');
+        if (target) {
+            const href = target.getAttribute('href');
+            
+            // IGNORAR javascript:void(0) e links de submenu toggle
+            if (href === '#' || href === 'javascript:void(0)' || href.includes('void(0)')) {
+                return; // Deixa o sidebar.js processar
+            }
+            
+            // IGNORAR se está dentro de nav-item-submenu e é um toggle
+            if (target.closest('.nav-item-submenu') && target.classList.contains('nav-link')) {
+                return; // Deixa o sidebar.js processar toggles
+            }
+            
             e.preventDefault();
-            const route = e.target.getAttribute('href').substring(1);
+            const route = href.substring(1);
             navigate(route);
         }
     });

@@ -117,7 +117,13 @@ export function showToast(message, type = 'info', duration = 5000) {
     UI.fadeIn(toast);
     
     // Remover ao clicar no X
-    DOM.on(toast, 'click', '.toast-close', () => removeToast(toast));
+    const closeBtn = toast.querySelector('.toast-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            removeToast(toast);
+        });
+    }
     
     // Auto remover após duração
     if (duration > 0) {

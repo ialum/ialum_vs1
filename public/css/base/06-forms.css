@@ -87,46 +87,82 @@
 .form-control {
     display: block;
     width: 100%;
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: var(--font-size-sm);
+    padding: var(--spacing-lg) var(--spacing-lg);
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
-    color: var(--dark);
-    background-color: var(--white);
+    color: var(--theme-text-primary);
+    background-color: var(--theme-bg-secondary);
     background-clip: padding-box;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius-md);
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border: none;
+    border-radius: var(--radius-lg);
+    transition: all 0.2s ease;
 }
 
 .form-control:focus {
-    color: var(--dark);
+    color: var(--theme-text-primary);
     background-color: var(--white);
-    border-color: var(--primary);
     outline: 0;
-    box-shadow: 0 0 0 3px var(--alpha-black-10);
+    box-shadow: 0 0 0 3px var(--primary-very-light);
+    transform: translateY(-1px);
 }
 
 .form-control:hover:not(:focus):not(:disabled) {
-    border-color: var(--gray-400);
+    background-color: var(--gray-100);
+    transform: translateY(-1px);
 }
 
 .form-control::placeholder {
-    color: var(--gray-500);
-    opacity: 1;
+    color: var(--theme-text-tertiary);
+    opacity: 0.8;
 }
 
 .form-control:disabled {
-    background-color: var(--gray-100);
-    border-color: var(--gray-200);
-    color: var(--gray-500);
+    background-color: var(--theme-surface-disabled);
+    color: var(--theme-text-tertiary);
     cursor: not-allowed;
-    opacity: var(--form-opacity-disabled);
+    opacity: 0.6;
 }
 
 /* Aliases para compatibilidade */
 .form-input {
-    @extend .form-control;
+    display: block;
+    width: 100%;
+    padding: var(--spacing-lg) var(--spacing-lg);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+    color: var(--theme-text-primary);
+    background-color: var(--theme-bg-secondary);
+    background-clip: padding-box;
+    border: none;
+    border-radius: var(--radius-lg);
+    transition: all 0.2s ease;
+}
+
+.form-input:focus {
+    color: var(--theme-text-primary);
+    background-color: var(--white);
+    outline: 0;
+    box-shadow: 0 0 0 3px var(--primary-very-light);
+    transform: translateY(-1px);
+}
+
+.form-input:hover:not(:focus):not(:disabled) {
+    background-color: var(--gray-100);
+    transform: translateY(-1px);
+}
+
+.form-input::placeholder {
+    color: var(--theme-text-tertiary);
+    opacity: 0.8;
+}
+
+.form-input:disabled {
+    background-color: var(--theme-surface-disabled);
+    color: var(--theme-text-tertiary);
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 /* =================================================================
@@ -160,11 +196,15 @@
    TEXTAREA
 ================================================================= */
 
+/* Textarea herda estilos do form-control/form-input */
+textarea.form-control,
+textarea.form-input,
 .form-textarea {
-    min-height: var(--form-textarea-min-height);
+    min-height: 120px;
     resize: vertical;
     font-family: inherit;
-    line-height: 1.5;
+    line-height: 1.6;
+    padding: var(--spacing-lg);
 }
 
 .form-textarea-auto {
@@ -195,40 +235,41 @@
 .form-select {
     display: block;
     width: 100%;
-    padding: var(--spacing-sm) var(--spacing-md);
-    padding-right: 2.5rem;
-    font-size: var(--font-size-sm);
+    padding: var(--spacing-lg) var(--spacing-lg);
+    padding-right: 3rem;
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
-    color: var(--dark);
-    background-color: var(--white);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    color: var(--theme-text-primary);
+    background-color: var(--theme-bg-secondary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right var(--spacing-sm) center;
-    background-size: var(--form-select-icon-size);
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius-md);
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-position: right var(--spacing-lg) center;
+    background-size: 16px;
+    border: none;
+    border-radius: var(--radius-lg);
+    transition: all 0.2s ease;
     appearance: none;
     cursor: pointer;
 }
 
 .form-select:focus {
-    border-color: var(--primary);
+    background-color: var(--white);
     outline: 0;
-    box-shadow: 0 0 0 3px var(--alpha-black-10);
+    box-shadow: 0 0 0 3px var(--primary-very-light);
+    transform: translateY(-1px);
 }
 
 .form-select:hover:not(:focus):not(:disabled) {
-    border-color: var(--gray-400);
+    background-color: var(--gray-100);
+    transform: translateY(-1px);
 }
 
 .form-select:disabled {
-    background-color: var(--gray-100);
-    border-color: var(--gray-200);
-    color: var(--gray-500);
+    background-color: var(--theme-surface-disabled);
+    color: var(--theme-text-tertiary);
     cursor: not-allowed;
-    opacity: var(--form-opacity-disabled);
+    opacity: 0.6;
 }
 
 .form-select[multiple] {
@@ -628,11 +669,21 @@
 
 /* Aliases para compatibilidade */
 .form-control.error {
-    @extend .form-control.is-invalid;
+    border-color: var(--error);
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
 }
 
 .form-control.success {
-    @extend .form-control.is-valid;
+    border-color: var(--success);
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
 }
 
 /* =================================================================
@@ -645,12 +696,11 @@
     color: var(--gray-600);
 }
 
-.form-help {
-    @extend .form-text;
-}
-
+.form-help,
 .form-hint {
-    @extend .form-text;
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--gray-600);
 }
 
 .invalid-feedback {
@@ -679,8 +729,11 @@
 
 /* Aliases para compatibilidade */
 .form-error {
-    @extend .invalid-feedback;
     display: block;
+    width: 100%;
+    margin-top: var(--spacing-xs);
+    font-size: var(--font-size-xs);
+    color: var(--error);
 }
 
 /* =================================================================
@@ -724,28 +777,3 @@
     }
 }
 
-/* =================================================================
-   DARK MODE (OPCIONAL)
-================================================================= */
-
-@media (prefers-color-scheme: dark) {
-    .form-control {
-        background-color: var(--gray-800);
-        border-color: var(--gray-600);
-        color: var(--white);
-    }
-    
-    .form-control:focus {
-        background-color: var(--gray-800);
-        border-color: var(--primary);
-        color: var(--white);
-    }
-    
-    .form-label {
-        color: var(--gray-200);
-    }
-    
-    .form-text {
-        color: var(--gray-400);
-    }
-}
