@@ -9,9 +9,9 @@
 // Importar dependências
 import { Router } from '../../core/router.js';
 import { API } from '../../core/api.js';
-import { UI } from '../../core/ui.js';
-import { format } from '../../core/formatters.js';
-import { showToast } from '../../components/notifications.js';
+import { behaviors } from '../../components/ui/behaviors.js';
+import { format } from '../../components/forms/formatters.js';
+import { showToast } from '../../components/layout/notifications.js';
 
 // Função principal de inicialização
 export async function init(params = {}) {

@@ -1,20 +1,50 @@
 # 📋 INSTRUÇÕES TEMPORARIAS
 
 ## **IA PRECISA LER ANTES DE COMEÇAR**
- - ialum_vs1/docs/tecnologia-sistemas-js-core.md
- - ialum_vs1/docs/tecnologia-utilities-css.md
+ - ialum_vs1/docs/tecnologia-js.md
+ - ialum_vs1/docs/tecnologia-css.md
 
 ## 🚀 Status Atual:
- - Validando e melhorando DOCUMENTAÇÃO DO SAAS IALUM
- - estruturando componentização de css e js para facilitar manutenção e interpretação
- - Desenvolvendo wireframe das páginas e comportamento dos componentes
- - backend funcionando apenas com a autenticação para testes por enquanto.
+- MVP em desenvolvimento com foco na validação da arquitetura modular
+- Sistema de componentes CSS e JS 100% funcional baseado na nova documentação
+- Wireframe das páginas e comportamento dos componentes em validação
+- Backend limitado à autenticação para testes da estrutura frontend
 
 ## 📊 Foco Atual:
-- validação da estrutura de componentes em CSS e JS
+- ✅ **Arquitetura Modular Implementada** - CSS e JS 100% organizados e funcionais
+- ✅ **Componentes Cards** - CardList, CardForm, CardGrid e CardDisplay (90% dos casos)
+- ✅ **CSS Reorganizado** - Estrutura modular: cards/, forms/, ui/, layout/
+- Validação das páginas usando a nova arquitetura de componentes
 
 ## 🔄 Próximo:
- - depois de todas as páginas e componentes validadas vamos desenvolver o backend no n8n e supabase
+- Desenvolvimento completo do backend N8N + Supabase após validação da estrutura
+- Implementação das funcionalidades de IA e automação
+
+## 🛠️ NOVA ARQUITETURA MODULAR
+
+### REGRA FUNDAMENTAL: HIERARQUIA DE REUTILIZAÇÃO
+Implementação obrigatória seguindo ordem de prioridade:
+
+#### **JavaScript** (`/js/components/`)
+1. **🎯 SISTEMAS CORE** - API, DOM, State, Router, Cache, Loader (SEMPRE primeiro)
+2. **🧩 CARDS (90% dos casos)** - CardList (40%) + CardForm (30%) + CardGrid (15%) + CardDisplay (5%)
+3. **🎨 UI WIDGETS** - EmojiPicker, ColorPicker, FileUpload (especializados)
+4. **📝 FORMS BR** - validators, formatters, masks (padrão brasileiro)
+5. **🏗️ LAYOUT** - sidebar, notifications (estrutura)
+
+#### **CSS** (`/css/components/`)
+1. **🧩 cards/** - card-list, card-form, card-grid, card-display (universais)
+2. **📝 forms/** - color-picker, file-upload (brasileiros)
+3. **🎨 ui/** - badges, tabs (elementos visuais)
+4. **🏗️ layout/** - app-layout, sidebar, header, notifications (estrutura)
+
+### PROCESSO DE DESENVOLVIMENTO OBRIGATÓRIO
+1. **VERIFICAR CARDS PRIMEIRO** - 90% dos casos já estão resolvidos
+2. **CONSULTAR** `docs/tecnologia-js.md` e `docs/tecnologia-css.md` ANTES de qualquer implementação
+3. **USAR COMPONENTES EXISTENTES** - não recriar funcionalidades
+4. **SEGUIR ESTRUTURA MODULAR** - CSS e JS alinhados por categoria
+
+
 
 
 ---

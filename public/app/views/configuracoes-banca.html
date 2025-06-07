@@ -7,8 +7,8 @@
 <div class="container py-lg">
     <!-- Header da página -->
     <div class="mb-xl">
-        <h1 class="text-2xl font-bold text-dark mb-sm">Configurações da Banca</h1>
-        <p class="text-muted">Configure a identidade, temas e narrativas da sua banca para geração de conteúdo com IA.</p>
+        <h1 class="text-2xl font-bold mb-sm" style="color: var(--theme-text-primary);">Configurações da Banca</h1>
+        <p style="color: var(--theme-text-secondary);">Configure a identidade, temas e narrativas da sua banca para geração de conteúdo com IA.</p>
     </div>
 
     <!-- Seção: Linhas Narrativas -->
@@ -16,7 +16,7 @@
         <div class="card-header">
             <div>
                 <h2 class="card-title">Linhas Narrativas</h2>
-                <p class="text-muted">Defina as abordagens narrativas que a IA usará para criar conteúdo alinhado com o posicionamento da sua banca.</p>
+                <p style="color: var(--theme-text-secondary);">Defina as abordagens narrativas que a IA usará para criar conteúdo alinhado com o posicionamento da sua banca.</p>
             </div>
         </div>
         <div class="card-body">
@@ -25,28 +25,31 @@
         </div>
     </div>
 
-    <!-- Seções futuras -->
+    <!-- Seção: Temas Jurídicos -->
     <div class="card mb-lg">
         <div class="card-header">
-            <h2 class="card-title">Identidade Visual</h2>
+            <div>
+                <h2 class="card-title">Temas Jurídicos</h2>
+                <p style="color: var(--theme-text-secondary);">Defina as áreas de atuação e especialidades da sua banca para geração de conteúdo direcionado.</p>
+            </div>
         </div>
         <div class="card-body">
-            <div class="text-center py-xl">
-                <div class="text-4xl mb-md">🎨</div>
-                <p class="text-muted">Em desenvolvimento - Logo, cores e fontes</p>
-            </div>
+            <!-- Container para o CardList de temas -->
+            <div id="temas-container"></div>
         </div>
     </div>
 
+    <!-- Seção: Identidade Visual -->
     <div class="card mb-lg">
         <div class="card-header">
-            <h2 class="card-title">Temas Jurídicos</h2>
+            <div>
+                <h2 class="card-title">Identidade Visual</h2>
+                <p style="color: var(--theme-text-secondary);">Configure a identidade visual da sua banca para usar nos templates de publicação.</p>
+            </div>
         </div>
         <div class="card-body">
-            <div class="text-center py-xl">
-                <div class="text-4xl mb-md">⚖️</div>
-                <p class="text-muted">Em desenvolvimento - Áreas de atuação</p>
-            </div>
+            <!-- Container para o CardForm de identidade visual -->
+            <div id="identidade-visual-container"></div>
         </div>
     </div>
 </div>

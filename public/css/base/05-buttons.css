@@ -34,7 +34,7 @@
 
 .btn:focus {
     outline: none;
-    box-shadow: 0 0 0 3px var(--alpha-black-20);
+    box-shadow: 0 0 0 3px var(--theme-surface-hover);
 }
 
 /* =================================================================
@@ -55,14 +55,14 @@
 }
 
 .btn-secondary {
-    background-color: var(--gray-100);
-    border-color: var(--gray-300);
-    color: var(--gray-700);
+    background-color: var(--theme-bg-secondary);
+    border-color: var(--theme-border-primary);
+    color: var(--theme-text-primary);
 }
 
 .btn-secondary:hover:not(:disabled) {
-    background-color: var(--gray-200);
-    border-color: var(--gray-400);
+    background-color: var(--theme-border-primary);
+    border-color: var(--theme-border-secondary);
 }
 
 .btn-success {
@@ -134,13 +134,13 @@
 
 .btn-light {
     background-color: var(--light);
-    border-color: var(--gray-200);
+    border-color: var(--theme-border-primary);
     color: var(--dark);
 }
 
 .btn-light:hover:not(:disabled) {
-    background-color: var(--gray-100);
-    border-color: var(--gray-300);
+    background-color: var(--theme-bg-secondary);
+    border-color: var(--theme-border-primary);
 }
 
 /* =================================================================
@@ -162,14 +162,14 @@
 }
 
 .btn-outline.btn-secondary {
-    color: var(--gray-600);
-    border-color: var(--gray-300);
+    color: var(--theme-text-secondary);
+    border-color: var(--theme-border-primary);
 }
 
 .btn-outline.btn-secondary:hover:not(:disabled) {
-    background-color: var(--gray-100);
+    background-color: var(--theme-bg-secondary);
     color: var(--dark);
-    border-color: var(--gray-400);
+    border-color: var(--theme-border-secondary);
 }
 
 .btn-outline.btn-success {
@@ -238,15 +238,15 @@
 }
 
 .btn-ghost.btn-primary:hover:not(:disabled) {
-    background-color: var(--alpha-black-10);
+    background-color: var(--theme-surface-hover);
 }
 
 .btn-ghost.btn-secondary {
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
 }
 
 .btn-ghost.btn-secondary:hover:not(:disabled) {
-    background-color: var(--gray-100);
+    background-color: var(--theme-bg-secondary);
 }
 
 .btn-ghost.btn-success {
@@ -254,7 +254,7 @@
 }
 
 .btn-ghost.btn-success:hover:not(:disabled) {
-    background-color: var(--alpha-black-10);
+    background-color: var(--theme-surface-hover);
 }
 
 .btn-ghost.btn-warning {
@@ -262,7 +262,7 @@
 }
 
 .btn-ghost.btn-warning:hover:not(:disabled) {
-    background-color: var(--alpha-black-10);
+    background-color: var(--theme-surface-hover);
 }
 
 .btn-ghost.btn-error,
@@ -272,7 +272,7 @@
 
 .btn-ghost.btn-error:hover:not(:disabled),
 .btn-ghost.btn-danger:hover:not(:disabled) {
-    background-color: var(--alpha-black-10);
+    background-color: var(--theme-surface-hover);
 }
 
 /* =================================================================
@@ -280,48 +280,48 @@
 ================================================================= */
 
 .btn-soft.btn-primary {
-    background-color: var(--alpha-black-10);
-    border-color: var(--alpha-black-20);
+    background-color: var(--theme-surface-hover);
+    border-color: var(--theme-surface-hover);
     color: var(--primary);
 }
 
 .btn-soft.btn-primary:hover:not(:disabled) {
-    background-color: var(--alpha-black-15);
+    background-color: var(--theme-surface-active);
     border-color: var(--primary);
 }
 
 .btn-soft.btn-success {
-    background-color: var(--alpha-black-10);
-    border-color: var(--alpha-black-20);
+    background-color: var(--theme-surface-hover);
+    border-color: var(--theme-surface-hover);
     color: var(--success);
 }
 
 .btn-soft.btn-success:hover:not(:disabled) {
-    background-color: var(--alpha-black-15);
+    background-color: var(--theme-surface-active);
     border-color: var(--success);
 }
 
 .btn-soft.btn-warning {
-    background-color: var(--alpha-black-10);
-    border-color: var(--alpha-black-20);
+    background-color: var(--theme-surface-hover);
+    border-color: var(--theme-surface-hover);
     color: var(--warning);
 }
 
 .btn-soft.btn-warning:hover:not(:disabled) {
-    background-color: var(--alpha-black-15);
+    background-color: var(--theme-surface-active);
     border-color: var(--warning);
 }
 
 .btn-soft.btn-error,
 .btn-soft.btn-danger {
-    background-color: var(--alpha-black-10);
-    border-color: var(--alpha-black-20);
+    background-color: var(--theme-surface-hover);
+    border-color: var(--theme-surface-hover);
     color: var(--error);
 }
 
 .btn-soft.btn-error:hover:not(:disabled),
 .btn-soft.btn-danger:hover:not(:disabled) {
-    background-color: var(--alpha-black-15);
+    background-color: var(--theme-surface-active);
     border-color: var(--error);
 }
 
@@ -568,7 +568,7 @@
         width: 0;
         height: 0;
         border-radius: 50%;
-        background: var(--alpha-white-30);
+        background: var(--theme-surface-hover);
         transform: translate(-50%, -50%);
         transition: width 0.3s, height 0.3s;
     }

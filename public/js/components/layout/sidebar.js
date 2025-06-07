@@ -6,11 +6,11 @@
  * Localização: public/js/components/sidebar.js
  * Tamanho alvo: <200 linhas
  */
-import { Router } from '../core/router.js';
-import { DOM } from '../core/dom.js';
-import { State } from '../core/state.js';
-import { UI } from '../core/ui.js';
-import { Cache } from '../core/cache.js';
+import { Router } from '../../core/router.js';
+import { DOM } from '../../core/dom.js';
+import { State } from '../../core/state.js';
+import { Cache } from '../../core/cache.js';
+import { behaviors } from '../ui/behaviors.js';
 // Estado do sidebar
 let isInitialized = false;
 // Inicializar sidebar
@@ -44,6 +44,9 @@ export function init() {
         
         // Escutar mudanças de rota
         DOM.on(window, 'hashchange', updateActiveState);
+        
+        // Limpar cache antigo com seletores inválidos
+        cleanInvalidCache();
         
         // Restaurar estado dos submenus do cache
         const expandedMenus = Cache.get('sidebar.expanded') || [];
@@ -322,12 +325,40 @@ function closeAllSubmenus(exceptParent = null) {
     saveExpandedState();
 }
 
+// Limpar cache com seletores inválidos
+function cleanInvalidCache() {
+    const expandedMenus = Cache.get('sidebar.expanded') || [];
+    const validSelectors = expandedMenus.filter(selector => {
+        try {
+            // Testar se o seletor é válido tentando usá-lo
+            document.querySelector(selector);
+            return true;
+        } catch {
+            return false;
+        }
+    });
+    
+    // Só atualizar se houve mudança
+    if (validSelectors.length !== expandedMenus.length) {
+        Cache.set('sidebar.expanded', validSelectors, 60);
+    }
+}
+
 // Salvar estado dos menus expandidos
 function saveExpandedState() {
     const expanded = DOM.selectAll('.nav-item-submenu.expanded');
     const selectors = Array.from(expanded).map(el => {
-        const text = DOM.select('.nav-link', el)?.textContent.trim();
-        return text ? `[data-menu="${text}"]` : null;
+        // Usar o href do link ou criar um ID baseado na posição
+        const link = DOM.select('.nav-link', el);
+        const href = link?.getAttribute('href');
+        if (href) {
+            return `[href="${href}"]`;
+        }
+        
+        // Fallback: usar posição do elemento
+        const parent = el.parentNode;
+        const index = Array.from(parent.children).indexOf(el);
+        return `.nav-item-submenu:nth-child(${index + 1})`;
     }).filter(Boolean);
     
     Cache.set('sidebar.expanded', selectors, 60); // Cache por 60 minutos
@@ -393,8 +424,9 @@ export function toggleSubmenu(parentSelector, show = true) {
 
 // Expandir/contrair submenu
 export function expandSubmenu(parentSelector) {
-    const parent = DOM.select(parentSelector);
-    if (!parent) return;
+    try {
+        const parent = DOM.select(parentSelector);
+        if (!parent) return;
     
     const submenu = DOM.select('.nav-submenu', parent);
     const arrow = DOM.select('.nav-arrow', parent);
@@ -408,12 +440,15 @@ export function expandSubmenu(parentSelector) {
             arrow.style.transform = isExpanded ? 'rotate(0deg)' : 'rotate(90deg)';
         }
         
-        // Animar com UI
+        // Animar com behaviors
         if (!isExpanded) {
-            UI.slideDown(submenu);
+            behaviors.slideDown(submenu);
         } else {
-            UI.slideUp(submenu);
+            behaviors.slideUp(submenu);
         }
+    }
+    } catch (error) {
+        console.warn('⚠️ Seletor inválido ignorado:', parentSelector, error.message);
     }
 }
 
@@ -426,7 +461,7 @@ export function updateIntegrationStatus(network, isActive) {
         
         // Adicionar efeito visual
         if (isActive) {
-            UI.highlight(item, 'success');
+            behaviors.highlight(item, 'success');
         }
     }
 }

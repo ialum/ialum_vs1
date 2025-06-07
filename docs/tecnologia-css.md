@@ -11,7 +11,7 @@
 
 Este documento é sua referência completa. Se uma classe não está aqui, ela não existe no sistema.
 
-## 📁 Estrutura de Arquivos
+## 📁 Estrutura de Arquivos (Nova Arquitetura Modular)
 
 ```
 public/css/
@@ -29,8 +29,31 @@ public/css/
 │   ├── dom.css            # Classes para manipulação DOM
 │   ├── loader.css         # Estados de carregamento
 │   └── ui.css             # Animações e feedback visual
-├── components/        # Componentes reutilizáveis
-└── pages/            # Estilos específicos de páginas
+├── components/        # Componentes organizados por categoria
+│   ├── index.css          # Import master de todas as categorias
+│   ├── cards/             # 🧩 Componentes CRUD universais (90% dos casos)
+│   │   ├── index.css      # CardList, CardForm, CardGrid, CardDisplay
+│   │   ├── base.css       # Estilos base para todos os cards
+│   │   ├── card-list.css  # CRUD expansível (40% dos casos)
+│   │   ├── card-form.css  # Formulário dinâmico (30% dos casos)
+│   │   ├── card-grid.css  # Grid responsivo (15% dos casos)
+│   │   └── card-display.css # Visualização rica (5% dos casos)
+│   ├── forms/             # 📝 Sistema de formulários especializados
+│   │   ├── index.css      # Formulários brasileiros
+│   │   ├── color-picker.css # Seletor de cores
+│   │   └── file-upload.css  # Upload com preview
+│   ├── ui/                # 🎨 Elementos de interface reutilizáveis
+│   │   ├── index.css      # Elementos visuais
+│   │   ├── badges.css     # Sistema de badges e tags
+│   │   └── tabs.css       # Sistema de abas
+│   └── layout/            # 🏗️ Estrutura da aplicação
+│       ├── index.css      # Layout e estrutura
+│       ├── app-layout.css # Layout SPA principal
+│       ├── public-layout.css # Layout páginas públicas
+│       ├── header.css     # Cabeçalho
+│       ├── sidebar.css    # Menu lateral
+│       └── notifications.css # Toasts e notificações
+└── pages/            # Estilos específicos de páginas (evitar)
 ```
 
 ## 🎨 Sistema de Variáveis CSS
@@ -177,9 +200,173 @@ public/css/
 <div class="mobile-block desktop-flex">Block no mobile, flex no desktop</div>
 ```
 
-## 📦 Sistema de Componentes
+## 🧩 Sistema de Componentes (Nova Arquitetura)
 
-### Botões
+### Hierarquia de Reutilização CSS
+A organização CSS espelha a hierarquia JavaScript para máxima consistência:
+
+1. **📐 Base** → Fundação (variáveis, reset, typography, layouts, buttons, forms)
+2. **⚙️ Core** → Sistemas JS (dom, loader, ui)
+3. **🧩 Cards** → CRUD Universal (card-list, card-form, card-grid, card-display)
+4. **📝 Forms** → Formulários BR (color-picker, file-upload)
+5. **🎨 UI** → Interface (badges, tabs)
+6. **🏗️ Layout** → Estrutura (app-layout, sidebar, header, notifications)
+
+### Cards - Componentes CRUD Universais (90% dos Casos)
+
+#### CardList - CRUD Expansível (40% dos casos)
+```html
+<!-- Lista CRUD com itens expansíveis -->
+<div class="card-list">
+  <div class="card-list-item">
+    <div class="card-list-header">
+      <h3 class="card-list-title">Nome do Item</h3>
+      <button class="card-list-toggle">⌄</button>
+    </div>
+    <div class="card-list-form hidden">
+      <form class="card-list-form-content">
+        <!-- Formulário de edição -->
+      </form>
+      <div class="card-list-form-actions">
+        <button class="btn btn-primary">Salvar</button>
+        <button class="btn btn-ghost">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### CardForm - Formulário Dinâmico (30% dos casos)
+```html
+<!-- Formulário universal configurável -->
+<div class="card-form">
+  <div class="card-form-header">
+    <h3 class="card-form-title">Novo Item</h3>
+  </div>
+  <form class="card-form-form">
+    <div class="form-group">
+      <label class="form-label">Campo</label>
+      <input class="form-control" type="text">
+    </div>
+  </form>
+  <div class="card-form-actions">
+    <button class="btn btn-primary" type="submit">Criar</button>
+  </div>
+</div>
+```
+
+#### CardGrid - Grid Responsivo (15% dos casos)  
+```html
+<!-- Grid responsivo com seleção -->
+<div class="card-grid">
+  <div class="card-grid-container auto-columns">
+    <div class="card-grid-item">
+      <div class="card-grid-content">
+        <!-- Conteúdo do item -->
+      </div>
+      <div class="card-grid-actions">
+        <button class="btn btn-sm">Ação</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+#### CardDisplay - Visualização Rica (5% dos casos)
+```html
+<!-- Exibição formatada de dados -->
+<div class="card-display">
+  <div class="card-display-field">
+    <label class="card-display-label">Email:</label>
+    <span class="card-display-value">usuario@email.com</span>
+  </div>
+  <div class="card-display-actions">
+    <button class="btn btn-outline">Editar</button>
+  </div>
+</div>
+```
+
+### Forms - Sistema Brasileiro Especializado
+
+#### Color Picker
+```html
+<!-- Seletor de cores integrado -->
+<div class="form-color-picker">
+  <input type="text" class="color-picker-input" placeholder="#ffffff">
+  <div class="color-picker-preview"></div>
+  <div class="color-picker-dropdown hidden">
+    <!-- Paleta de cores -->
+  </div>
+</div>
+```
+
+#### File Upload
+```html
+<!-- Upload com preview -->
+<div class="form-file-upload">
+  <div class="file-upload-dropzone">
+    <input type="file" class="file-upload-input" accept="image/*">
+    <div class="file-upload-text">Clique ou arraste arquivos</div>
+  </div>
+  <div class="file-upload-preview hidden">
+    <img class="file-upload-image" alt="Preview">
+    <button class="file-upload-remove">×</button>
+  </div>
+</div>
+```
+
+### UI - Elementos de Interface
+
+#### Badges Avançadas
+```html
+<!-- Sistema completo de badges -->
+<span class="badge badge-primary">Primário</span>
+<span class="badge badge-dot badge-success">Com ponto</span>
+<span class="badge badge-counter">42</span>
+<span class="badge badge-status online">Online</span>
+```
+
+#### Sistema de Abas
+```html
+<!-- Abas responsivas -->
+<div class="tabs">
+  <div class="tabs-nav">
+    <button class="tab-button active">Aba 1</button>
+    <button class="tab-button">Aba 2</button>
+  </div>
+  <div class="tabs-content">
+    <div class="tab-panel active">Conteúdo 1</div>
+    <div class="tab-panel">Conteúdo 2</div>
+  </div>
+</div>
+```
+
+### Layout - Estrutura da Aplicação
+
+#### App Layout
+```html
+<!-- Layout SPA principal -->
+<div class="app-layout">
+  <aside class="app-sidebar"><!-- Menu lateral --></aside>
+  <main class="app-main">
+    <header class="app-header"><!-- Cabeçalho --></header>
+    <div class="app-content"><!-- Conteúdo --></div>
+  </main>
+</div>
+```
+
+#### Sistema de Notificações
+```html
+<!-- Toasts e alertas -->
+<div class="notification-container">
+  <div class="toast toast-success">
+    <div class="toast-content">Sucesso!</div>
+    <button class="toast-close">×</button>
+  </div>
+</div>
+```
+
+### Botões Base (Sistema Foundation)
 ```html
 <!-- Cores -->
 <button class="btn btn-primary">Primário</button>
@@ -519,7 +706,7 @@ margin: 16px;
 @media (min-width: 768px) { .minha-classe { display: block; } }
 ```
 
-### 5. **Ordem de importação**
+### 5. **Ordem de importação (Nova Estrutura)**
 ```css
 /* 1. Base (fundação) */
 @import './base/index.css';
@@ -527,10 +714,15 @@ margin: 16px;
 /* 2. Core (sistema) */
 @import './core/index.css';
 
-/* 3. Components (reutilizáveis) */
+/* 3. Components (modular) */
 @import './components/index.css';
+/* Ou imports específicos por categoria: */
+@import './components/cards/index.css';
+@import './components/forms/index.css';
+@import './components/ui/index.css';
+@import './components/layout/index.css';
 
-/* 4. Pages (específicos) */
+/* 4. Pages (específicos - evitar) */
 @import './pages/index.css';
 ```
 
@@ -544,11 +736,12 @@ margin: 16px;
 5. **Mobile first** - teste sempre em dispositivos móveis
 
 ### Para IA
-1. **Leia os arquivos CSS** antes de gerar código
-2. **Use apenas classes existentes** no sistema
-3. **Mantenha consistência** com padrões estabelecidos
-4. **Não crie CSS customizado** sem necessidade extrema
-5. **Respeite a hierarquia** base → core → components → pages
+1. **Consulte esta documentação** antes de gerar qualquer CSS/HTML
+2. **Use hierarquia de componentes** - Cards primeiro (90% dos casos)
+3. **Prefira componentes existentes** - CardList, CardForm, CardGrid, CardDisplay
+4. **Use classes do sistema** documentadas aqui
+5. **Respeite organização modular** - cards/, forms/, ui/, layout/
+6. **Não crie CSS customizado** sem necessidade extrema
 
 ## 📝 Exemplos Práticos
 
@@ -659,6 +852,44 @@ Sempre use as variáveis semânticas de tema ao criar novos componentes:
 
 ---
 
-_Última atualização: Janeiro 2025_
-_Sistema CSS modular, escalável e otimizado para performance_
-_Sistema de temas claro/escuro implementado e totalmente funcional_
+## 🎯 **RESUMO EXECUTIVO - NOVA ARQUITETURA CSS**
+
+### **Estrutura Modular Implementada**
+✅ **Reorganização Completa** - CSS components organizados por categoria  
+✅ **Alinhamento Total** - Estrutura espelha `/js/components/`  
+✅ **90% Coverage** - Cards components cobrem quase todos os casos  
+✅ **Sistema Hierárquico** - Imports otimizados com index.css por categoria  
+
+### **Hierarquia de Uso (SEMPRE seguir esta ordem)**
+1. **🧩 Cards** → CardList (40%) + CardForm (30%) + CardGrid (15%) + CardDisplay (5%)
+2. **📝 Forms** → color-picker, file-upload (padrões brasileiros)
+3. **🎨 UI** → badges, tabs (elementos visuais)
+4. **🏗️ Layout** → app-layout, sidebar, header, notifications
+
+### **Para IA: Processo de Implementação**
+```html
+<!-- 1º SEMPRE: Verificar se Cards resolve (90% dos casos) -->
+<div class="card-list"><!-- CardList para CRUD --></div>
+<div class="card-form"><!-- CardForm para formulários --></div>
+<div class="card-grid"><!-- CardGrid para grids --></div>
+
+<!-- 2º SE NECESSÁRIO: Componentes especializados -->
+<div class="form-color-picker"><!-- Seletor de cores --></div>
+<div class="form-file-upload"><!-- Upload de arquivos --></div>
+
+<!-- 3º ÚLTIMO RECURSO: CSS customizado -->
+```
+
+### **Estado do Sistema**
+- ✅ **Base CSS**: 100% funcional (variables, reset, typography, etc.)
+- ✅ **Cards CSS**: 100% implementado e organizado em `/cards/`
+- ✅ **Forms CSS**: 100% funcional e otimizado em `/forms/`
+- ✅ **UI CSS**: 100% reorganizado em `/ui/`
+- ✅ **Layout CSS**: 100% estruturado em `/layout/`
+- ✅ **Sistema de Imports**: Otimizado com index.css hierárquico
+
+---
+
+_Última atualização: Janeiro 2025_  
+_Sistema CSS 100% modular, escalável e alinhado com JavaScript_  
+_Reorganização completa implementada e funcional_

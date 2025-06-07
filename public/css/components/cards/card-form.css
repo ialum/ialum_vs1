@@ -1,0 +1,295 @@
+/* card-form.css
+ * Componente CardForm - Formulário dinâmico universal
+ * Dependências: Variables, forms, buttons
+ * Localização: public/css/components/card-form.css
+ */
+
+/* === CONTAINER PRINCIPAL === */
+.card-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.card-form-container {
+    background: var(--theme-bg-primary);
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+/* === HEADER === */
+.card-form-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--theme-border-primary);
+    background: var(--theme-bg-secondary);
+}
+
+.card-form-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--theme-text-primary);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+.card-form-description {
+    font-size: var(--font-size-sm);
+    color: var(--theme-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* === FORMULÁRIO === */
+.card-form-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.card-form-form.submitting {
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+/* === CAMPOS === */
+.card-form-fields {
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* Layout horizontal para campos menores */
+.card-form.layout-horizontal .card-form-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+/* Campos específicos para formulários */
+.card-form .form-group {
+    margin-bottom: 0;
+}
+
+.card-form .form-group.size-small {
+    max-width: 200px;
+}
+
+.card-form .form-group.size-medium {
+    max-width: 400px;
+}
+
+.card-form .form-group.size-large {
+    max-width: 600px;
+}
+
+.card-form .form-group.hidden {
+    display: none;
+}
+
+/* === COMPONENTES UI INTEGRADOS === */
+
+/* File Upload */
+.card-form .form-file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.card-form .form-file-upload .btn {
+    align-self: flex-start;
+}
+
+.card-form .form-file-upload .file-name {
+    font-size: var(--font-size-sm);
+    color: var(--theme-text-secondary);
+    padding: var(--spacing-xs) 0;
+}
+
+/* Color Picker */
+.card-form .form-color-picker {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.card-form .form-color-picker input[type="color"] {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+}
+
+.card-form .form-color-picker .color-input {
+    width: 100px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+}
+
+/* Emoji Text */
+.card-form .form-emoji-text {
+    position: relative;
+}
+
+/* Font Selector */
+.card-form .form-font-selector select {
+    font-family: var(--font-sans);
+}
+
+/* Markdown Editor */
+.card-form .form-markdown {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-form .form-markdown .markdown-editor {
+    min-height: 120px;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
+/* === AÇÕES === */
+.card-form-actions {
+    padding: var(--spacing-lg);
+    border-top: 1px solid var(--theme-border-primary);
+    background: var(--theme-bg-secondary);
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.card-form-actions .btn {
+    min-width: 120px;
+}
+
+/* === ESTADOS DE VALIDAÇÃO === */
+.card-form .form-group.has-error .form-input {
+    border-color: var(--error);
+    background-color: var(--theme-bg-secondary);
+}
+
+.card-form .form-group.has-error .form-label {
+    color: var(--error-dark);
+}
+
+.card-form .form-error.visible {
+    display: block;
+    color: var(--error-dark);
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
+    animation: fadeInError 0.3s ease-out;
+}
+
+/* Animação de erro */
+@keyframes fadeInError {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Shake para erros de validação */
+.card-form.error {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+/* === ESTADOS DE LOADING === */
+.card-form-form.submitting .card-form-actions .btn {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+    .card-form-header,
+    .card-form-fields,
+    .card-form-actions {
+        padding: var(--spacing-md);
+    }
+    
+    .card-form.layout-horizontal .card-form-fields {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .card-form-actions {
+        flex-direction: column-reverse;
+        gap: var(--spacing-sm);
+    }
+    
+    .card-form-actions .btn {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-form-header,
+    .card-form-fields,
+    .card-form-actions {
+        padding: var(--spacing-sm);
+    }
+    
+    .card-form-title {
+        font-size: var(--font-size-lg);
+    }
+}
+
+/* === TEMA COMPACTO === */
+.card-form.compact .card-form-header,
+.card-form.compact .card-form-fields,
+.card-form.compact .card-form-actions {
+    padding: var(--spacing-md);
+}
+
+.card-form.compact .card-form-fields {
+    gap: var(--spacing-sm);
+}
+
+.card-form.compact .card-form-title {
+    font-size: var(--font-size-lg);
+}
+
+/* === MODO INLINE (sem card) === */
+.card-form.inline .card-form-container {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.card-form.inline .card-form-header {
+    padding: 0 0 var(--spacing-md) 0;
+    border-bottom: none;
+    background: transparent;
+}
+
+.card-form.inline .card-form-fields {
+    padding: 0;
+}
+
+.card-form.inline .card-form-actions {
+    padding: var(--spacing-md) 0 0 0;
+    border-top: 1px solid var(--theme-border-primary);
+    background: transparent;
+}
+
+/* === TEMA ESCURO === */
+@media (prefers-color-scheme: dark) {
+    .card-form .form-color-picker input[type="color"] {
+        border-color: var(--theme-border-secondary);
+    }
+}

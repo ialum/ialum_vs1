@@ -7,7 +7,7 @@
  */
 
 import { auth } from '../core/api.js';
-import { validators } from '../core/validators.js';
+import { validators } from '../components/forms/validators.js';
 import { Cache } from '../core/cache.js';
 // Verificar se o usuário já está logado
 

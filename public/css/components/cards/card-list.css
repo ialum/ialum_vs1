@@ -208,13 +208,13 @@
 /* Success state */
 .card-list-item.success {
     border-color: var(--success);
-    background: var(--alpha-black-5);
+    background: var(--theme-surface-hover);
     animation: successFlash 0.6s ease-out;
 }
 
 @keyframes successFlash {
     0% { background: var(--success); }
-    100% { background: var(--alpha-black-5); }
+    100% { background: var(--theme-surface-hover); }
 }
 
 /* Error state */

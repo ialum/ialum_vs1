@@ -21,12 +21,5 @@
 @import 'core/loader.css';
 @import 'core/ui.css';
 
-/* CSS Components - Componentes da aplicação */
-@import 'components/badges.css';
-@import 'components/cards.css';
-@import 'components/tabs.css';
-@import 'components/header.css';
-@import 'components/sidebar.css';
-@import 'components/app-layout.css';
-@import 'components/notifications.css';
-@import 'components/card-list.css';
+/* CSS Components - Estrutura modular organizada */
+@import 'components/index.css';

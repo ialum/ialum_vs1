@@ -1,0 +1,10 @@
+/**
+ * CSS UI - Elementos de Interface
+ * 
+ * Componentes visuais reutilizáveis:
+ * - badges: Sistema de badges e tags
+ * - tabs: Sistema de abas
+ */
+
+@import './badges.css';
+@import './tabs.css';

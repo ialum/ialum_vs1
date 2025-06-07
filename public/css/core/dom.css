@@ -47,7 +47,7 @@
 ================================================================= */
 
 .dom-active {
-    background-color: var(--gray-50);
+    background-color: var(--theme-bg-secondary);
     color: var(--primary);
     font-weight: var(--font-weight-medium);
 }
@@ -106,7 +106,7 @@
 
 .dom-readonly {
     cursor: default;
-    background-color: var(--gray-50);
+    background-color: var(--theme-bg-secondary);
 }
 
 /* =================================================================
@@ -158,7 +158,7 @@
 }
 
 .dom-drag-over {
-    background-color: var(--gray-100);
+    background-color: var(--theme-bg-secondary);
     border: 2px dashed var(--primary);
 }
 

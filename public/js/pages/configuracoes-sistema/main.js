@@ -8,23 +8,25 @@ import { DOM } from '../../core/dom.js';
 import { State } from '../../core/state.js';
 import { Cache } from '../../core/cache.js';
 import { Backup } from '../../core/backup.js';
-import { showToast } from '../../components/notifications.js';
+import { showToast } from '../../components/layout/notifications.js';
 
 let isInitialized = false;
 
 export async function init() {
-    if (isInitialized) return;
-    
-    console.log('Página Configurações Sistema inicializada');
+    console.log('⚙️ Página Configurações Sistema inicializada');
     
     DOM.ready(() => {
+        // Sempre inicializar os controles de tema (importante para SPA)
         initThemeControls();
-        initSystemControls();
-        updateSystemInfo();
-        bindEvents();
+        
+        // Só inicializar o resto uma vez
+        if (!isInitialized) {
+            initSystemControls();
+            updateSystemInfo();
+            bindEvents();
+            isInitialized = true;
+        }
     });
-    
-    isInitialized = true;
 }
 
 // ===== CONTROLES DE TEMA =====
@@ -33,11 +35,15 @@ function initThemeControls() {
     // Recuperar tema atual do State
     const currentTheme = State.get('theme') || 'light';
     
-    // Aplicar tema atual na interface
+    console.log('🎨 Inicializando controles de tema. Tema atual:', currentTheme);
+    
+    // Garantir que o tema está aplicado corretamente
     applyTheme(currentTheme);
     
-    // Atualizar UI para refletir tema atual
-    updateThemeUI(currentTheme);
+    // Aguardar um ciclo para garantir que os elementos DOM estão prontos
+    setTimeout(() => {
+        updateThemeUI(currentTheme);
+    }, 0);
 }
 
 function applyTheme(theme) {
@@ -55,6 +61,8 @@ function applyTheme(theme) {
 }
 
 function updateThemeUI(theme) {
+    console.log('🔄 Atualizando UI do tema para:', theme);
+    
     // Atualizar radio buttons
     const themeRadios = DOM.selectAll('input[name="theme"]');
     themeRadios.forEach(radio => {
@@ -113,6 +121,18 @@ function updateStorageUsage() {
     if (!storageEl) return;
     
     try {
+        // Usar estatísticas do cache se disponível
+        if (Cache && Cache.stats) {
+            const stats = Cache.stats();
+            storageEl.innerHTML = `
+                <div>Total: ${stats.storageUsedFormatted}</div>
+                <div>Cache: ${stats.totalSizeFormatted} (${stats.validItems} itens)</div>
+                ${stats.expiredItems > 0 ? `<div class="text-warning">Expirados: ${stats.expiredItems} itens</div>` : ''}
+            `;
+            return;
+        }
+        
+        // Fallback para cálculo manual
         let totalSize = 0;
         
         // Calcular tamanho do localStorage
@@ -197,11 +217,13 @@ async function clearSystemCache(button) {
     button.disabled = true;
     
     try {
-        // Simular limpeza de cache
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Obter estatísticas antes da limpeza
+        const statsBefore = Cache.stats ? Cache.stats() : { totalItems: 0 };
         
-        // Limpar cache real se disponível
-        if (Cache && Cache.clear) {
+        // Limpar cache completo
+        if (Cache && Cache.reset) {
+            Cache.reset(); // Usa a nova função reset
+        } else if (Cache && Cache.clear) {
             Cache.clear();
         }
         
@@ -212,7 +234,7 @@ async function clearSystemCache(button) {
         updateCacheStatus();
         updateStorageUsage();
         
-        showToast('Cache do sistema limpo com sucesso', 'success');
+        showToast(`Cache limpo! ${statsBefore.totalItems} itens removidos`, 'success');
         
     } catch (error) {
         console.error('Erro ao limpar cache:', error);
@@ -280,10 +302,9 @@ async function clearOldBackups(button) {
 
 // Aplicar tema salvo ao carregar a aplicação
 function initGlobalTheme() {
-    const savedTheme = State.get('theme');
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    }
+    const savedTheme = State.get('theme') || 'light';
+    console.log('🌍 Aplicando tema global:', savedTheme);
+    applyTheme(savedTheme);
 }
 
 // Aplicar tema quando a página carrega

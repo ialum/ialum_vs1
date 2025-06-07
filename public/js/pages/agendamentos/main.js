@@ -7,9 +7,9 @@
  */
 
 import { API } from '../../core/api.js';
-import { UI } from '../../core/ui.js';
-import { format } from '../../core/formatters.js';
-import { showToast } from '../../components/notifications.js';
+import { behaviors } from '../../components/ui/behaviors.js';
+import { format } from '../../components/forms/formatters.js';
+import { showToast } from '../../components/layout/notifications.js';
 
 // Estado da página
 let currentView = 'calendar';
@@ -143,7 +143,7 @@ function renderCalendar() {
 function createDayElement(date, firstDay, lastDay) {
     const dayEl = document.createElement('div');
     dayEl.className = 'calendar-day';
-    dayEl.dataset.date = Utils.formatDate(date, 'YYYY-MM-DD');
+    dayEl.dataset.date = format.date(date, 'YYYY-MM-DD');
     
     // Classes especiais
     if (date < firstDay || date > lastDay) {
@@ -290,7 +290,7 @@ function selectDate(date) {
         day.classList.remove('selected');
     });
     
-    const selectedEl = document.querySelector(`[data-date="${Utils.formatDate(date, 'YYYY-MM-DD')}"]`);
+    const selectedEl = document.querySelector(`[data-date="${format.date(date, 'YYYY-MM-DD')}"]`);
     if (selectedEl) selectedEl.classList.add('selected');
     
     // Mostrar sidebar
@@ -305,7 +305,7 @@ function showSidebar(date) {
     // Atualizar título
     const dateEl = document.getElementById('selected-date');
     if (dateEl) {
-        dateEl.textContent = Utils.formatDate(date, 'DD/MM');
+        dateEl.textContent = format.date(date, 'DD/MM');
     }
     
     // Carregar posts do dia
@@ -346,7 +346,7 @@ function isToday(date) {
 }
 
 function getPostsForDate(date) {
-    const dateStr = Utils.formatDate(date, 'YYYY-MM-DD');
+    const dateStr = format.date(date, 'YYYY-MM-DD');
     return scheduledPosts.filter(post => post.scheduled_date === dateStr);
 }
 

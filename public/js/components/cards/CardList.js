@@ -6,12 +6,19 @@
  * Versão: 2.0 - Arquitetura limpa com responsabilidades separadas
  */
 
-import { DOM } from '../core/dom.js';
-import { UI } from '../core/ui.js';
-import { Loader } from '../core/loader.js';
-import { Cache } from '../core/cache.js';
-import { Backup } from '../core/backup.js';
-import { validators } from '../core/validators.js';
+import { DOM } from '../../core/dom.js';
+import { Loader } from '../../core/loader.js';
+import { Cache } from '../../core/cache.js';
+import { Backup } from '../../core/backup.js';
+import { validators } from '../forms/validators.js';
+
+// Imports diretos dos componentes UI
+import { EmojiPicker } from '../ui/EmojiPicker.js';
+import { FileUpload } from '../ui/FileUpload.js';
+import { ColorPicker } from '../ui/ColorPicker.js';
+import { MarkdownEditor } from '../ui/MarkdownEditor.js';
+import { FontSelector } from '../ui/FontSelector.js';
+import { CharCounter } from '../ui/CharCounter.js';
 
 export class CardList {
     constructor(container, config) {
@@ -31,8 +38,23 @@ export class CardList {
             onError: config.onError || null
         };
         
+        this.fieldTypes = new Map();
+        this.fieldInstances = new Map();
+        this.registerDefaultFields();
+        
         this.backupKey = `card-list-${this.config.type}`;
         this.init();
+    }
+    
+    registerDefaultFields() {
+        this.registerFieldType('text', this.renderTextField.bind(this));
+        this.registerFieldType('textarea', this.renderTextareaField.bind(this));
+        this.registerFieldType('select', this.renderSelectField.bind(this));
+        this.registerFieldType('emoji-text', this.renderEmojiTextField.bind(this));
+    }
+    
+    registerFieldType(type, renderer) {
+        this.fieldTypes.set(type, renderer);
     }
 
     // Validar configuração
@@ -62,6 +84,7 @@ export class CardList {
         this.setupStructure();
         this.bindEvents();
         this.renderItems();
+        this.initAllSpecialFields();
     }
 
     // Criar estrutura base do componente
@@ -129,6 +152,7 @@ export class CardList {
         
         const itemsHTML = this.state.items.map(item => this.createItemHTML(item)).join('');
         this.itemsContainer.innerHTML = itemsHTML;
+        this.initAllSpecialFields();
     }
 
     // Renderizar estado vazio
@@ -214,64 +238,81 @@ export class CardList {
         return `<p class="card-list-item-subtitle">${item[subtitleField.name]}</p>`;
     }
 
-    // Criar HTML dos campos do formulário
     createFieldsHTML(item = {}) {
         return this.config.fields.map(field => {
             const value = item[field.name] || '';
-            const { name, type, label, placeholder, maxLength, rows, options } = field;
+            const inputHTML = this.renderField(field, value);
             
-            let inputHTML;
-            
-            switch (type) {
-                case 'textarea':
-                    inputHTML = `
-                        <textarea 
-                            name="${name}" 
-                            placeholder="${placeholder || ''}" 
-                            rows="${rows || 3}"
-                            ${maxLength ? `maxlength="${maxLength}"` : ''}
-                            class="form-input"
-                        >${value}</textarea>
-                    `;
-                    break;
-                    
-                case 'select':
-                    const optionsHTML = options?.map(opt => 
-                        `<option value="${opt.value}" ${opt.value === value ? 'selected' : ''}>${opt.label}</option>`
-                    ).join('') || '';
-                    
-                    inputHTML = `
-                        <select name="${name}" class="form-input">
-                            <option value="">Selecione...</option>
-                            ${optionsHTML}
-                        </select>
-                    `;
-                    break;
-                    
-                default:
-                    inputHTML = `
-                        <input 
-                            type="${type || 'text'}" 
-                            name="${name}" 
-                            value="${value}" 
-                            placeholder="${placeholder || ''}"
-                            ${maxLength ? `maxlength="${maxLength}"` : ''}
-                            class="form-input"
-                        />
-                    `;
-            }
-
-            // Determinar classe do label - usar sr-only-ai para labels importantes para IA mas desnecessários visualmente
             const labelClass = field.hideLabel ? 'form-label sr-only-ai' : 'form-label';
             
             return `
                 <div class="form-group">
-                    <label class="${labelClass}">${label || placeholder || name}</label>
+                    <label class="${labelClass}">${field.label || field.placeholder || field.name}</label>
                     ${inputHTML}
-                    <div class="form-error" data-field="${name}"></div>
+                    <div class="form-error" data-field="${field.name}"></div>
                 </div>
             `;
         }).join('');
+    }
+    
+    renderField(field, value = '') {
+        const renderer = this.fieldTypes.get(field.type);
+        if (renderer) {
+            return renderer(field, value);
+        }
+        return this.renderTextField(field, value);
+    }
+    
+    renderTextField(field, value) {
+        return `
+            <input 
+                type="${field.type || 'text'}" 
+                name="${field.name}" 
+                value="${value}" 
+                placeholder="${field.placeholder || ''}"
+                ${field.maxLength ? `maxlength="${field.maxLength}"` : ''}
+                class="form-input"
+            />
+        `;
+    }
+    
+    renderTextareaField(field, value) {
+        return `
+            <textarea 
+                name="${field.name}" 
+                placeholder="${field.placeholder || ''}" 
+                rows="${field.rows || 3}"
+                ${field.maxLength ? `maxlength="${field.maxLength}"` : ''}
+                class="form-input"
+            >${value}</textarea>
+        `;
+    }
+    
+    renderSelectField(field, value) {
+        const optionsHTML = field.options?.map(opt => 
+            `<option value="${opt.value}" ${opt.value === value ? 'selected' : ''}>${opt.label}</option>`
+        ).join('') || '';
+        
+        return `
+            <select name="${field.name}" class="form-input">
+                <option value="">Selecione...</option>
+                ${optionsHTML}
+            </select>
+        `;
+    }
+    
+    renderEmojiTextField(field, value) {
+        return `
+            <input 
+                type="text" 
+                name="${field.name}" 
+                value="${value}" 
+                placeholder="${field.placeholder || ''}"
+                ${field.maxLength ? `maxlength="${field.maxLength}"` : ''}
+                class="form-input"
+                data-field-type="emoji-text"
+            />
+        `;
     }
 
     // Bind de eventos
@@ -286,7 +327,7 @@ export class CardList {
         });
 
         // Click no novo item
-        DOM.delegate(this.container, '[data-new-item]', 'click', (e, element) => {
+        DOM.delegate(this.container, '[data-new-item]', 'click', (e) => {
             if (!this.state.isCreating && e.target.closest('[data-new-content]')) {
                 this.startCreating();
             }
@@ -301,7 +342,7 @@ export class CardList {
     }
 
     // Gerenciar ações
-    async handleAction(action, itemId, element) {
+    async handleAction(action, itemId) {
         switch (action) {
             case 'edit':
                 this.editItem(itemId);
@@ -445,7 +486,7 @@ export class CardList {
                 Loader.showInline(createButton, 'Criando...');
             }
             const newItem = {
-                id: UI.generateId(),
+                id: crypto.randomUUID() || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                 createdAt: new Date().toISOString(),
                 ...data
             };
@@ -513,6 +554,8 @@ export class CardList {
         const itemElement = DOM.select(`[data-item-id="${itemIdStr}"]`, this.container);
         if (itemElement) {
             itemElement.outerHTML = this.createItemHTML(item);
+            // Inicializar campos especiais após renderização
+            this.initSpecialFields(itemIdStr);
         }
     }
 
@@ -664,7 +707,7 @@ export class CardList {
 
     // API Pública
     addItem(item) {
-        if (!item.id) item.id = UI.generateId();
+        if (!item.id) item.id = crypto.randomUUID() || `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         this.state.items.push(item);
         this.renderItems();
         return item;
@@ -701,7 +744,117 @@ export class CardList {
         this.renderItems();
     }
 
+    async initAllSpecialFields() {
+        await this.initFieldsByType('emoji-text');
+        await this.initCharCounters();
+    }
+
+    async initSpecialFields(itemId) {
+        const itemElement = DOM.select(`[data-item-id="${itemId}"]`, this.container);
+        if (!itemElement) return;
+        
+        await this.initFieldsByType('emoji-text', itemElement);
+        await this.initCharCounters(itemElement);
+    }
+    
+    async initFieldsByType(fieldType, container = this.container) {
+        const fields = DOM.selectAll(`[data-field-type="${fieldType}"]`, container);
+        
+        for (const field of fields) {
+            await this.initSpecialField(fieldType, field);
+        }
+    }
+    
+    async initCharCounters(container = this.container) {
+        const textareas = DOM.selectAll('textarea[maxlength]', container);
+        for (const textarea of textareas) {
+            if (!textarea.charCounterInstance) {
+                textarea.charCounterInstance = new CharCounter(textarea);
+                await new Promise(resolve => setTimeout(resolve, 0));
+            }
+        }
+    }
+    
+    async initSpecialField(fieldType, element) {
+        const fieldId = `${fieldType}_${element.name || 'unnamed'}_${Date.now()}`;
+        
+        if (this.fieldInstances.has(fieldId)) {
+            return this.fieldInstances.get(fieldId);
+        }
+        
+        try {
+            let instance;
+            
+            switch (fieldType) {
+                case 'emoji-text':
+                    instance = await this.initEmojiField(element);
+                    break;
+                case 'file-upload':
+                    instance = new FileUpload(element);
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    break;
+                case 'color-picker':
+                    instance = new ColorPicker(element);
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    break;
+                case 'markdown':
+                    const textarea = element.querySelector('textarea');
+                    if (textarea) {
+                        instance = new MarkdownEditor(textarea);
+                        await new Promise(resolve => setTimeout(resolve, 0));
+                    }
+                    break;
+                case 'font-selector':
+                    const select = element.querySelector('select');
+                    if (select) {
+                        instance = new FontSelector(select);
+                        await new Promise(resolve => setTimeout(resolve, 0));
+                    }
+                    break;
+                default:
+                    console.warn(`Tipo de campo especial não reconhecido: ${fieldType}`);
+                    return null;
+            }
+            
+            if (instance) {
+                this.fieldInstances.set(fieldId, instance);
+            }
+            
+            return instance;
+        } catch (error) {
+            console.error(`Erro ao inicializar campo ${fieldType}:`, error);
+            return null;
+        }
+    }
+
+    async initEmojiField(field) {
+        if (field.emojiPickerInstance || field.parentNode.querySelector('.emoji-picker-button')) {
+            return field.emojiPickerInstance;
+        }
+        
+        const picker = new EmojiPicker(field, {
+            onChange: (emoji) => {
+                if (this.config.allowCreate || this.config.allowEdit) {
+                    Backup.save(this.backupKey, this.getFormData());
+                }
+            }
+        });
+        
+        field.emojiPickerInstance = picker;
+        await new Promise(resolve => setTimeout(resolve, 0));
+        
+        field.emojiPickerInstance = picker;
+        return picker;
+    }
+
     destroy() {
+        this.fieldInstances.forEach(instance => {
+            if (instance && typeof instance.destroy === 'function') {
+                instance.destroy();
+            }
+        });
+        this.fieldInstances.clear();
+        
         Backup.clear(this.backupKey);
         this.container.innerHTML = '';
     }

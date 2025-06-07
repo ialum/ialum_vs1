@@ -1,0 +1,12 @@
+/**
+ * CSS Forms - Sistema de Formulários Brasileiro
+ * 
+ * Componentes especializados para formulários:
+ * - color-picker: Seletor de cores
+ * - file-upload: Upload de arquivos com preview
+ * 
+ * Base de formulários está em /base/06-forms.css
+ */
+
+@import './color-picker.css';
+@import './file-upload.css';

@@ -7,9 +7,9 @@
  */
 
 import { API } from '../../core/api.js';
-import { UI } from '../../core/ui.js';
-import { format } from '../../core/formatters.js';
-import { showToast } from '../../components/notifications.js';
+import { behaviors } from '../../components/ui/behaviors.js';
+import { format } from '../../components/forms/formatters.js';
+import { showToast } from '../../components/layout/notifications.js';
 // import { SearchAutocomplete } from '../../components/search-autocomplete.js'; // TODO: Implementar componente
 
 // Estado da página
@@ -267,7 +267,7 @@ function renderTopicos(topicos) {
         // Meta
         card.querySelector('.meta-text.theme').textContent = topico.theme_name;
         card.querySelector('.meta-text.date').textContent = 
-            Utils.formatDate(topico.created_at, 'DD/MM/YYYY');
+            format.date(topico.created_at, 'DD/MM/YYYY');
         
         // Publicações
         renderPublications(card, topico.publications);

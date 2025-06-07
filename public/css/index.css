@@ -19,4 +19,4 @@
 @import 'base/utilities/index.css';
 
 /* CSS Components - Layout público */
-@import 'components/public-layout.css';
+@import 'components/layout/public-layout.css';

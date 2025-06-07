@@ -1,0 +1,14 @@
+/**
+ * CSS Components - Índice Organizado por Categoria
+ * 
+ * Nova estrutura modular alinhada com /js/components/:
+ * - cards/: Componentes CRUD universais (CardList, CardForm, CardGrid, CardDisplay)
+ * - forms/: Sistema de formulários especializados
+ * - ui/: Elementos de interface reutilizáveis
+ * - layout/: Estrutura e layout da aplicação
+ */
+
+@import './cards/index.css';
+@import './forms/index.css';
+@import './ui/index.css';
+@import './layout/index.css';

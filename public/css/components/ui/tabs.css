@@ -17,8 +17,8 @@
 /* Navegação das abas */
 .tabs-nav {
     display: flex;
-    background: var(--gray-50);
-    border-bottom: 1px solid var(--gray-200);
+    background: var(--theme-bg-secondary);
+    border-bottom: 1px solid var(--theme-border-primary);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none; /* Firefox */
@@ -40,7 +40,7 @@
     align-items: center;
     justify-content: center;
     gap: var(--spacing-sm);
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
     font-family: var(--font-family-base);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
@@ -52,7 +52,7 @@
 }
 
 .tab-btn:hover {
-    background: var(--gray-100);
+    background: var(--theme-bg-secondary);
     color: var(--primary);
 }
 
@@ -109,13 +109,13 @@
     align-items: center;
     justify-content: center;
     padding: var(--spacing-2xl);
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
 }
 
 .tab-loading .spinner {
     width: 24px;
     height: 24px;
-    border: 2px solid var(--gray-300);
+    border: 2px solid var(--theme-border-secondary);
     border-top: 2px solid var(--primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -130,7 +130,7 @@
 .tab-placeholder {
     text-align: center;
     padding: var(--spacing-2xl);
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
 }
 
 .placeholder-icon {
@@ -141,12 +141,12 @@
 
 .tab-placeholder h3 {
     margin-bottom: var(--spacing-md);
-    color: var(--gray-700);
+    color: var(--theme-text-primary);
     font-size: var(--font-size-lg);
 }
 
 .tab-placeholder p {
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
     max-width: 400px;
     margin: 0 auto;
 }

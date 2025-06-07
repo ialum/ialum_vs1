@@ -1,0 +1,16 @@
+/**
+ * CSS Layout - Estrutura da Aplicação
+ * 
+ * Componentes de layout e estrutura:
+ * - app-layout: Layout principal da aplicação SPA
+ * - public-layout: Layout das páginas públicas
+ * - header: Cabeçalho da aplicação
+ * - sidebar: Menu lateral com submenus
+ * - notifications: Sistema de notificações e toasts
+ */
+
+@import './app-layout.css';
+@import './public-layout.css';
+@import './header.css';
+@import './sidebar.css';
+@import './notifications.css';

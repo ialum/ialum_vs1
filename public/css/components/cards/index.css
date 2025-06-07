@@ -1,0 +1,15 @@
+/**
+ * CSS Cards - Sistema Universal de CRUD
+ * 
+ * Componentes de card que cobrem 90% dos casos de uso:
+ * - CardList: CRUD expansível (40% dos casos)
+ * - CardForm: Formulário dinâmico (30% dos casos)
+ * - CardGrid: Grid responsivo (15% dos casos)
+ * - CardDisplay: Visualização rica (5% dos casos)
+ */
+
+@import './base.css';
+@import './card-list.css';
+@import './card-form.css';
+@import './card-grid.css';
+@import './card-display.css';

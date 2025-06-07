@@ -65,12 +65,21 @@ export function init(pageId, options = {}) {
 /**
  * Salva dados imediatamente
  * @param {string} pageId - Identificador da página
+ * @param {Object} customData - Dados customizados (opcional)
  */
-export function save(pageId) {
-    const container = document.querySelector(`[data-backup="${pageId}"]`);
-    if (!container) return;
+export function save(pageId, customData = null) {
+    let data;
     
-    const data = collectData(container);
+    if (customData) {
+        // Usar dados fornecidos diretamente
+        data = customData;
+    } else {
+        // Buscar dados no DOM (comportamento original)
+        const container = document.querySelector(`[data-backup="${pageId}"]`);
+        if (!container) return;
+        data = collectData(container);
+    }
+    
     const key = CONFIG.prefix + pageId;
     
     try {
@@ -123,6 +132,34 @@ export function restore(pageId) {
     }
     
     return false;
+}
+
+/**
+ * Obtém dados do backup sem restaurar automaticamente
+ * @param {string} pageId - Identificador da página
+ * @returns {Object|null} - Dados do backup ou null se não existir
+ */
+export function get(pageId) {
+    const key = CONFIG.prefix + pageId;
+    const backup = localStorage.getItem(key);
+    
+    if (!backup) return null;
+    
+    try {
+        const { data, timestamp } = JSON.parse(backup);
+        
+        // Verifica se não expirou
+        const age = Date.now() - timestamp;
+        if (age > CONFIG.expirationDays * 24 * 60 * 60 * 1000) {
+            localStorage.removeItem(key);
+            return null;
+        }
+        
+        return data;
+    } catch (e) {
+        console.error('Backup: Erro ao obter dados', e);
+        return null;
+    }
 }
 
 /**
@@ -233,6 +270,7 @@ cleanOld();
 export const Backup = {
     init,
     save,
+    get,
     restore,
     clear,
     cleanOld

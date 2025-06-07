@@ -10,7 +10,7 @@
 // Importar dependências
 import { Router } from './router.js';
 import { DOM } from './dom.js';
-import { showToast } from '../components/notifications.js';
+import { showToast } from '../components/layout/notifications.js';
 
 // Estado do app
 let isInitialized = false;

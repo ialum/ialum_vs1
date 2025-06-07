@@ -31,73 +31,52 @@ Configurações/
 
 #### **Seções da Página**
 
-**1.1 Identidade Visual**
-- Upload de logo principal (PNG com fundo transparente 1000x1000px)
-- Upload de logo secundária (variação)
-- Nome da banca (como aparecerá nas publicações)
-- Descrição do posicionamento da banca (textarea)
-- Cores da marca:
-  - Cor primária (RGB)
-  - Cor secundária (RGB)
-  - Cor terciária (RGB)
-  - Preview visual das cores
-- Fontes:
-  - Fonte principal
-  - Fonte para textos
-- Botão "Salvar Identidade Visual"
 
-**1.2 Temas Jurídicos**
-- Grid visual de temas com ícones
-- Temas pré-definidos:
-  - Energia Solar
-  - Autismo/TEA
-  - Fiscal/Empresa
-  - Contrato/Trabalho
-  - Acordos/Nupciais
-  - Ações Trabalhistas
-  - Proteção Locatário
-- Para cada tema:
-  - Nome do tema com ícone
-  - Descrição detalhada (como será usado pela IA)
-  - Botão "Salvar Tema"
-- Botão "Criar novo Tema" com campos:
-  - Nome do tema
-  - Ícone (seleção ou upload)
-  - Descrição para IA
-
-**1.3 Linhas Narrativas**
+**1.1 Linhas Narrativas**
 - Lista de narrativas salvas
 - Para cada narrativa:
-  - Título (ex: "Jornada do Herói", "Crítica ao Sistema")
-  - Descrição detalhada de como aplicar
-  - Botão "Salvar narrativa"
+  - Nome da linha narrativa começando com icone (max 25 caracteres deve iniciar com emoji)
+  - Descrição detalhada de como aplicar (max de 1000 caracteres com contador de digitos) 
+  - Botão "Salvar Narrativa"
 - Botão "Criar nova Narrativa"
 - Exemplos de narrativas:
   - **Jornada do Herói**: "onde o advogado é o herói que irá salvar o cliente das garras do problema abordado no tópico"
   - **Crítica ao Sistema**: "crítica dura ao sistema e questões abordadas no tópico, com justificativas embasadas, ponderando o certo e o errado do ponto de vista da população em geral"
 
-**1.4 Banco de Imagens por Tema (image-bank)**
-- Seletor de tema no topo
-- Texto explicativo sobre uso das imagens
-- Botão "iAlum Designer" para geração via IA
-  - Prompt automático baseado no tema selecionado
-  - Descrição até 100 caracteres
-  - Checkboxes:
-    - Usar identidade visual
-    - Usar contexto do tema
-  - Botão "Gerar nova imagem"
-  - 1 crédito por imagem gerada
-- Seções de imagens:
-  - **Presets**: Imagens padrão do tema
-  - **Geradas IA**: Imagens criadas com IA
-  - **Upload**: Imagens enviadas
-- Grid visual das imagens com opções de gerenciar
+**1.2 Temas Jurídicos**
+- Lista de temas salvas
+- Para cada tema:
+  - Nome do tema começando com ícone (max 25 caracteres deve iniciar com emoji)
+  - Descrição detalhada (max de 1000 caracteres com contador de digitos) 
+  - Botão "Salvar Tema"
+- Botão "Criar novo Tema"
+- Exemplos de temas:
+  - **Compra e Venda**: "problemas que pessoas fisicas enfrentam ao assinar contratos de compra e venda de bens de alto valor como veiculos, casas, terrenos, maquinas etc, que acabam criando inumetos problemas no menor deslize de uma das partes"
+  - **Empres. Trabalhista**: "Protocolos mais importantes que as empresas devem adotar e prever ao contratar, mantes e demitir funcionarios ou serviços pj em suas empresas."
 
-#### **Validações**
-- Logo máximo 2MB
-- Formato PNG com transparência
-- Pelo menos 1 tema ativo
-- Descrições obrigatórias para temas e narrativas
+**1.3 Identidade Visual**
+- **logotipos**
+  - Upload de logo principal (PNG com fundo transparente 1024x1024px max 1mg)
+  - Upload de logo principal horizontal (variação)
+  - Upload de logo clara (variação)
+  - Upload de logo clara horizontal (variação)
+  - Upload de logo escura (variação)
+  - Upload de logo escura horizontal (variação)
+  - Preview visual das cores de fundo aplicada ao fundo das logos
+- **Cores da marca:**
+  - Cor principal (RGB - será usado como fundo para a logo secundária)
+  - Cor secundária (RGB - será usado como fundo para a logo primária)
+  - Cor clara (RGB - fundos contrasta com logo escura)
+  - Cor escura (RGB - fundos contrasta com logo clara)
+  - Preview visual das cores
+- **Nome e Descrição**
+  - Nome da banca (como aparecerá nas publicações)
+  - Descrição do posicionamento da banca (textarea max 1000 caracteres com editor de markdown)
+-
+- **Fontes:**
+  - Fonte principal - titulos
+  - Fonte para textos - facil leitura
+- Botão "Salvar Identidade Visual"
 
 ---
 
@@ -107,41 +86,29 @@ Configurações/
 
 #### **Seções da Página**
 
-**2.1 Gerenciador de Arquivos**
-- Upload múltiplo (drag & drop)
-- Visualização em grid/lista
-- Filtros por tipo, data, tema
-- Busca por nome/tags
+**2.1 Banco de Imagens por Tema (image-bank)**
+- **cabeçario seletor**
+  - Seletor de tema no topo com osuma visualização tipo icones dos temas da banca
+  - Texto descrição do tema dinamico conforme seleciona o tema
+- **grid das imagens do tema selecionado com abas**
+  - Abas de imagens ja filtradas pelo tema selecionado:
+    - **Presets**: Imagens padrão do tema ( que irão aparecer por primeiro nas páginas de redação para uso rapido)
+    - **Geradas IA**: Imagens criadas com IA ( imagens geradas por ia durante a redação podem ser arquivadas, excluidas ou promovidas a pressets)
+    - **Upload**: Imagens enviadas pelo usuario ( mesmo comportamento das geradas por ia )
+  - Grid visual das imagens com opções de gerenciar com botões sobrepostos as imagens ( visualizar, arquivar ou presset)
+  - Aba carrega até 12 imagens no mobile e aparece botão carregar mais / todas 
+  - carregaemnto inteligente para não sobrecarregar a página
 
-**2.2 Organização**
-- Pastas por tema jurídico
-- Sistema de tags
-- Favoritos
-- Lixeira (30 dias)
-
-**2.3 Edição Rápida**
-- Crop/resize básico
-- Adicionar texto
-- Filtros predefinidos
-- Marca d'água
-
-**2.4 Integrações**
-- Conectar Unsplash
-- Conectar Pexels
-- Banco de ícones
-- IA de geração de imagem
-
-**2.5 Configurações**
-- Tamanho máximo de upload
-- Formatos aceitos
-- Compressão automática
-- Backup automático
-
-#### **Recursos Especiais**
-- Detecção de faces para crop inteligente
-- Sugestão automática de tags
-- Histórico de uso por imagem
-- Estatísticas de engajamento
+- **2.2 card de geração de imagem a partir de prompt contextual**
+  - Botão "iAlum Designer" para geração de prompts via IA (abre chat para que a ia preencha os campos depois da conversa com o usuario)
+    - Promt da geração de imagem: (maximo de 1000 caracteres)
+    - Nome da imagem: até 70 caracteres
+    - Descrição da Imagem: até 200 caracteres 
+    - Checkboxes:
+      - Usar identidade visual (ia irá conciderar a identidade visual ao criar a imagem)
+      - Usar contexto do tema (ia irá usar a descrição do tema para criar a imagem)
+    - Botão "Gerar nova imagem" (1 crédito por imagem gerada)
+  - precisaria estudar uma forma de vincular os dois cards, para que a geração de imagem soubesse qual dos temas está selecionado no cabeçario do seletor
 
 ---
 
@@ -151,9 +118,12 @@ Configurações/
 
 #### **Seções da Página**
 
-**3.1 Biblioteca de Templates**
-- Grid de templates por rede social
-- Filtros: Rede, Tipo, Tema
+**3.1 Biblioteca de Templates por rede social/ublicação**
+- **cabeçario seletor**
+  - Seletor de rede social que ao clicar na rede espande os tipo de publicação
+- **grid de templates do tipo de publicação**
+  - templates possuem tamanho e variaveis
+    - **Usuario pode criar um**: Im
 - Preview em hover
 - Estatísticas de uso
 

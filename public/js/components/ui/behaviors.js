@@ -1,18 +1,4 @@
-/**
- * ui.js
- * Sistema de comportamentos e interações visuais
- * Documentação: /docs/0_16-sistemas-core.md#ui
- * Localização: /js/core/ui.js
- * 
- * COMO USAR:
- * 1. Importar: import { UI } from '/js/core/ui.js'
- * 2. Usar: UI.scrollTo('#section') ou UI.copyToClipboard(texto)
- * 3. Feedback: UI.shake(element) ou UI.highlight(element)
- */
-
-// Interface de comportamentos visuais
-export const UI = {
-    // Scroll suave para elemento
+export const behaviors = {
     scrollTo(selector, offset = 100) {
         const element = typeof selector === 'string' 
             ? document.querySelector(selector) 
@@ -24,30 +10,6 @@ export const UI = {
         }
     },
     
-    // Copiar para clipboard com feedback
-    async copyToClipboard(text, showFeedback = true) {
-        try {
-            await navigator.clipboard.writeText(text);
-            if (showFeedback) {
-                // TODO: Mostrar toast de sucesso quando notify.js existir
-                console.log('Copiado!');
-            }
-            return true;
-        } catch (err) {
-            // Fallback para browsers antigos
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.select();
-            const success = document.execCommand('copy');
-            document.body.removeChild(textarea);
-            return success;
-        }
-    },
-    
-    // Efeito de shake (chacoalhar)
     shake(element, duration = 300) {
         element = typeof element === 'string' 
             ? document.querySelector(element) 
@@ -61,7 +23,6 @@ export const UI = {
         }, duration);
     },
     
-    // Destacar elemento temporariamente
     highlight(element, color = '#ffeb3b', duration = 1000) {
         element = typeof element === 'string' 
             ? document.querySelector(element) 
@@ -81,7 +42,6 @@ export const UI = {
         }, duration);
     },
     
-    // Focar elemento com destaque visual
     focusWithHighlight(selector) {
         const element = typeof selector === 'string' 
             ? document.querySelector(selector) 
@@ -93,7 +53,6 @@ export const UI = {
         }
     },
     
-    // FadeIn - mostrar elemento com animação
     fadeIn(element, duration = 300) {
         element = typeof element === 'string' 
             ? document.querySelector(element) 
@@ -103,7 +62,7 @@ export const UI = {
         
         element.style.opacity = '0';
         element.style.display = '';
-        element.offsetHeight; // Force reflow
+        element.offsetHeight;
         element.style.transition = `opacity ${duration}ms`;
         element.style.opacity = '1';
         
@@ -112,7 +71,6 @@ export const UI = {
         }, duration);
     },
 
-    // FadeOut - esconder elemento com animação
     fadeOut(element, duration = 300, callback = null) {
         element = typeof element === 'string' 
             ? document.querySelector(element) 
@@ -131,7 +89,6 @@ export const UI = {
         }, duration);
     },
 
-    // Toggle de visibilidade com fade
     fadeToggle(element, duration = 300) {
         element = typeof element === 'string' 
             ? document.querySelector(element) 
@@ -148,7 +105,26 @@ export const UI = {
         }
     },
     
-    // Debounce para performance
+    async copyToClipboard(text, showFeedback = true) {
+        try {
+            await navigator.clipboard.writeText(text);
+            if (showFeedback) {
+                console.log('Copiado!');
+            }
+            return true;
+        } catch (err) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            const success = document.execCommand('copy');
+            document.body.removeChild(textarea);
+            return success;
+        }
+    },
+    
     debounce(func, wait = 300) {
         let timeout;
         return function executedFunction(...args) {
@@ -161,7 +137,6 @@ export const UI = {
         };
     },
     
-    // Throttle para limitar execuções
     throttle(func, limit = 100) {
         let inThrottle;
         return function(...args) {
@@ -172,14 +147,44 @@ export const UI = {
             }
         };
     },
-    
-    // Gerar ID único
-    generateId(prefix = 'id') {
-        return `${prefix}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+    slideDown(element, duration = 300) {
+        element = typeof element === 'string' 
+            ? document.querySelector(element) 
+            : element;
+            
+        if (!element) return;
+        
+        element.style.overflow = 'hidden';
+        element.style.transition = `max-height ${duration}ms ease-out`;
+        element.style.maxHeight = element.scrollHeight + 'px';
+        
+        setTimeout(() => {
+            element.style.transition = '';
+            element.style.overflow = '';
+        }, duration);
+    },
+
+    slideUp(element, duration = 300) {
+        element = typeof element === 'string' 
+            ? document.querySelector(element) 
+            : element;
+            
+        if (!element) return;
+        
+        element.style.overflow = 'hidden';
+        element.style.maxHeight = element.scrollHeight + 'px';
+        element.offsetHeight; // Force reflow
+        element.style.transition = `max-height ${duration}ms ease-out`;
+        element.style.maxHeight = '0';
+        
+        setTimeout(() => {
+            element.style.transition = '';
+            element.style.overflow = '';
+        }, duration);
     }
 };
 
-// CSS necessário para animações (adicionar ao CSS base)
 const styles = `
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -188,10 +193,9 @@ const styles = `
 }
 `;
 
-// Injetar CSS se ainda não existir
-if (!document.getElementById('ui-styles')) {
+if (!document.getElementById('ui-behaviors-styles')) {
     const styleSheet = document.createElement('style');
-    styleSheet.id = 'ui-styles';
+    styleSheet.id = 'ui-behaviors-styles';
     styleSheet.textContent = styles;
     document.head.appendChild(styleSheet);
 }

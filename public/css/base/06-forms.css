@@ -73,7 +73,7 @@
     top: var(--form-label-offset);
     left: 1rem;
     font-size: var(--font-size-sm);
-    color: var(--gray-500);
+    color: var(--theme-text-tertiary);
     pointer-events: none;
     transition: all 0.2s ease;
     background: var(--white);
@@ -108,7 +108,7 @@
 }
 
 .form-control:hover:not(:focus):not(:disabled) {
-    background-color: var(--gray-100);
+    background-color: var(--theme-bg-secondary);
     transform: translateY(-1px);
 }
 
@@ -149,7 +149,7 @@
 }
 
 .form-input:hover:not(:focus):not(:disabled) {
-    background-color: var(--gray-100);
+    background-color: var(--theme-bg-secondary);
     transform: translateY(-1px);
 }
 
@@ -261,7 +261,7 @@ textarea.form-input,
 }
 
 .form-select:hover:not(:focus):not(:disabled) {
-    background-color: var(--gray-100);
+    background-color: var(--theme-bg-secondary);
     transform: translateY(-1px);
 }
 
@@ -323,7 +323,7 @@ textarea.form-input,
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    border: 1px solid var(--gray-400);
+    border: 1px solid var(--theme-border-secondary);
     transition: all 0.15s ease-in-out;
     cursor: pointer;
 }
@@ -331,7 +331,7 @@ textarea.form-input,
 .form-check-input:focus {
     border-color: var(--primary);
     outline: 0;
-    box-shadow: 0 0 0 3px var(--alpha-black-10);
+    box-shadow: 0 0 0 3px var(--theme-surface-hover);
 }
 
 .form-check-input:checked {
@@ -422,7 +422,7 @@ textarea.form-input,
     height: 0.5rem;
     color: transparent;
     cursor: pointer;
-    background-color: var(--gray-200);
+    background-color: var(--theme-bg-secondary);
     border-color: transparent;
     border-radius: 1rem;
 }
@@ -447,7 +447,7 @@ textarea.form-input,
     height: 0.5rem;
     color: transparent;
     cursor: pointer;
-    background-color: var(--gray-200);
+    background-color: var(--theme-bg-secondary);
     border-color: transparent;
     border-radius: 1rem;
 }
@@ -490,27 +490,27 @@ textarea.form-input,
     padding: var(--spacing-sm) var(--spacing-md);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
-    color: var(--gray-700);
+    color: var(--theme-text-primary);
     background-color: var(--white);
-    border: 1px solid var(--gray-300);
+    border: 1px solid var(--theme-border-primary);
     border-radius: var(--radius-md);
     cursor: pointer;
 }
 
 .form-file-input:focus ~ .form-file-label {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--alpha-black-10);
+    box-shadow: 0 0 0 3px var(--theme-surface-hover);
 }
 
 .form-file-input:disabled ~ .form-file-label {
-    background-color: var(--gray-100);
-    color: var(--gray-500);
+    background-color: var(--theme-bg-secondary);
+    color: var(--theme-text-tertiary);
     cursor: not-allowed;
 }
 
 /* Dropzone style */
 .form-dropzone {
-    border: 2px dashed var(--gray-300);
+    border: 2px dashed var(--theme-border-primary);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     text-align: center;
@@ -521,12 +521,12 @@ textarea.form-input,
 
 .form-dropzone:hover {
     border-color: var(--primary);
-    background-color: var(--alpha-black-5);
+    background-color: var(--theme-surface-hover);
 }
 
 .form-dropzone.dragover {
     border-color: var(--primary);
-    background-color: var(--alpha-black-5);
+    background-color: var(--theme-surface-hover);
 }
 
 /* =================================================================
@@ -560,11 +560,11 @@ textarea.form-input,
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
-    color: var(--gray-700);
+    color: var(--theme-text-primary);
     text-align: center;
     white-space: nowrap;
-    background-color: var(--gray-100);
-    border: 1px solid var(--gray-300);
+    background-color: var(--theme-bg-secondary);
+    border: 1px solid var(--theme-border-primary);
     border-radius: var(--radius-md);
 }
 
@@ -650,7 +650,7 @@ textarea.form-input,
 
 .form-control.is-valid:focus {
     border-color: var(--success);
-    box-shadow: 0 0 0 3px var(--alpha-black-10);
+    box-shadow: 0 0 0 3px var(--theme-surface-hover);
 }
 
 .form-control.is-invalid {
@@ -664,7 +664,7 @@ textarea.form-input,
 
 .form-control.is-invalid:focus {
     border-color: var(--error);
-    box-shadow: 0 0 0 3px var(--alpha-black-10);
+    box-shadow: 0 0 0 3px var(--theme-surface-hover);
 }
 
 /* Aliases para compatibilidade */
@@ -693,14 +693,14 @@ textarea.form-input,
 .form-text {
     margin-top: var(--spacing-xs);
     font-size: var(--font-size-xs);
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
 }
 
 .form-help,
 .form-hint {
     margin-top: var(--spacing-xs);
     font-size: var(--font-size-xs);
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
 }
 
 .invalid-feedback {
@@ -774,6 +774,190 @@ textarea.form-input,
     
     .form-control {
         border-radius: var(--radius-md);
+    }
+}
+
+/* =================================================================
+   EMOJI PICKER
+================================================================= */
+
+/* Input com emoji picker */
+.has-emoji-prepend {
+    padding-left: 0.5rem !important;
+}
+
+/* Botão do emoji picker */
+.emoji-picker-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--theme-bg-secondary);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.emoji-picker-button:hover {
+    background: var(--theme-bg-tertiary);
+    transform: translateY(-1px);
+}
+
+.emoji-picker-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-very-light);
+}
+
+.emoji-picker-button[aria-expanded="true"] {
+    background: var(--theme-bg-elevated);
+    box-shadow: 0 0 0 3px var(--primary-very-light);
+}
+
+/* Dropdown do emoji picker */
+.emoji-picker-dropdown {
+    position: absolute;
+    z-index: 1000;
+    width: 320px;
+    max-height: 400px;
+    background: var(--theme-bg-elevated);
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.emoji-picker-dropdown.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Campo de busca */
+.emoji-picker-search {
+    margin: var(--spacing-md);
+    margin-bottom: 0;
+}
+
+/* Categorias */
+.emoji-picker-categories {
+    display: flex;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--theme-border-secondary);
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.emoji-picker-category {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    color: var(--theme-text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.emoji-picker-category:hover {
+    background: var(--theme-surface-hover);
+    color: var(--theme-text-primary);
+}
+
+.emoji-picker-category.active {
+    background: var(--primary-very-light);
+    color: var(--primary);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Grid de emojis */
+.emoji-picker-grid {
+    flex: 1;
+    padding: var(--spacing-md);
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: var(--spacing-xs);
+}
+
+.emoji-picker-item {
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.emoji-picker-item:hover {
+    background: var(--theme-surface-hover);
+    transform: scale(1.2);
+}
+
+.emoji-picker-item:active {
+    transform: scale(0.95);
+}
+
+/* Estado vazio */
+.emoji-picker-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--theme-text-tertiary);
+    font-size: var(--font-size-sm);
+    padding: var(--spacing-lg);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .emoji-picker-dropdown {
+        width: 280px;
+        max-height: 350px;
+    }
+    
+    .emoji-picker-grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+    
+    .emoji-picker-categories {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+    
+    .emoji-picker-category {
+        padding: var(--spacing-xs);
+        font-size: var(--font-size-2xs);
+    }
+}
+
+/* Tema escuro - adicionar quando implementar */
+@media (prefers-color-scheme: dark) {
+    .emoji-picker-dropdown {
+        background: var(--theme-bg-elevated);
+        border-color: var(--theme-border-primary);
+    }
+    
+    .emoji-picker-button {
+        background: var(--theme-bg-secondary);
+    }
+    
+    .emoji-picker-button:hover {
+        background: var(--theme-bg-tertiary);
     }
 }
 

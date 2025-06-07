@@ -1,0 +1,349 @@
+/* card-grid.css
+ * Componente CardGrid - Grid responsivo com seleção
+ * Dependências: Variables, utilities
+ * Localização: public/css/components/card-grid.css
+ */
+
+/* === CONTAINER PRINCIPAL === */
+.card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.card-grid-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.card-grid-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--theme-text-primary);
+    margin: 0;
+}
+
+.card-grid-description {
+    font-size: var(--font-size-sm);
+    color: var(--theme-text-secondary);
+    margin: 0;
+}
+
+/* === BUSCA === */
+.card-grid-search-wrapper {
+    position: relative;
+    margin-bottom: var(--spacing-md);
+}
+
+.card-grid-search {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--border-radius);
+    font-size: var(--font-size-sm);
+    background: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
+    transition: all var(--transition-fast);
+}
+
+.card-grid-search:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--theme-surface-hover);
+}
+
+.card-grid-search::placeholder {
+    color: var(--theme-text-tertiary);
+}
+
+/* === CONTAINER DO GRID === */
+.card-grid-container {
+    display: grid;
+    gap: var(--spacing-md);
+    width: 100%;
+}
+
+/* Colunas automáticas responsivas */
+.card-grid-container.auto-columns {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+/* Colunas fixas */
+.card-grid-container.columns-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card-grid-container.columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.card-grid-container.columns-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.card-grid-container.columns-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.card-grid-container.columns-6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
+/* Responsividade para colunas fixas */
+@media (max-width: 1200px) {
+    .card-grid-container.columns-6,
+    .card-grid-container.columns-5 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .card-grid-container.columns-4,
+    .card-grid-container.columns-5,
+    .card-grid-container.columns-6 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .card-grid-container.columns-3,
+    .card-grid-container.columns-4,
+    .card-grid-container.columns-5,
+    .card-grid-container.columns-6 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .card-grid-container {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-sm);
+    }
+}
+
+/* === ITENS DO GRID === */
+.card-grid-item {
+    position: relative;
+    background: var(--theme-bg-primary);
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+    height: fit-content;
+}
+
+.card-grid-item:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.card-grid-item.selectable:hover {
+    border-color: var(--primary);
+}
+
+.card-grid-item.selected {
+    border-color: var(--primary);
+    background: var(--theme-surface-hover);
+    box-shadow: 0 0 0 2px var(--theme-surface-hover);
+}
+
+.card-grid-item.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.card-grid-item.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--theme-border-primary);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: spin 1s linear infinite;
+}
+
+/* === CHECKBOX DE SELEÇÃO === */
+.card-grid-item-checkbox {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-xs);
+    backdrop-filter: blur(4px);
+}
+
+.card-grid-item-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* === IMAGEM DO ITEM === */
+.card-grid-item-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: var(--theme-bg-secondary);
+}
+
+.card-grid-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.card-grid-item:hover .card-grid-item-image img {
+    transform: scale(1.05);
+}
+
+/* === CONTEÚDO DO ITEM === */
+.card-grid-item-content {
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.card-grid-item-title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--theme-text-primary);
+    margin: 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.card-grid-item-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--theme-text-secondary);
+    margin: 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+/* === AÇÕES DO ITEM === */
+.card-grid-item-actions {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-top: 1px solid var(--theme-border-primary);
+    background: var(--theme-bg-secondary);
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.card-grid-item:hover .card-grid-item-actions {
+    opacity: 1;
+}
+
+.card-grid-item-actions .btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    min-height: auto;
+}
+
+/* === ESTADO VAZIO === */
+.card-grid-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--spacing-xxl);
+    color: var(--theme-text-tertiary);
+}
+
+.card-grid-empty-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+    opacity: 0.6;
+}
+
+.card-grid-empty-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--theme-text-secondary);
+    margin: 0 0 var(--spacing-sm) 0;
+}
+
+/* === SELEÇÃO MÚLTIPLA === */
+.card-grid-selection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md);
+    background: var(--theme-surface-hover);
+    border: 1px solid var(--primary-light);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-md);
+}
+
+.card-grid-selection-count {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--primary-dark);
+}
+
+.card-grid-selection-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.card-grid-selection-actions .btn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-xs);
+}
+
+/* === ANIMAÇÕES === */
+@keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* === MODO COMPACTO === */
+.card-grid.compact .card-grid-item-content {
+    padding: var(--spacing-sm);
+}
+
+.card-grid.compact .card-grid-item-image {
+    height: 150px;
+}
+
+.card-grid.compact .card-grid-item-title {
+    font-size: var(--font-size-sm);
+}
+
+.card-grid.compact .card-grid-item-subtitle {
+    font-size: var(--font-size-xs);
+    -webkit-line-clamp: 2;
+}
+
+/* === TEMA ESCURO === */
+@media (prefers-color-scheme: dark) {
+    .card-grid-item-checkbox {
+        background: rgba(0, 0, 0, 0.8);
+    }
+    
+    .card-grid-item-actions {
+        background: var(--theme-bg-tertiary);
+    }
+}

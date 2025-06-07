@@ -7,9 +7,9 @@
  */
 
 import { API } from '../../core/api.js';
-import { UI } from '../../core/ui.js';
-import { format } from '../../core/formatters.js';
-import { showToast } from '../../components/notifications.js';
+import { behaviors } from '../../components/ui/behaviors.js';
+import { format } from '../../components/forms/formatters.js';
+import { showToast } from '../../components/layout/notifications.js';
 
 // Estado da página
 let currentPeriod = 'month';
@@ -356,7 +356,7 @@ function renderTopPosts(posts) {
         tr.innerHTML = `
             <td>${post.title}</td>
             <td>${post.platform}</td>
-            <td>${Utils.formatDate(post.date, 'DD/MM')}</td>
+            <td>${format.date(post.date, 'DD/MM')}</td>
             <td>${post.engagement}</td>
             <td>${post.reach.toLocaleString()}</td>
             <td><strong>${post.rate}</strong></td>

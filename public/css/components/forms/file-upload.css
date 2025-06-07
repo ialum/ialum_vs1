@@ -1,0 +1,488 @@
+/* file-upload.css
+ * Componente FileUpload - Upload de arquivos com preview
+ * Dependências: Variables, buttons, animations
+ * Localização: public/css/components/file-upload.css
+ */
+
+/* === CONTAINER PRINCIPAL === */
+.form-file-upload {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    width: 100%;
+}
+
+/* === DROPZONE === */
+.file-upload-dropzone {
+    position: relative;
+    border: 2px dashed var(--theme-border-primary);
+    border-radius: 12px;
+    padding: var(--spacing-xl);
+    text-align: center;
+    background: var(--theme-bg-secondary);
+    cursor: pointer;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+}
+
+/* Usar classes utilitárias para hover - aplicar via HTML: hover-elevate-sm hover-border-primary */
+.file-upload-dropzone:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+    border-color: var(--primary);
+    background: var(--theme-surface-hover);
+    transition: all 0.3s ease;
+}
+
+.file-upload-dropzone.dragover {
+    border-color: var(--primary);
+    background: var(--theme-surface-hover);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-md);
+}
+
+.file-upload-dropzone.error {
+    border-color: var(--error);
+    background: var(--theme-bg-secondary);
+}
+
+.file-upload-dropzone.success {
+    border-color: var(--success);
+    background: var(--theme-bg-secondary);
+}
+
+/* === CONTEÚDO DO DROPZONE === */
+.file-upload-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    pointer-events: none;
+}
+
+.file-upload-icon {
+    font-size: 2.5rem;
+    color: var(--theme-text-tertiary);
+    transition: color 0.3s ease;
+}
+
+.file-upload-dropzone:hover .file-upload-icon {
+    color: var(--primary);
+}
+
+.file-upload-text {
+    font-size: var(--text-base);
+    color: var(--theme-text-secondary);
+    margin: 0;
+    font-weight: 500;
+}
+
+.file-upload-hint {
+    font-size: var(--text-xs);
+    color: var(--theme-text-tertiary);
+    margin: 0;
+}
+
+.file-upload-button {
+    margin-top: var(--spacing-sm);
+    pointer-events: auto;
+}
+
+/* === INPUT HIDDEN === */
+.file-upload-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* === PREVIEW DE ARQUIVOS === */
+.file-upload-preview {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.file-upload-preview::-webkit-scrollbar {
+    width: 6px;
+}
+
+.file-upload-preview::-webkit-scrollbar-track {
+    background: var(--theme-bg-secondary);
+    border-radius: 3px;
+}
+
+.file-upload-preview::-webkit-scrollbar-thumb {
+    background: var(--theme-border-primary);
+    border-radius: 3px;
+}
+
+.file-upload-preview::-webkit-scrollbar-thumb:hover {
+    background: var(--theme-text-tertiary);
+}
+
+/* === ITEM DE ARQUIVO === */
+.file-upload-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--theme-bg-primary);
+    border: 1px solid var(--theme-border-primary);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.file-upload-item:hover {
+    border-color: var(--theme-border-secondary);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.file-upload-item.uploading {
+    opacity: 0.7;
+}
+
+.file-upload-item.error {
+    border-color: var(--error);
+    background: var(--theme-bg-secondary);
+}
+
+.file-upload-item.success {
+    border-color: var(--success);
+    background: var(--theme-bg-secondary);
+}
+
+/* === PREVIEW DE IMAGEM === */
+.file-preview-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--theme-bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.file-preview-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-preview-image .file-icon {
+    font-size: 1.5rem;
+    color: var(--theme-text-tertiary);
+}
+
+/* === INFO DO ARQUIVO === */
+.file-preview-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-width: 0;
+}
+
+.file-preview-name {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--theme-text-primary);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-preview-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--text-xs);
+    color: var(--theme-text-tertiary);
+}
+
+.file-preview-size {
+    font-weight: 500;
+}
+
+.file-preview-status {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.file-preview-status.uploading {
+    color: var(--warning-dark);
+}
+
+.file-preview-status.success {
+    color: var(--success-dark);
+}
+
+.file-preview-status.error {
+    color: var(--error-dark);
+}
+
+/* === BARRA DE PROGRESSO === */
+.file-upload-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 0 0 8px 8px;
+    transition: width 0.3s ease;
+    z-index: 1;
+}
+
+/* === AÇÕES DO ARQUIVO === */
+.file-preview-actions {
+    display: flex;
+    gap: var(--spacing-xs);
+    align-items: center;
+}
+
+.file-action-button {
+    background: none;
+    border: none;
+    padding: var(--spacing-xs);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--theme-text-tertiary);
+}
+
+.file-action-button:hover {
+    background: var(--theme-surface-hover);
+    color: var(--theme-text-secondary);
+}
+
+.file-action-button.remove:hover {
+    background: var(--theme-bg-secondary);
+    color: var(--error-dark);
+}
+
+.file-action-button.download:hover {
+    background: var(--theme-bg-secondary);
+    color: var(--primary);
+}
+
+/* === MENSAGENS DE ERRO === */
+.file-upload-error {
+    background: var(--theme-bg-secondary);
+    color: var(--error-dark);
+    padding: var(--spacing-md);
+    border-radius: 8px;
+    font-size: var(--text-sm);
+    margin-top: var(--spacing-sm);
+    border: 1px solid var(--error);
+}
+
+.file-upload-error-icon {
+    margin-right: var(--spacing-xs);
+}
+
+/* === LOADING SPINNER === */
+.file-upload-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--theme-border-primary);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Usar animate-spin da utilities instead */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* === VARIANTE COMPACTA === */
+.file-upload-compact .file-upload-dropzone {
+    padding: var(--spacing-lg);
+    min-height: 80px;
+}
+
+.file-upload-compact .file-upload-icon {
+    font-size: 2rem;
+}
+
+.file-upload-compact .file-upload-text {
+    font-size: var(--font-size-sm);
+}
+
+.file-upload-compact .file-upload-item {
+    padding: var(--spacing-sm);
+}
+
+.file-upload-compact .file-preview-image {
+    width: 36px;
+    height: 36px;
+}
+
+/* === VARIANTE INLINE === */
+.file-upload-inline {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.file-upload-inline .file-upload-dropzone {
+    flex: 1;
+    min-height: 60px;
+    padding: var(--spacing-md);
+    flex-direction: row;
+}
+
+.file-upload-inline .file-upload-preview {
+    max-height: none;
+    max-width: 300px;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+    .file-upload-dropzone {
+        padding: var(--spacing-lg);
+        min-height: 100px;
+    }
+    
+    .file-upload-icon {
+        font-size: 2rem;
+    }
+    
+    .file-upload-item {
+        padding: var(--spacing-sm);
+    }
+    
+    .file-upload-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .file-upload-inline .file-upload-dropzone {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .file-upload-dropzone {
+        padding: var(--spacing-md);
+        min-height: 80px;
+    }
+    
+    .file-upload-text {
+        font-size: var(--text-sm);
+    }
+    
+    .file-upload-hint {
+        font-size: var(--text-xs);
+    }
+    
+    .file-upload-item {
+        gap: var(--spacing-sm);
+    }
+    
+    .file-preview-image {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* =================================================================
+   VARIANTE SQUARE - Para grids de logos
+================================================================= */
+
+.file-upload-square .file-upload-dropzone {
+    aspect-ratio: 1;
+    padding: var(--spacing-lg);
+    min-height: 160px;
+    max-width: 200px;
+}
+
+.file-upload-square .file-upload-icon {
+    font-size: 2rem;
+}
+
+.file-upload-square .file-upload-text {
+    font-size: var(--text-sm);
+}
+
+.file-upload-square .file-upload-hint {
+    font-size: var(--text-xs);
+}
+
+/* =================================================================
+   GRID LAYOUT - Para múltiplos uploads em linha
+================================================================= */
+
+.file-upload-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+}
+
+.file-upload-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+}
+
+/* Grid específico para logos (2 colunas) */
+.file-upload-logo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+}
+
+.file-upload-logo-grid .form-file-upload {
+    margin-bottom: 0;
+}
+
+/* =================================================================
+   RESPONSIVIDADE PARA GRIDS
+================================================================= */
+
+@media (max-width: 768px) {
+    .file-upload-grid,
+    .file-upload-grid-3,
+    .file-upload-logo-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .file-upload-square .file-upload-dropzone {
+        max-width: none;
+        aspect-ratio: auto;
+        min-height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .file-upload-square .file-upload-dropzone {
+        padding: var(--spacing-md);
+        min-height: 100px;
+    }
+    
+    .file-upload-square .file-upload-icon {
+        font-size: 1.5rem;
+    }
+}

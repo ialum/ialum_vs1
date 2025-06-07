@@ -5,10 +5,10 @@
  * Tamanho: ~180 linhas (20% redução)
  */
 
-import { DOM } from '../core/dom.js';
-import { UI } from '../core/ui.js';
-import { State } from '../core/state.js';
-import { format } from '../core/formatters.js';
+import { DOM } from '../../core/dom.js';
+import { State } from '../../core/state.js';
+import { format } from '../forms/formatters.js';
+import { behaviors } from '../ui/behaviors.js';
 
 // Estado do módulo e cache de elementos
 let isInitialized = false;
@@ -113,8 +113,8 @@ export function showToast(message, type = 'info', duration = 5000) {
     const toast = createToast(message, type);
     elements.container.appendChild(toast);
     
-    // Usar animação do UI
-    UI.fadeIn(toast);
+    // Usar animação direta
+    behaviors.fadeIn(toast);
     
     // Remover ao clicar no X
     const closeBtn = toast.querySelector('.toast-close');
@@ -147,7 +147,7 @@ function createToast(message, type) {
 
 // Remover toast com animação
 function removeToast(toast) {
-    UI.fadeOut(toast, () => toast.remove());
+    behaviors.fadeOut(toast, () => toast.remove());
 }
 // Adicionar nova notificação ao dropdown
 export function addNotification(title, icon = '📢', timestamp = new Date()) {
@@ -155,7 +155,7 @@ export function addNotification(title, icon = '📢', timestamp = new Date()) {
     
     // Criar objeto de notificação
     const notificationData = {
-        id: UI.generateId(),
+        id: crypto.randomUUID() || `notif_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         title,
         icon,
         timestamp,
@@ -172,7 +172,7 @@ export function addNotification(title, icon = '📢', timestamp = new Date()) {
     
     // Inserir no início da lista com animação
     elements.list.insertBefore(notification, elements.list.firstChild);
-    UI.highlight(notification);
+    behaviors.highlight(notification);
     
     // Atualizar contador e mostrar toast
     updateBadge();

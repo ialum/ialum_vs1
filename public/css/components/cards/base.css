@@ -11,12 +11,12 @@
 ================================================================= */
 
 .card {
-    background: var(--white);
+    background: var(--theme-bg-primary);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     padding: var(--spacing-lg);
     transition: all 0.2s ease;
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--theme-border-primary);
     position: relative;
     overflow: hidden;
     display: flex;
@@ -26,7 +26,7 @@
 .card:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-1px);
-    border-color: var(--gray-300);
+    border-color: var(--theme-border-secondary);
 }
 
 /* =================================================================
@@ -50,14 +50,14 @@
 .card-title {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
-    color: var(--dark);
+    color: var(--theme-text-primary);
     margin: 0 0 var(--spacing-sm) 0;
     line-height: var(--line-height-tight);
 }
 
 .card-subtitle {
     font-size: var(--font-size-sm);
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
     margin: var(--spacing-md) 0 0 0;
     line-height: var(--line-height-normal);
 }
@@ -76,7 +76,7 @@
 .card-footer {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--gray-200);
+    border-top: 1px solid var(--theme-border-primary);
     flex-shrink: 0;
 }
 
@@ -89,7 +89,7 @@
 
 .card-icon {
     font-size: var(--font-size-xl);
-    color: var(--gray-400);
+    color: var(--theme-text-tertiary);
     flex-shrink: 0;
     width: var(--size-xl);
     height: var(--size-xl);
@@ -102,8 +102,8 @@
     font-size: var(--font-size-xs);
     padding: var(--spacing-xs) var(--spacing-sm);
     border-radius: var(--radius-full);
-    background: var(--gray-100);
-    color: var(--gray-700);
+    background: var(--theme-surface-hover);
+    color: var(--theme-text-secondary);
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
 }
@@ -156,11 +156,11 @@
 }
 
 .card-primary .card-subtitle {
-    color: var(--alpha-white-50);
+    color: var(--theme-text-secondary);
 }
 
 .card-primary .card-footer {
-    border-color: var(--alpha-white-20);
+    border-color: var(--theme-border-secondary);
 }
 
 .card-secondary {
@@ -176,11 +176,11 @@
 }
 
 .card-secondary .card-subtitle {
-    color: var(--alpha-white-50);
+    color: var(--theme-text-secondary);
 }
 
 .card-secondary .card-footer {
-    border-color: var(--alpha-white-20);
+    border-color: var(--theme-border-secondary);
 }
 
 .card-success {
@@ -196,11 +196,11 @@
 }
 
 .card-success .card-subtitle {
-    color: var(--alpha-white-50);
+    color: var(--theme-text-secondary);
 }
 
 .card-success .card-footer {
-    border-color: var(--alpha-white-20);
+    border-color: var(--theme-border-secondary);
 }
 
 .card-warning {
@@ -216,11 +216,11 @@
 }
 
 .card-warning .card-subtitle {
-    color: var(--alpha-white-50);
+    color: var(--theme-text-secondary);
 }
 
 .card-warning .card-footer {
-    border-color: var(--alpha-white-20);
+    border-color: var(--theme-border-secondary);
 }
 
 .card-error,
@@ -241,12 +241,12 @@
 
 .card-error .card-subtitle,
 .card-danger .card-subtitle {
-    color: var(--alpha-white-50);
+    color: var(--theme-text-secondary);
 }
 
 .card-error .card-footer,
 .card-danger .card-footer {
-    border-color: var(--alpha-white-20);
+    border-color: var(--theme-border-secondary);
 }
 
 .card-info {
@@ -262,11 +262,11 @@
 }
 
 .card-info .card-subtitle {
-    color: var(--alpha-white-50);
+    color: var(--theme-text-secondary);
 }
 
 .card-info .card-footer {
-    border-color: var(--alpha-white-20);
+    border-color: var(--theme-border-secondary);
 }
 
 .card-dark {
@@ -282,29 +282,29 @@
 }
 
 .card-dark .card-subtitle {
-    color: var(--alpha-white-50);
+    color: var(--theme-text-secondary);
 }
 
 .card-dark .card-footer {
-    border-color: var(--alpha-white-20);
+    border-color: var(--theme-border-secondary);
 }
 
 .card-light {
     background: var(--light);
-    color: var(--gray-800);
-    border-color: var(--gray-200);
+    color: var(--theme-text-primary);
+    border-color: var(--theme-border-primary);
 }
 
 .card-light .card-title {
-    color: var(--gray-800);
+    color: var(--theme-text-primary);
 }
 
 .card-light .card-subtitle {
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
 }
 
 .card-light .card-icon {
-    color: var(--gray-500);
+    color: var(--theme-text-tertiary);
 }
 
 /* =================================================================
@@ -312,8 +312,8 @@
 ================================================================= */
 
 .card-soft {
-    background: var(--alpha-black-5);
-    border-color: var(--alpha-black-10);
+    background: var(--theme-bg-secondary);
+    border-color: var(--theme-border-primary);
 }
 
 .card-soft.card-primary {
@@ -331,7 +331,7 @@
 }
 
 .card-soft.card-secondary {
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
     color: var(--secondary);
     border-color: var(--secondary);
 }
@@ -341,7 +341,7 @@
 }
 
 .card-soft.card-success {
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
     color: var(--success);
     border-color: var(--success);
 }
@@ -351,7 +351,7 @@
 }
 
 .card-soft.card-warning {
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
     color: var(--warning);
     border-color: var(--warning);
 }
@@ -362,7 +362,7 @@
 
 .card-soft.card-error,
 .card-soft.card-danger {
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
     color: var(--error);
     border-color: var(--error);
 }
@@ -373,7 +373,7 @@
 }
 
 .card-soft.card-info {
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
     color: var(--info);
     border-color: var(--info);
 }
@@ -387,7 +387,7 @@
 ================================================================= */
 
 .card-outline {
-    background: var(--white);
+    background: var(--theme-bg-primary);
     border-width: 2px;
     box-shadow: none;
 }
@@ -398,8 +398,8 @@
 
 .card-outline.card-primary {
     border-color: var(--primary);
-    background: var(--white);
-    color: var(--dark);
+    background: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
 }
 
 .card-outline.card-primary .card-title {
@@ -484,8 +484,8 @@
 }
 
 .card-ghost:hover {
-    background: var(--alpha-black-5);
-    border-color: var(--alpha-black-10);
+    background: var(--theme-surface-hover);
+    border-color: var(--theme-border-primary);
     box-shadow: var(--shadow-sm);
 }
 
@@ -503,16 +503,16 @@
 }
 
 .card-elevated:hover {
-    box-shadow: 0 20px 25px -5px var(--alpha-black-10), 0 10px 10px -5px var(--alpha-black-5);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
 }
 
 .card-floating {
-    box-shadow: 0 10px 15px -3px var(--alpha-black-10), 0 4px 6px -2px var(--alpha-black-5);
+    box-shadow: var(--shadow-md);
 }
 
 .card-floating:hover {
-    box-shadow: 0 25px 50px -12px var(--alpha-black-15);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-3px);
 }
 
@@ -595,14 +595,14 @@
 .stat-number {
     font-size: var(--font-size-4xl);
     font-weight: var(--font-weight-bold);
-    color: var(--dark);
+    color: var(--theme-text-primary);
     line-height: var(--line-height-tight);
     margin: 0;
     letter-spacing: var(--letter-spacing-tight);
 }
 
 .stat-label {
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
     font-size: var(--font-size-sm);
     margin: var(--spacing-sm) 0 0 0;
     font-weight: var(--font-weight-medium);
@@ -611,7 +611,7 @@
 }
 
 .stat-subtitle {
-    color: var(--gray-400);
+    color: var(--theme-text-tertiary);
     font-size: var(--font-size-xs);
     margin: var(--spacing-xs) 0 0 0;
 }
@@ -629,17 +629,17 @@
 
 .stat-change.positive {
     color: var(--success);
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
 }
 
 .stat-change.negative {
     color: var(--error);
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
 }
 
 .stat-change.neutral {
-    color: var(--gray-500);
-    background: var(--alpha-black-5);
+    color: var(--theme-text-tertiary);
+    background: var(--theme-bg-secondary);
 }
 
 /* Card de ação/clicável */
@@ -677,7 +677,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--alpha-white-50);
+    background: var(--theme-bg-overlay);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -693,7 +693,7 @@
     transform: translate(-50%, -50%);
     width: var(--size-xl);
     height: var(--size-xl);
-    border: 2px solid var(--gray-300);
+    border: 2px solid var(--theme-border-primary);
     border-top: 2px solid var(--primary);
     border-radius: var(--radius-full);
     animation: spin 1s linear infinite;
@@ -704,8 +704,8 @@
 .card-empty {
     text-align: center;
     padding: var(--spacing-2xl);
-    color: var(--gray-500);
-    background: var(--gray-50);
+    color: var(--theme-text-tertiary);
+    background: var(--theme-bg-secondary);
     border-style: dashed;
 }
 
@@ -713,19 +713,19 @@
     font-size: var(--font-size-4xl);
     margin-bottom: var(--spacing-lg);
     opacity: 0.5;
-    color: var(--gray-400);
+    color: var(--theme-text-tertiary);
 }
 
 .card-empty-title {
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
     margin: 0 0 var(--spacing-sm) 0;
-    color: var(--gray-600);
+    color: var(--theme-text-secondary);
 }
 
 .card-empty-text {
     margin: 0 0 var(--spacing-lg) 0;
-    color: var(--gray-400);
+    color: var(--theme-text-tertiary);
     font-size: var(--font-size-sm);
 }
 
@@ -738,7 +738,7 @@
 .card-collapsible .card-header::after {
     content: '▼';
     font-size: var(--font-size-sm);
-    color: var(--gray-400);
+    color: var(--theme-text-tertiary);
     transition: transform 0.2s ease;
 }
 
@@ -813,12 +813,12 @@
 
 .card.selected {
     border-color: var(--primary);
-    box-shadow: 0 0 0 2px var(--alpha-black-5), 0 0 0 4px var(--primary);
+    box-shadow: 0 0 0 2px var(--theme-bg-secondary), 0 0 0 4px var(--primary);
 }
 
 .card.highlighted {
     border-color: var(--warning);
-    background: var(--alpha-black-5);
+    background: var(--theme-bg-secondary);
 }
 
 /* =================================================================

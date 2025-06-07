@@ -109,6 +109,22 @@ export const format = {
     // Capitalizar primeira letra
     capitalize(text) {
         return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    },
+    
+    // Formatar telefone brasileiro
+    phone(phone) {
+        const cleaned = phone.replace(/\D/g, '');
+        if (cleaned.length === 11) {
+            return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7)}`;
+        } else if (cleaned.length === 10) {
+            return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 6)}-${cleaned.slice(6)}`;
+        }
+        return phone;
+    },
+    
+    // Formatar data e hora
+    datetime(date) {
+        return format.date(date, 'DD/MM/YYYY HH:mm');
     }
 };
 
@@ -123,5 +139,7 @@ export const {
     timeAgo: formatTimeAgo,
     fileSize: formatFileSize,
     truncate: formatTruncate,
-    capitalize: formatCapitalize
+    capitalize: formatCapitalize,
+    phone: formatPhone,
+    datetime: formatDatetime
 } = format;
