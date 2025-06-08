@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo CardDisplay</title>
+    <link rel="stylesheet" href="../../base/theme.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="card-display.css">
+
+</head>
+<body>
+    
+    <h2>CardDisplay - Exemplos de Uso</h2>
+    
+    <h3>1. Display Vertical (Padrão)</h3>
+    <div class="card-display">
+        <div class="card card-display__item">
+            <div class="card-display__header">
+                <h3 class="card__title">Tópico: Direito do Consumidor</h3>
+                <p class="card__subtitle">Criado em 15/01/2024 • Atualizado há 2 dias</p>
+            </div>
+            
+            <div class="card-display__image">
+                <img src="https://via.placeholder.com/800x400/2563eb/ffffff?text=Direito+do+Consumidor" alt="Direito do Consumidor">
+            </div>
+            
+            <div class="card-display__body">
+                <dl class="card-display__fields">
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Status</dt>
+                        <dd class="card-display__field-value">
+                            <span class="card-display__badge card-display__badge--embasado">Embasado</span>
+                        </dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Descrição</dt>
+                        <dd class="card-display__field-value">
+                            Este tópico aborda os principais aspectos do Código de Defesa do Consumidor, 
+                            incluindo direitos básicos, práticas abusivas e responsabilidade civil.
+                        </dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Tags</dt>
+                        <dd class="card-display__field-value">
+                            <span class="card-display__tag">CDC</span>
+                            <span class="card-display__tag">Consumidor</span>
+                            <span class="card-display__tag">Direitos</span>
+                            <span class="card-display__tag">Proteção</span>
+                        </dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Fontes</dt>
+                        <dd class="card-display__field-value">
+                            <a href="#">Lei nº 8.078/1990</a>,
+                            <a href="#">Súmulas STJ</a>,
+                            <a href="#">Jurisprudência</a>
+                        </dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Publicações</dt>
+                        <dd class="card-display__field-value">
+                            12 posts no Instagram • 5 artigos no blog • 3 vídeos no YouTube
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+            
+            <div class="card-display__actions">
+                <button class="btn btn-secondary">
+                    <span>📝</span>
+                    <span>Editar</span>
+                </button>
+                <button class="btn btn-secondary">
+                    <span>📊</span>
+                    <span>Estatísticas</span>
+                </button>
+                <button class="btn btn-primary">
+                    <span>➕</span>
+                    <span>Nova Publicação</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <h3>2. Display Horizontal</h3>
+    <div class="card-display card-display--horizontal">
+        <div class="card card-display__item">
+            <div class="card-display__image">
+                <img src="https://via.placeholder.com/400x400/10b981/ffffff?text=Direito+Trabalhista" alt="Direito Trabalhista">
+            </div>
+            
+            <div class="card-display__body">
+                <h3 class="card__title">Direito Trabalhista</h3>
+                <p class="card__subtitle">CLT e Reforma Trabalhista</p>
+                
+                <dl class="card-display__fields">
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Status</dt>
+                        <dd class="card-display__field-value">
+                            <span class="card-display__badge card-display__badge--rascunho">Rascunho</span>
+                        </dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Progresso</dt>
+                        <dd class="card-display__field-value">
+                            65% completo • Faltam 3 seções
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+            
+            <div class="card-display__actions">
+                <button class="btn btn-primary">Continuar</button>
+            </div>
+        </div>
+    </div>
+    
+    <h3>3. Display Compacto</h3>
+    <div class="card-display card-display--compact">
+        <div class="card card-display__item">
+            <div class="card-display__header">
+                <h3 class="card__title">Direito de Família</h3>
+            </div>
+            
+            <div class="card-display__body">
+                <dl class="card-display__fields">
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Status</dt>
+                        <dd class="card-display__field-value">
+                            <span class="card-display__badge card-display__badge--concluido">Concluído</span>
+                        </dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Publicações</dt>
+                        <dd class="card-display__field-value">25 posts</dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Engajamento</dt>
+                        <dd class="card-display__field-value">1.2k curtidas • 89 comentários</dd>
+                    </div>
+                </dl>
+            </div>
+            
+            <div class="card-display__actions">
+                <button class="btn btn-secondary btn-sm">Ver mais</button>
+            </div>
+        </div>
+    </div>
+    
+    <h3>4. Display Inline</h3>
+    <div class="card-display card-display--inline">
+        <div class="card-display__item">
+            <div class="card-display__header">
+                <h3 class="card__title">Informações do Usuário</h3>
+            </div>
+            
+            <div class="card-display__body">
+                <dl class="card-display__fields">
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Nome</dt>
+                        <dd class="card-display__field-value">Dr. João Silva</dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">OAB</dt>
+                        <dd class="card-display__field-value">SP 123.456</dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Email</dt>
+                        <dd class="card-display__field-value">
+                            <a href="mailto:joao@advocacia.com">joao@advocacia.com</a>
+                        </dd>
+                    </div>
+                    
+                    <div class="card-display__field">
+                        <dt class="card-display__field-label">Especialidades</dt>
+                        <dd class="card-display__field-value">
+                            <span class="card-display__tag">Cível</span>
+                            <span class="card-display__tag">Consumidor</span>
+                            <span class="card-display__tag">Família</span>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+            
+            <div class="card-display__actions">
+                <button class="btn btn-primary">Editar Perfil</button>
+            </div>
+        </div>
+    </div>
+    
+    <h3>5. Estado Vazio</h3>
+    <div class="card-display">
+        <div class="card card--empty card-display__empty">
+            <div class="card__body">
+                <div class="card__icon" style="font-size: 3rem; opacity: 0.3;">📄</div>
+                <h3 class="card__title">Nenhum tópico selecionado</h3>
+                <p class="card__subtitle">Selecione um tópico na lista para ver os detalhes</p>
+            </div>
+        </div>
+    </div>
+    
+    <h3>6. Múltiplos Status</h3>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <span class="card-display__badge card-display__badge--ideia">Ideia</span>
+        <span class="card-display__badge card-display__badge--rascunho">Rascunho</span>
+        <span class="card-display__badge card-display__badge--embasado">Embasado</span>
+        <span class="card-display__badge card-display__badge--concluido">Concluído</span>
+    </div>
+
+</body>
+</html>

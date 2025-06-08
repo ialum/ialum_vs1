@@ -1,0 +1,221 @@
+/* markdown-editor.css
+ * Editor Markdown simplificado com preview
+ * Estrutura: wrapper → toolbar + container → (textarea | preview)
+ */
+
+/* === CONTAINER PRINCIPAL === */
+.markdown-editor {
+    width: 100%;
+    border: 1px solid var(--theme-border-primary);
+    border-radius: var(--radius-lg);
+    background: var(--theme-bg-primary);
+    overflow: hidden;
+}
+
+/* === TOOLBAR === */
+.markdown-toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--theme-bg-secondary);
+    border-bottom: 1px solid var(--theme-border-primary);
+}
+
+.markdown-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    color: var(--theme-text-secondary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.markdown-btn:hover {
+    background: var(--theme-surface-hover);
+    color: var(--theme-text-primary);
+}
+
+.markdown-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.markdown-btn-icon {
+    font-style: normal;
+}
+
+/* Estilos especiais para botões */
+.markdown-btn[title*="Negrito"] .markdown-btn-icon {
+    font-weight: 800;
+}
+
+.markdown-btn[title*="Itálico"] .markdown-btn-icon {
+    font-style: italic;
+}
+
+.markdown-toolbar-separator {
+    width: 1px;
+    height: 20px;
+    background: var(--theme-border-primary);
+    margin: 0 var(--spacing-xs);
+}
+
+/* === WRAPPER DO EDITOR === */
+.markdown-wrapper {
+    position: relative;
+    min-height: 200px;
+}
+
+/* === TEXTAREA === */
+.markdown-input {
+    width: 100%;
+    min-height: 200px;
+    padding: var(--spacing-lg);
+    border: none;
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.markdown-input:focus {
+    outline: none;
+}
+
+/* Ajuste para CharCounter quando presente */
+.markdown-wrapper:has(.char-counter) .markdown-input {
+    padding-bottom: calc(var(--spacing-lg) + 20px);
+}
+
+/* === PREVIEW === */
+.markdown-preview {
+    padding: var(--spacing-lg);
+    min-height: 200px;
+    max-height: 600px;
+    overflow-y: auto;
+    font-size: var(--text-base);
+    line-height: 1.6;
+}
+
+/* Estilos do conteúdo Markdown */
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3 {
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.markdown-preview h1 {
+    font-size: var(--text-2xl);
+}
+
+.markdown-preview h2 {
+    font-size: var(--text-xl);
+}
+
+.markdown-preview h3 {
+    font-size: var(--text-lg);
+}
+
+.markdown-preview p {
+    margin-bottom: var(--spacing-md);
+}
+
+.markdown-preview a {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.markdown-preview a:hover {
+    text-decoration: none;
+}
+
+.markdown-preview code {
+    padding: 2px 6px;
+    background: var(--theme-bg-secondary);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+}
+
+.markdown-preview blockquote {
+    padding-left: var(--spacing-lg);
+    border-left: 4px solid var(--theme-border-primary);
+    color: var(--theme-text-secondary);
+    font-style: italic;
+    margin: var(--spacing-md) 0;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+    margin-bottom: var(--spacing-md);
+    padding-left: var(--spacing-xl);
+}
+
+.markdown-preview li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.markdown-preview hr {
+    border: none;
+    border-top: 1px solid var(--theme-border-primary);
+    margin: var(--spacing-lg) 0;
+}
+
+.markdown-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+}
+
+/* === VARIANTES === */
+
+/* Editor sem toolbar */
+.markdown-editor:not(:has(.markdown-toolbar)) {
+    border-radius: var(--radius-lg);
+}
+
+.markdown-editor:not(:has(.markdown-toolbar)) .markdown-wrapper {
+    border-radius: var(--radius-lg);
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+    .markdown-toolbar {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        gap: 2px;
+    }
+    
+    .markdown-btn {
+        width: 28px;
+        height: 28px;
+        font-size: var(--text-xs);
+    }
+    
+    .markdown-input,
+    .markdown-preview {
+        padding: var(--spacing-md);
+        min-height: 150px;
+    }
+}
+
+/* === TEMA ESCURO === */
+[data-theme="dark"] .markdown-editor {
+    background: var(--theme-bg-primary);
+    border-color: var(--theme-border-primary);
+}
+
+[data-theme="dark"] .markdown-preview code {
+    background: var(--theme-bg-tertiary);
+}

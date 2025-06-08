@@ -1,0 +1,25 @@
+/**
+ * transitions.css
+ * Transições suaves
+ * NÃO usar diretamente - use através de classes
+ */
+
+:root {
+    /* Transition Properties */
+    --transition-none: none;
+    --transition-all: all var(--duration-base) var(--ease-in-out);
+    --transition-colors: background-color var(--duration-base) var(--ease-in-out), 
+                         border-color var(--duration-base) var(--ease-in-out), 
+                         color var(--duration-base) var(--ease-in-out);
+    --transition-opacity: opacity var(--duration-base) var(--ease-in-out);
+    --transition-shadow: box-shadow var(--duration-base) var(--ease-in-out);
+    --transition-transform: transform var(--duration-base) var(--ease-in-out);
+    
+    /* Common Transitions */
+    --transition-fade: opacity var(--duration-fast) var(--ease-in-out);
+    --transition-slide: transform var(--duration-base) var(--ease-out);
+    --transition-scale: transform var(--duration-fast) var(--ease-in-out);
+    --transition-button: all var(--duration-fast) var(--ease-in-out);
+    --transition-input: border-color var(--duration-fast) var(--ease-in-out), 
+                       box-shadow var(--duration-fast) var(--ease-in-out);
+}

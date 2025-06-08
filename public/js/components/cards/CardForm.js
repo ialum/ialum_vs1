@@ -2,17 +2,11 @@ import { DOM } from '../../core/dom.js';
 import { Loader } from '../../core/loader.js';
 import { Cache } from '../../core/cache.js';
 import { Backup } from '../../core/backup.js';
-import { validators } from '../forms/validators.js';
+import { validators, validateObject } from '../forms/validators.js';
 import { masks } from '../forms/masks.js';
 import { format } from '../forms/formatters.js';
-
-// Imports diretos dos componentes UI
-import { EmojiPicker } from '../ui/EmojiPicker.js';
-import { FileUpload } from '../ui/FileUpload.js';
-import { ColorPicker } from '../ui/ColorPicker.js';
-import { MarkdownEditor } from '../ui/MarkdownEditor.js';
-import { FontSelector } from '../ui/FontSelector.js';
-import { CharCounter } from '../ui/CharCounter.js';
+import FieldManager from './shared/FieldManager.js';
+import FormTemplates from './templates/FormTemplates.js';
 
 export class CardForm {
     constructor(container, config) {
@@ -34,7 +28,7 @@ export class CardForm {
             onChange: config.onChange || null
         };
         
-        this.fieldInstances = new Map();
+        this.fieldManager = new FieldManager(this.container);
         this.backupKey = `card-form-${this.config.type}`;
         
         this.init();
@@ -68,48 +62,26 @@ export class CardForm {
         this.bindEvents();
         this.render();
         this.restoreBackup();
-        this.initAllFields();
+        
+        // Aplicar layouts de seção se configurado
+        if (this.config.sections) {
+            this.applySectionLayouts();
+        } else {
+            // Só inicializar campos se não houver seções
+            this.initAllFields();
+        }
+        
+        // Callback após renderização completa
+        if (this.config.onRender) {
+            this.config.onRender();
+        }
     }
     
     setupStructure() {
-        const layoutClass = this.config.layout !== 'vertical' ? ` layout-${this.config.layout}` : '';
-        
-        this.container.innerHTML = `
-            <div class="card-form${layoutClass}">
-                <div class="card card-form-container">
-                    ${this.config.showHeader ? this.createHeaderHTML() : ''}
-                    <form class="card-form-form" data-form>
-                        <div class="card-form-fields" data-fields></div>
-                        ${this.config.showActions ? this.createActionsHTML() : ''}
-                    </form>
-                </div>
-            </div>
-        `;
+        this.container.innerHTML = FormTemplates.formWrapper(this.config);
         
         this.form = DOM.select('[data-form]', this.container);
         this.fieldsContainer = DOM.select('[data-fields]', this.container);
-    }
-    
-    createHeaderHTML() {
-        return `
-            <div class="card-form-header">
-                ${this.config.title ? `<h2 class="card-form-title">${this.config.title}</h2>` : ''}
-                ${this.config.description ? `<p class="card-form-description">${this.config.description}</p>` : ''}
-            </div>
-        `;
-    }
-    
-    createActionsHTML() {
-        return `
-            <div class="card-form-actions">
-                <button type="submit" class="btn btn-lg btn-primary" data-action="submit">
-                    ${this.config.submitLabel}
-                </button>
-                <button type="button" class="btn btn-lg btn-secondary" data-action="cancel">
-                    ${this.config.cancelLabel}
-                </button>
-            </div>
-        `;
     }
     
     render() {
@@ -118,260 +90,13 @@ export class CardForm {
     
     createFieldsHTML() {
         return this.config.fields.map(field => {
+            
             const value = this.state.item[field.name] || '';
-            const hasError = this.state.errors[field.name];
-            const fieldHTML = this.renderField(field, value);
-            const fieldId = field.id || field.name;
-            
-            const groupClasses = [
-                'form-group',
-                hasError ? 'has-error' : '',
-                field.size ? `size-${field.size}` : '',
-                field.hidden ? 'hidden' : ''
-            ].filter(Boolean).join(' ');
-            
-            return `
-                <div class="${groupClasses}" data-field-group="${field.name}">
-                    ${!field.hideLabel ? `<label class="form-label" for="${fieldId}">${field.label || field.name}</label>` : ''}
-                    ${fieldHTML}
-                    <div class="form-error" data-field-error="${field.name}">
-                        ${this.state.errors[field.name] || ''}
-                    </div>
-                    ${field.help ? `<div class="form-help">${field.help}</div>` : ''}
-                </div>
-            `;
+            const error = this.state.errors[field.name];
+            return FormTemplates.fieldGroup(field, value, error);
         }).join('');
     }
     
-    renderField(field, value) {
-        const baseAttrs = {
-            name: field.name,
-            id: field.name,
-            value: value,
-            placeholder: field.placeholder || '',
-            required: field.required || false,
-            disabled: field.disabled || false,
-            readonly: field.readonly || false,
-            class: `form-input ${field.class || ''}`
-        };
-        
-        switch (field.type) {
-            case 'text':
-            case 'email':
-            case 'url':
-            case 'password':
-                return this.renderInputField(field, baseAttrs);
-                
-            case 'textarea':
-                return this.renderTextareaField(field, baseAttrs);
-                
-            case 'select':
-                return this.renderSelectField(field, baseAttrs);
-                
-            case 'checkbox':
-                return this.renderCheckboxField(field, baseAttrs);
-                
-            case 'radio':
-                return this.renderRadioField(field, baseAttrs);
-                
-            case 'file-upload':
-                return this.renderFileUploadField(field, baseAttrs);
-                
-            case 'color-picker':
-                return this.renderColorPickerField(field, baseAttrs);
-                
-            case 'emoji-text':
-                return this.renderEmojiTextField(field, baseAttrs);
-                
-            case 'markdown':
-                return this.renderMarkdownField(field, baseAttrs);
-                
-            case 'font-selector':
-                return this.renderFontSelectorField(field, baseAttrs);
-                
-            case 'phone':
-                return this.renderPhoneField(field, baseAttrs);
-                
-            case 'currency':
-                return this.renderCurrencyField(field, baseAttrs);
-                
-            case 'date':
-                return this.renderDateField(field, baseAttrs);
-                
-            case 'datetime':
-                return this.renderDatetimeField(field, baseAttrs);
-                
-            default:
-                return this.renderInputField(field, baseAttrs);
-        }
-    }
-    
-    renderInputField(field, attrs) {
-        const attrsStr = this.buildAttrsString(attrs);
-        return `<input type="${field.type || 'text'}" ${attrsStr} ${field.maxLength ? `maxlength="${field.maxLength}"` : ''} />`;
-    }
-    
-    renderTextareaField(field, attrs) {
-        const attrsStr = this.buildAttrsString({...attrs, value: undefined});
-        return `
-            <textarea ${attrsStr} 
-                      rows="${field.rows || 3}" 
-                      ${field.maxLength ? `maxlength="${field.maxLength}"` : ''}>${attrs.value}</textarea>
-        `;
-    }
-    
-    renderSelectField(field, attrs) {
-        const attrsStr = this.buildAttrsString({...attrs, value: undefined});
-        const optionsHTML = (field.options || []).map(opt => 
-            `<option value="${opt.value}" ${opt.value === attrs.value ? 'selected' : ''}>${opt.label}</option>`
-        ).join('');
-        
-        return `
-            <select ${attrsStr}>
-                <option value="">Selecione...</option>
-                ${optionsHTML}
-            </select>
-        `;
-    }
-    
-    renderCheckboxField(field, attrs) {
-        const checked = attrs.value === true || attrs.value === 'true' || attrs.value === '1';
-        return `
-            <div class="form-checkbox">
-                <input type="checkbox" 
-                       id="${attrs.id}" 
-                       name="${attrs.name}" 
-                       value="1" 
-                       ${checked ? 'checked' : ''} 
-                       ${attrs.disabled ? 'disabled' : ''} />
-                <label for="${attrs.id}" class="form-checkbox-label">${field.checkboxLabel || field.label}</label>
-            </div>
-        `;
-    }
-    
-    renderRadioField(field, attrs) {
-        const optionsHTML = (field.options || []).map(opt => `
-            <div class="form-radio">
-                <input type="radio" 
-                       id="${attrs.id}_${opt.value}" 
-                       name="${attrs.name}" 
-                       value="${opt.value}" 
-                       ${opt.value === attrs.value ? 'checked' : ''} />
-                <label for="${attrs.id}_${opt.value}" class="form-radio-label">${opt.label}</label>
-            </div>
-        `).join('');
-        
-        return `<div class="form-radio-group">${optionsHTML}</div>`;
-    }
-    
-    renderFileUploadField(field, attrs) {
-        return `
-            <div class="form-file-upload" data-field-type="file-upload" data-field-name="${field.name}">
-                <input type="file" 
-                       id="${attrs.id}" 
-                       name="${attrs.name}" 
-                       accept="${field.accept || '*/*'}" 
-                       ${field.multiple ? 'multiple' : ''} 
-                       style="display: none;" />
-                <button type="button" class="btn btn-outline" onclick="document.getElementById('${attrs.id}').click()">
-                    📁 Escolher arquivo
-                </button>
-                <span class="file-name">${attrs.value || 'Nenhum arquivo selecionado'}</span>
-            </div>
-        `;
-    }
-    
-    renderColorPickerField(field, attrs) {
-        return `
-            <div class="form-color-picker" data-field-type="color-picker" data-field-name="${field.name}">
-                <input type="color" 
-                       id="${attrs.id}" 
-                       name="${attrs.name}" 
-                       value="${attrs.value || '#000000'}" />
-                <input type="text" 
-                       class="color-input" 
-                       value="${attrs.value || '#000000'}" 
-                       placeholder="#000000" 
-                       maxlength="7" />
-            </div>
-        `;
-    }
-    
-    renderEmojiTextField(field, attrs) {
-        const attrsStr = this.buildAttrsString(attrs);
-        return `
-            <div class="form-emoji-text" data-field-type="emoji-text" data-field-name="${field.name}">
-                <input type="text" ${attrsStr} />
-            </div>
-        `;
-    }
-    
-    renderMarkdownField(field, attrs) {
-        return `
-            <div class="form-markdown" data-field-type="markdown" data-field-name="${field.name}">
-                <textarea name="${attrs.name}" 
-                          id="${attrs.id}" 
-                          class="markdown-editor" 
-                          rows="${field.rows || 6}">${attrs.value}</textarea>
-            </div>
-        `;
-    }
-    
-    renderFontSelectorField(field, attrs) {
-        return `
-            <div class="form-font-selector" data-field-type="font-selector" data-field-name="${field.name}">
-                <select name="${attrs.name}" id="${attrs.id}" class="font-selector">
-                    <option value="">Selecione uma fonte...</option>
-                </select>
-            </div>
-        `;
-    }
-    
-    renderPhoneField(field, attrs) {
-        const attrsStr = this.buildAttrsString(attrs);
-        return `
-            <input type="tel" 
-                   ${attrsStr} 
-                   data-mask="phone" 
-                   placeholder="(11) 99999-9999" />
-        `;
-    }
-    
-    renderCurrencyField(field, attrs) {
-        const attrsStr = this.buildAttrsString(attrs);
-        return `
-            <input type="text" 
-                   ${attrsStr} 
-                   data-mask="currency" 
-                   placeholder="R$ 0,00" />
-        `;
-    }
-    
-    renderDateField(field, attrs) {
-        const attrsStr = this.buildAttrsString(attrs);
-        return `
-            <input type="date" 
-                   ${attrsStr} />
-        `;
-    }
-    
-    renderDatetimeField(field, attrs) {
-        const attrsStr = this.buildAttrsString(attrs);
-        return `
-            <input type="datetime-local" 
-                   ${attrsStr} />
-        `;
-    }
-    
-    buildAttrsString(attrs) {
-        return Object.entries(attrs)
-            .filter(([key, value]) => value !== undefined && value !== null && value !== false)
-            .map(([key, value]) => {
-                if (value === true) return key;
-                return `${key}="${value}"`;
-            })
-            .join(' ');
-    }
     
     bindEvents() {
         DOM.delegate(this.container, '[data-action]', 'click', (e, element) => {
@@ -471,49 +196,17 @@ export class CardForm {
     }
     
     validateAllFields(data) {
-        const errors = {};
-        
-        for (const [fieldName, rules] of Object.entries(this.config.validators)) {
-            const value = data[fieldName];
-            const error = this.validateFieldValue(fieldName, value, rules);
-            
-            if (error) {
-                errors[fieldName] = error;
-            }
-        }
-        
-        this.state.errors = errors;
-        return Object.keys(errors).length > 0 ? errors : null;
+        const errors = validateObject(data, this.config.validators);
+        this.state.errors = errors || {};
+        return errors;
     }
     
     validateFieldValue(fieldName, value, rules) {
-        if (rules.required && (!value || value.toString().trim() === '')) {
-            return 'Este campo é obrigatório';
-        }
-        
-        if (!value) return null;
-        
-        if (rules.type) {
-            const validator = validators[rules.type];
-            if (validator && !validator(value)) {
-                return `${rules.type} inválido`;
-            }
-        }
-        
-        if (rules.minLength && value.length < rules.minLength) {
-            return `Mínimo ${rules.minLength} caracteres`;
-        }
-        
-        if (rules.maxLength && value.length > rules.maxLength) {
-            return `Máximo ${rules.maxLength} caracteres`;
-        }
-        
-        if (rules.custom && typeof rules.custom === 'function') {
-            const customError = rules.custom(value);
-            if (customError) return customError;
-        }
-        
-        return null;
+        // Criar objeto temporário para validar apenas um campo
+        const tempData = { [fieldName]: value };
+        const tempRules = { [fieldName]: rules };
+        const errors = validateObject(tempData, tempRules);
+        return errors ? errors[fieldName] : null;
     }
     
     showErrors(errors) {
@@ -580,67 +273,8 @@ export class CardForm {
     }
     
     async initAllFields() {
-        const specialFields = DOM.selectAll('[data-field-type]', this.container);
-        
-        for (const field of specialFields) {
-            await this.initSpecialField(field);
-        }
-        
+        await this.fieldManager.autoInitFields();
         this.initMasks();
-    }
-    
-    async initSpecialField(element) {
-        const fieldType = element.dataset.fieldType;
-        const fieldName = element.dataset.fieldName;
-        
-        try {
-            let instance;
-            
-            switch (fieldType) {
-                case 'emoji-text':
-                    const input = element.querySelector('input');
-                    if (input && !input.emojiPickerInstance) {
-                        instance = new EmojiPicker(input);
-                        input.emojiPickerInstance = instance;
-                        // Aguardar DOM estar pronto para qualquer manipulação
-                        await new Promise(resolve => setTimeout(resolve, 0));
-                    }
-                    break;
-                    
-                case 'file-upload':
-                    instance = new FileUpload(element);
-                    await new Promise(resolve => setTimeout(resolve, 0));
-                    break;
-                    
-                case 'color-picker':
-                    instance = new ColorPicker(element);
-                    await new Promise(resolve => setTimeout(resolve, 0));
-                    break;
-                    
-                case 'markdown':
-                    const textarea = element.querySelector('textarea');
-                    if (textarea) {
-                        instance = new MarkdownEditor(textarea);
-                        // Aguardar criação da estrutura DOM
-                        await new Promise(resolve => setTimeout(resolve, 0));
-                    }
-                    break;
-                    
-                case 'font-selector':
-                    const select = element.querySelector('select');
-                    if (select) {
-                        instance = new FontSelector(select);
-                        await new Promise(resolve => setTimeout(resolve, 0));
-                    }
-                    break;
-            }
-            
-            if (instance) {
-                this.fieldInstances.set(`${fieldType}_${fieldName}`, instance);
-            }
-        } catch (error) {
-            console.error(`Erro ao inicializar campo ${fieldType}:`, error);
-        }
     }
     
     initMasks() {
@@ -728,13 +362,54 @@ export class CardForm {
         Backup.clear(this.backupKey);
     }
     
-    destroy() {
-        this.fieldInstances.forEach(instance => {
-            if (instance && typeof instance.destroy === 'function') {
-                instance.destroy();
+    applySectionLayouts() {
+        if (!this.config.sections) return;
+        
+        // Agrupar campos por seção
+        const fieldsBySection = {};
+        this.config.fields.forEach(field => {
+            const section = field.section || 'default';
+            if (!fieldsBySection[section]) {
+                fieldsBySection[section] = [];
             }
+            fieldsBySection[section].push(field);
         });
-        this.fieldInstances.clear();
+        
+        // Criar containers de seção
+        const sectionsHTML = [];
+        this.config.sections.forEach(section => {
+            const fields = fieldsBySection[section.id] || [];
+            if (fields.length === 0) return;
+            
+            const sectionClass = section.className || '';
+            const layoutClass = section.layout === 'grid' ? `grid grid-cols-${section.columns || 2} gap-lg` : '';
+            
+            sectionsHTML.push(`
+                <div class="form-section mb-xl" data-section="${section.id}">
+                    ${section.title ? `<h3 class="form-section-title text-lg font-semibold mb-sm">${section.title}</h3>` : ''}
+                    ${section.description ? `<p class="form-section-description text-sm text-muted mb-md">${section.description}</p>` : ''}
+                    <div class="form-section-fields ${sectionClass} ${layoutClass}">
+                        ${fields.map(field => {
+                            const fieldGroup = DOM.select(`[data-field-group="${field.name}"]`, this.fieldsContainer);
+                            return fieldGroup ? fieldGroup.outerHTML : '';
+                        }).join('')}
+                    </div>
+                </div>
+            `);
+        });
+        
+        // Reorganizar o HTML
+        if (sectionsHTML.length > 0) {
+            // Limpar instâncias existentes antes de reorganizar
+            this.fieldManager.destroyAll();
+            this.fieldsContainer.innerHTML = sectionsHTML.join('');
+            // Reinicializar campos especiais após reorganização
+            this.initAllFields();
+        }
+    }
+    
+    destroy() {
+        this.fieldManager.destroyAll();
         this.clearBackup();
         this.container.innerHTML = '';
     }

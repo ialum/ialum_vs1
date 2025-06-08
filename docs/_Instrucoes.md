@@ -1,11 +1,18 @@
 # 📋 INSTRUÇÕES TEMPORARIAS
+ - ao corrigir problemas adicione logs console e peça para usuario testar e informar os comportamento, logs e erros de console
+ - usuário não sabe muito de programação, então comente as operações para que ele compreenda o que está fazendo
+
+## **Lembretes ao Usuário**
+ - lembrete: comando para iniciar servidor local:
+   cd /home/fagner/code/ialum/ialum_vs1/public && npx http-server -p 8000
+   cd /home/fagner/code/ialum/ialum_vs1/public && python3 -m http.server 8000
 
 ## **IA PRECISA LER ANTES DE COMEÇAR**
  - ialum_vs1/docs/tecnologia-js.md
  - ialum_vs1/docs/tecnologia-css.md
 
 ## 🚀 Status Atual:
-- MVP em desenvolvimento com foco na validação da arquitetura modular
+- Framework SAAS em desenvolvimento com foco na validação da arquitetura modular
 - Sistema de componentes CSS e JS 100% funcional baseado na nova documentação
 - Wireframe das páginas e comportamento dos componentes em validação
 - Backend limitado à autenticação para testes da estrutura frontend
@@ -14,7 +21,10 @@
 - ✅ **Arquitetura Modular Implementada** - CSS e JS 100% organizados e funcionais
 - ✅ **Componentes Cards** - CardList, CardForm, CardGrid e CardDisplay (90% dos casos)
 - ✅ **CSS Reorganizado** - Estrutura modular: cards/, forms/, ui/, layout/
-- Validação das páginas usando a nova arquitetura de componentes
+- Validação das páginas usando a nova arquitetura de novos componentes:
+  1. Não usar document.addEventListener (sem expressa autorização e necessidade)
+  2. Não cria estrutura DOM complexa com dropdowns.
+  3. Componentes não devem precisar conhecer outros componentes para funcionar a menos que absolutamente necessários.
 
 ## 🔄 Próximo:
 - Desenvolvimento completo do backend N8N + Supabase após validação da estrutura
@@ -69,11 +79,11 @@ Implementação obrigatória seguindo ordem de prioridade:
 - [ ] Relatórios - `/app/relatorios` ⏳ Pendente
 
 ### Configurações (Submenu)
-- [ ] Banca - `/app/configuracoes/banca` 🚧 Em desenvolvimento
+- [ok] Banca - `/app/configuracoes/banca` ✅ FrontEnd Completo
 - [ ] Banco de Imagens - `/app/configuracoes/banco-imagens` ⏳ Pendente
 - [ ] Templates - `/app/configuracoes/templates` ⏳ Pendente
 - [ ] Integrações - `/app/configuracoes/integracoes` ⏳ Pendente
-- [ ] Sistema - `/app/configuracoes/sistema` ⏳ Pendente
+- [ ] Sistema - `/app/configuracoes/sistema` 🚧 Em desenvolvimento
 
 ### Ajuda
 - [ ] Ajuda - `/app/ajuda` ⏳ Pendente
@@ -84,7 +94,7 @@ Implementação obrigatória seguindo ordem de prioridade:
 - [ ] Parcerias - `/app/conta/parcerias` ⏳ Pendente
 
 ### Legendas:
-- ✅ Completo
+- ✅ FrontEnd Completo
 - 🚧 Em desenvolvimento
 - ⏳ Pendente
 - 🔄 Necessita revisão

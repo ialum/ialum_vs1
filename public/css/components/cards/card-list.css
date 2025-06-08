@@ -1,435 +1,297 @@
 /**
- * card-list.css
- * Componente de lista expansível de cards para CRUD
- * Dependências: cards.css, forms.css, buttons.css, variables.css
- * Usado em: Páginas de configuração e gerenciamento de dados
- * Versão: 1.0 - Sistema limpo baseado em cards
+ * card-list.css v2.0
+ * Lista expansível de cards para CRUD
+ * Extende base.css - mantém apenas funcionalidades específicas
+ * 
+ * Estrutura:
+ * 1. Container do CardList
+ * 2. Items da lista (modo contraído/expandido)
+ * 3. Formulário inline
+ * 4. Estados e interações
+ * 5. Responsividade
  */
 
 /* =================================================================
-   CARD LIST BASE
+   1. CONTAINER DO CARDLIST
 ================================================================= */
 
 .card-list {
-    width: 100%;
+    /* Usa .card-container do base.css quando necessário */
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
 }
 
-.card-list-container {
-    background: var(--theme-bg-secondary);
-    border-radius: var(--radius-lg);
-    padding: var(--spacing-lg);
-    border: 1px solid var(--theme-border-primary);
-}
-
-/* Garantir espaçamento entre items e botão de criar novo */
-.card-list-items:not(:empty) + .card-list-new {
-    margin-top: var(--spacing-lg);
-}
-
-.card-list-header {
-    display: none; /* Ocultar completamente quando vazio para não deixar espaço */
-}
-
-.card-list-title {
-    display: none; /* Ocultar título do CardList */
-}
-
-.card-list-description {
-    font-size: var(--font-size-sm);
-    color: var(--theme-text-secondary);
-    margin: 0;
-    line-height: var(--line-height-normal);
+/* Header oculto por padrão (CardList não precisa de header visual) */
+.card-list__header {
+    display: none;
 }
 
 /* =================================================================
-   CARD LIST ITEMS
+   2. ITEMS DA LISTA
 ================================================================= */
 
-.card-list-items {
+.card-list__items {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
 }
 
-/* Card List Item - extends base card */
-.card-list-item {
-    /* Herda do sistema de cards */
-    position: relative;
+/* Item individual - extende .card */
+.card-list__item {
+    /* Custom properties específicas */
+    --card-padding: var(--spacing-md);
+    --card-gap: 0;
+    
+    /* Comportamento específico */
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.card-list-item.expanded {
-    /* Estado expandido usa card-elevated */
-    transform: translateY(-2px);
-}
-
-/* Header do item (modo contraído) */
-.card-list-item-header {
+/* Header do item (visível quando contraído) */
+.card-list__item-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     gap: var(--spacing-md);
-    width: 100%;
-}
-
-.card-list-item-content {
-    flex: 1;
     padding: var(--spacing-md);
 }
 
-.card-list-item-title {
+/* Conteúdo principal */
+.card-list__item-main {
+    flex: 1;
+    min-width: 0; /* Permite text-overflow */
+}
+
+.card-list__item-title {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     color: var(--theme-text-primary);
-    flex: 1;
     margin: 0;
-    line-height: var(--line-height-tight);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.card-list-item-subtitle {
+.card-list__item-subtitle {
     font-size: var(--font-size-sm);
     color: var(--theme-text-tertiary);
-    margin: var(--spacing-xs) 0 0 0;
-    line-height: var(--line-height-normal);
+    margin-top: var(--spacing-xs);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.card-list-item-actions {
+/* Ações do item */
+.card-list__item-actions {
     display: flex;
     gap: var(--spacing-xs);
-    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
-/* =================================================================
-   CARD LIST FORM (modo expandido)
-================================================================= */
-
-.card-list-form {
-    /* Usa sistema de forms base - sem customização */
-    width: 100%;
+.card-list__item:hover .card-list__item-actions {
+    opacity: 1;
 }
 
-/* Garantir que textareas tenham largura definida */
-.card-list-form .form-input[name="descricao"],
-.card-list-form textarea.form-input {
-    width: 100%;
-    min-width: 0;
-    resize: vertical;
-}
-
-/* Os forms herdam estilos globais modernos do sistema base
-   Removido override específico para permitir que o sistema global funcione */
-
-.card-list-form-actions {
+/* Botão de expandir/contrair */
+.card-list__item-toggle {
+    width: 32px;
+    height: 32px;
     display: flex;
-    gap: var(--spacing-sm);
-    margin-top: var(--spacing-lg);
-    justify-content: flex-start;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--theme-text-secondary);
+}
+
+.card-list__item-toggle:hover {
+    background: var(--theme-surface-hover);
+    color: var(--theme-text-primary);
+}
+
+.card-list__item-toggle-icon {
+    transition: transform 0.3s ease;
 }
 
 /* =================================================================
-   CARD LIST NEW ITEM (criação)
+   3. ESTADO EXPANDIDO
 ================================================================= */
 
-.card-list-new {
-    /* Quando contraído - usa card-empty style */
-    text-align: center;
-    padding: var(--spacing-xl);
-    background: var(--theme-bg-secondary);
-    border: 2px dashed var(--theme-border-secondary);
-    border-radius: var(--radius-lg);
-    transition: all 0.3s ease;
-    cursor: pointer;
+/* Item expandido */
+.card-list__item--expanded {
+    --card-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
-.card-list-new:hover {
-    border-color: var(--primary);
-    background: var(--primary-very-light);
+.card-list__item--expanded .card-list__item-toggle-icon {
+    transform: rotate(180deg);
 }
 
-.card-list-new.expanded {
-    /* Quando expandido - usa card normal */
-    background: var(--theme-bg-primary);
-    border: 1px solid var(--primary);
-    border-style: solid;
-    text-align: left;
-    cursor: default;
+/* Formulário expandido (reutiliza estruturas do base.css) */
+.card-list__item-form {
+    display: none;
     padding: var(--spacing-lg);
+    border-top: 1px solid var(--theme-border-primary);
 }
 
-.card-list-new-icon {
-    font-size: var(--font-size-2xl);
-    color: var(--theme-text-secondary);
-    margin-bottom: var(--spacing-sm);
+.card-list__item--expanded .card-list__item-form {
     display: block;
 }
 
-.card-list-new.expanded .card-list-new-icon {
-    display: none;
-}
-
-.card-list-new-text {
-    display: none; /* Ocultar título "Novo narrativa" */
-}
-
-.card-list-new.expanded .card-list-new-text {
-    font-size: var(--font-size-lg);
-    color: var(--theme-text-primary);
+/* Grid do formulário */
+.card-list__form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-md);
     margin-bottom: var(--spacing-lg);
-    text-align: left;
+}
+
+/* Ações do formulário - usa .card__footer do base.css */
+.card-list__form-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: flex-end;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--theme-border-primary);
 }
 
 /* =================================================================
-   CARD LIST ESTADOS
+   4. BOTÃO DE NOVO ITEM
 ================================================================= */
 
-/* Loading state */
-.card-list-item.loading {
-    pointer-events: none;
+.card-list__new {
+    /* Extende .card--ghost e .card--clickable do base.css */
+    --card-padding: var(--spacing-md);
+    border-style: dashed;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
+    transition: all 0.2s ease;
+}
+
+.card-list__new-text {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--theme-text-secondary);
+    font-weight: var(--font-weight-medium);
+}
+
+.card-list__new:hover {
+    border-style: solid;
+    border-color: var(--primary);
+    background: var(--theme-bg-secondary);
+}
+
+.card-list__new:hover .card-list__new-text {
+    color: var(--primary);
+}
+
+/* =================================================================
+   5. ESTADOS E VARIAÇÕES
+================================================================= */
+
+/* Loading - usa .card--loading do base.css */
+.card-list__item--loading {
     opacity: 0.7;
+    pointer-events: none;
 }
 
-.card-list-item.loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
+.card-list__item--loading::after {
+    /* Posiciona o spinner no lado direito */
     right: var(--spacing-md);
+    left: auto;
     transform: translateY(-50%);
-    width: var(--size-md);
-    height: var(--size-md);
-    border: 2px solid var(--theme-border-primary);
-    border-top: 2px solid var(--primary);
-    border-radius: var(--radius-full);
-    animation: spin 1s linear infinite;
 }
 
-/* Success state */
-.card-list-item.success {
-    border-color: var(--success);
-    background: var(--theme-surface-hover);
-    animation: successFlash 0.6s ease-out;
+/* Estados de feedback */
+.card-list__item--success {
+    --card-border-color: var(--success);
+    animation: cardListItemSuccess 0.6s ease;
 }
 
-@keyframes successFlash {
-    0% { background: var(--success); }
-    100% { background: var(--theme-surface-hover); }
+.card-list__item--error {
+    --card-border-color: var(--error);
+    animation: cardListItemShake 0.5s ease;
 }
 
-/* Error state */
-.card-list-item.error {
-    border-color: var(--error);
-    animation: shake 0.5s ease-in-out;
+/* Drag and drop */
+.card-list__item--dragging {
+    opacity: 0.5;
+    cursor: grabbing;
 }
 
-@keyframes shake {
+.card-list__item--drag-over {
+    --card-border-color: var(--primary);
+    --card-border-width: 2px;
+}
+
+/* =================================================================
+   6. VARIAÇÕES
+================================================================= */
+
+/* Lista compacta */
+.card-list--compact .card-list__item {
+    --card-padding: var(--spacing-sm);
+}
+
+.card-list--compact .card-list__items {
+    gap: var(--spacing-xs);
+}
+
+/* Lista sem bordas */
+.card-list--borderless .card-list__item {
+    --card-border-color: transparent;
+    --card-shadow: none;
+}
+
+.card-list--borderless .card-list__item:hover {
+    --card-bg: var(--theme-surface-hover);
+}
+
+/* =================================================================
+   7. ANIMAÇÕES
+================================================================= */
+
+@keyframes cardListItemSuccess {
     0%, 100% { transform: translateX(0); }
     25% { transform: translateX(-5px); }
     75% { transform: translateX(5px); }
 }
 
-/* =================================================================
-   CARD LIST BADGES E INDICADORES
-================================================================= */
-
-.card-list-item-badge {
-    /* Usa sistema de badges - sem customização */
-    margin-left: var(--spacing-sm);
+@keyframes cardListItemShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
 }
 
-.card-list-item-status {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    font-size: var(--font-size-xs);
-    color: var(--theme-text-tertiary);
-}
-
-.card-list-item-status::before {
-    content: '';
-    width: var(--size-2xs);
-    height: var(--size-2xs);
-    border-radius: var(--radius-full);
-    background: var(--theme-text-secondary);
-}
-
-.card-list-item-status.active::before {
-    background: var(--success);
-}
-
-.card-list-item-status.inactive::before {
-    background: var(--error);
-}
-
-.card-list-item-status.pending::before {
-    background: var(--warning);
+/* Animação de entrada */
+.card-list__item--enter {
+    animation: cardFadeIn 0.4s ease-out;
 }
 
 /* =================================================================
-   CARD LIST LAYOUTS
-================================================================= */
-
-/* Layout em grid para múltiplas colunas */
-.card-list.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-lg);
-}
-
-.card-list.grid .card-list-items {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-md);
-}
-
-.card-list.grid .card-list-new {
-    grid-column: 1 / -1;
-}
-
-/* Layout compacto */
-.card-list.compact .card-list-items {
-    gap: var(--spacing-sm);
-}
-
-.card-list.compact .card-list-item {
-    padding: var(--spacing-md);
-}
-
-.card-list.compact .card-list-new {
-    padding: var(--spacing-lg);
-}
-
-/* =================================================================
-   LABELS PARA IA - OCULTOS VISUALMENTE MAS ACESSÍVEIS
-================================================================= */
-
-/* 
- * Classe especial para labels que são importantes para IA mas desnecessários visualmente.
- * Mantém o conteúdo acessível para leitores de tela e ferramentas de IA,
- * mas oculta visualmente para usuários.
- * 
- * USO: <label class="form-label sr-only-ai">Nome da Narrativa</label>
- */
-.sr-only-ai {
-    position: absolute !important;
-    width: 1px !important;
-    height: 1px !important;
-    padding: 0 !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    clip: rect(0, 0, 0, 0) !important;
-    white-space: nowrap !important;
-    border: 0 !important;
-}
-
-/* Variante para manter acessível mas com opacidade reduzida */
-.form-label-ai-context {
-    opacity: 0.3;
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-normal);
-    color: var(--theme-text-tertiary);
-    margin-bottom: var(--spacing-2xs);
-}
-
-/* =================================================================
-   RESPONSIVIDADE
+   8. RESPONSIVIDADE
 ================================================================= */
 
 @media (max-width: 768px) {
-    .card-list-container {
-        padding: var(--spacing-sm);
-    }
-    
-    .card-list-item-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: var(--spacing-sm);
-    }
-    
-    .card-list-item-actions {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: var(--spacing-sm);
-    }
-    
-    .card-list-form-actions {
-        flex-direction: column;
-        gap: var(--spacing-xs);
-    }
-    
-    .card-list.grid {
+    .card-list__form-grid {
         grid-template-columns: 1fr;
     }
     
-    .card-list.grid .card-list-items {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .card-list {
-        gap: var(--spacing-md);
+    .card-list__item-actions {
+        opacity: 1; /* Sempre visível no mobile */
     }
     
-    .card-list-items {
-        gap: var(--spacing-md);
+    .card-list__form-actions {
+        flex-direction: column;
     }
     
-    .card-list-item-actions .btn {
-        flex: 1;
-        min-width: 80px;
-        justify-content: center;
-    }
-    
-    .card-list-form-actions .btn {
+    .card-list__form-actions > * {
         width: 100%;
-        justify-content: center;
-    }
-    
-    .card-list-new {
-        padding: var(--spacing-lg);
-    }
-}
-
-
-/* =================================================================
-   ANIMAÇÕES
-================================================================= */
-
-@keyframes spin {
-    to { 
-        transform: translateY(-50%) rotate(360deg); 
-    }
-}
-
-.card-list-item-enter {
-    animation: cardListItemEnter 0.4s ease-out;
-}
-
-@keyframes cardListItemEnter {
-    from {
-        opacity: 0;
-        transform: translateY(var(--spacing-md)) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.card-list-item-exit {
-    animation: cardListItemExit 0.3s ease-in;
-}
-
-@keyframes cardListItemExit {
-    from {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-var(--spacing-sm)) scale(0.95);
     }
 }

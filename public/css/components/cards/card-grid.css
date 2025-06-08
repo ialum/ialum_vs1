@@ -1,228 +1,204 @@
-/* card-grid.css
- * Componente CardGrid - Grid responsivo com seleção
- * Dependências: Variables, utilities
- * Localização: public/css/components/card-grid.css
+/**
+ * card-grid.css v2.0
+ * Grid responsivo com seleção múltipla
+ * Extende base.css - mantém apenas funcionalidades de grid
+ * 
+ * Estrutura:
+ * 1. Container e estrutura
+ * 2. Grid responsivo
+ * 3. Items do grid
+ * 4. Seleção múltipla
+ * 5. Estados e variações
+ * 6. Responsividade
  */
 
-/* === CONTAINER PRINCIPAL === */
+/* =================================================================
+   1. CONTAINER E ESTRUTURA
+================================================================= */
+
 .card-grid {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
 }
 
-.card-grid-header {
+/* Header - usa classes do base.css quando possível */
+.card-grid__header {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
     margin-bottom: var(--spacing-md);
 }
 
-.card-grid-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--theme-text-primary);
-    margin: 0;
-}
+/* Usa .card__title e .card__subtitle do base.css para títulos */
 
-.card-grid-description {
-    font-size: var(--font-size-sm);
-    color: var(--theme-text-secondary);
-    margin: 0;
-}
+/* =================================================================
+   2. BUSCA E FILTROS
+================================================================= */
 
-/* === BUSCA === */
-.card-grid-search-wrapper {
+.card-grid__search-wrapper {
     position: relative;
-    margin-bottom: var(--spacing-md);
 }
 
-.card-grid-search {
+.card-grid__search {
     width: 100%;
     padding: var(--spacing-sm) var(--spacing-md);
     border: 1px solid var(--theme-border-primary);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-md);
     font-size: var(--font-size-sm);
     background: var(--theme-bg-primary);
     color: var(--theme-text-primary);
-    transition: all var(--transition-fast);
+    transition: all var(--duration-fast);
 }
 
-.card-grid-search:focus {
+.card-grid__search:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--theme-surface-hover);
+    box-shadow: var(--shadow-focus);
 }
 
-.card-grid-search::placeholder {
+.card-grid__search::placeholder {
     color: var(--theme-text-tertiary);
 }
 
-/* === CONTAINER DO GRID === */
-.card-grid-container {
+/* =================================================================
+   3. CONTAINER DO GRID
+================================================================= */
+
+.card-grid__container {
     display: grid;
     gap: var(--spacing-md);
     width: 100%;
 }
 
-/* Colunas automáticas responsivas */
-.card-grid-container.auto-columns {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+/* Colunas automáticas (padrão) */
+.card-grid__container {
+    grid-template-columns: repeat(auto-fill, minmax(var(--grid-item-min-width, 280px), 1fr));
 }
 
-/* Colunas fixas */
-.card-grid-container.columns-2 {
-    grid-template-columns: repeat(2, 1fr);
-}
+/* Modificadores de colunas */
+.card-grid__container--2-cols { grid-template-columns: repeat(2, 1fr); }
+.card-grid__container--3-cols { grid-template-columns: repeat(3, 1fr); }
+.card-grid__container--4-cols { grid-template-columns: repeat(4, 1fr); }
+.card-grid__container--5-cols { grid-template-columns: repeat(5, 1fr); }
+.card-grid__container--6-cols { grid-template-columns: repeat(6, 1fr); }
 
-.card-grid-container.columns-3 {
-    grid-template-columns: repeat(3, 1fr);
-}
+/* =================================================================
+   4. ITEMS DO GRID
+================================================================= */
 
-.card-grid-container.columns-4 {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-.card-grid-container.columns-5 {
-    grid-template-columns: repeat(5, 1fr);
-}
-
-.card-grid-container.columns-6 {
-    grid-template-columns: repeat(6, 1fr);
-}
-
-/* Responsividade para colunas fixas */
-@media (max-width: 1200px) {
-    .card-grid-container.columns-6,
-    .card-grid-container.columns-5 {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-@media (max-width: 992px) {
-    .card-grid-container.columns-4,
-    .card-grid-container.columns-5,
-    .card-grid-container.columns-6 {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .card-grid-container.columns-3,
-    .card-grid-container.columns-4,
-    .card-grid-container.columns-5,
-    .card-grid-container.columns-6 {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 480px) {
-    .card-grid-container {
-        grid-template-columns: 1fr !important;
-        gap: var(--spacing-sm);
-    }
-}
-
-/* === ITENS DO GRID === */
-.card-grid-item {
+/* Item individual - extende conceitos do .card */
+.card-grid__item {
+    --card-padding: 0; /* Remove padding padrão do card */
     position: relative;
     background: var(--theme-bg-primary);
     border: 1px solid var(--theme-border-primary);
-    border-radius: var(--border-radius);
+    border-radius: var(--radius-md);
     overflow: hidden;
-    transition: all var(--transition-normal);
+    transition: all var(--duration-base);
     cursor: pointer;
     height: fit-content;
 }
 
-.card-grid-item:hover {
+.card-grid__item:hover {
     border-color: var(--primary-light);
     box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    transform: translateY(calc(var(--size-3xs) * -1));
 }
 
-.card-grid-item.selectable:hover {
+/* Estados de seleção */
+.card-grid__item--selectable:hover {
     border-color: var(--primary);
 }
 
-.card-grid-item.selected {
+.card-grid__item--selected {
     border-color: var(--primary);
     background: var(--theme-surface-hover);
-    box-shadow: 0 0 0 2px var(--theme-surface-hover);
+    box-shadow: 0 0 0 var(--size-3xs) var(--theme-surface-hover);
 }
 
-.card-grid-item.loading {
+/* Loading - extende .card--loading */
+.card-grid__item--loading {
     opacity: 0.6;
     pointer-events: none;
 }
 
-.card-grid-item.loading::after {
+.card-grid__item--loading::after {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--theme-border-primary);
-    border-top: 2px solid var(--primary);
+    width: var(--size-xl);
+    height: var(--size-xl);
+    border: var(--size-3xs) solid var(--theme-border-primary);
+    border-top: var(--size-3xs) solid var(--primary);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     animation: spin 1s linear infinite;
 }
 
-/* === CHECKBOX DE SELEÇÃO === */
-.card-grid-item-checkbox {
+/* =================================================================
+   5. CHECKBOX DE SELEÇÃO
+================================================================= */
+
+.card-grid__checkbox {
     position: absolute;
     top: var(--spacing-sm);
     right: var(--spacing-sm);
     z-index: 2;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: var(--border-radius-sm);
+    background: var(--alpha-white-90, var(--theme-bg-primary));
+    border-radius: var(--radius-sm);
     padding: var(--spacing-xs);
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(var(--size-2xs));
 }
 
-.card-grid-item-checkbox input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+.card-grid__checkbox input[type="checkbox"] {
+    width: calc(var(--size-lg) + var(--size-3xs));
+    height: calc(var(--size-lg) + var(--size-3xs));
     margin: 0;
     cursor: pointer;
 }
 
-/* === IMAGEM DO ITEM === */
-.card-grid-item-image {
+/* =================================================================
+   6. IMAGEM DO ITEM
+================================================================= */
+
+.card-grid__image {
     position: relative;
     width: 100%;
-    height: 200px;
+    height: var(--grid-image-height, calc(var(--size-xl) * 10)); /* ~200px */
     overflow: hidden;
     background: var(--theme-bg-secondary);
 }
 
-.card-grid-item-image img {
+.card-grid__image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--transition-normal);
+    transition: transform var(--duration-base);
 }
 
-.card-grid-item:hover .card-grid-item-image img {
+.card-grid__item:hover .card-grid__image img {
     transform: scale(1.05);
 }
 
-/* === CONTEÚDO DO ITEM === */
-.card-grid-item-content {
+/* =================================================================
+   7. CONTEÚDO DO ITEM
+================================================================= */
+
+.card-grid__content {
     padding: var(--spacing-md);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
 }
 
-.card-grid-item-title {
-    font-size: var(--font-size-md);
+.card-grid__title {
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     color: var(--theme-text-primary);
     margin: 0;
-    line-height: 1.4;
+    line-height: var(--line-height-snug);
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -230,11 +206,11 @@
     -webkit-box-orient: vertical;
 }
 
-.card-grid-item-subtitle {
+.card-grid__subtitle {
     font-size: var(--font-size-sm);
     color: var(--theme-text-secondary);
     margin: 0;
-    line-height: 1.4;
+    line-height: var(--line-height-snug);
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -242,8 +218,11 @@
     -webkit-box-orient: vertical;
 }
 
-/* === AÇÕES DO ITEM === */
-.card-grid-item-actions {
+/* =================================================================
+   8. AÇÕES DO ITEM
+================================================================= */
+
+.card-grid__actions {
     padding: var(--spacing-sm) var(--spacing-md);
     border-top: 1px solid var(--theme-border-primary);
     background: var(--theme-bg-secondary);
@@ -251,99 +230,154 @@
     gap: var(--spacing-sm);
     justify-content: flex-end;
     opacity: 0;
-    transition: opacity var(--transition-fast);
+    transition: opacity var(--duration-fast);
 }
 
-.card-grid-item:hover .card-grid-item-actions {
+.card-grid__item:hover .card-grid__actions {
     opacity: 1;
 }
 
-.card-grid-item-actions .btn {
+.card-grid__actions .btn {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: var(--font-size-xs);
     min-height: auto;
 }
 
-/* === ESTADO VAZIO === */
-.card-grid-empty {
+/* =================================================================
+   9. ESTADO VAZIO
+================================================================= */
+
+/* Usa .card--empty do base.css */
+.card-grid__empty {
     grid-column: 1 / -1;
-    text-align: center;
-    padding: var(--spacing-xxl);
-    color: var(--theme-text-tertiary);
+    /* Extende .card--empty para centralização */
 }
 
-.card-grid-empty-icon {
-    font-size: 3rem;
-    margin-bottom: var(--spacing-md);
-    opacity: 0.6;
-}
+/* =================================================================
+   10. SELEÇÃO MÚLTIPLA
+================================================================= */
 
-.card-grid-empty-title {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--theme-text-secondary);
-    margin: 0 0 var(--spacing-sm) 0;
-}
-
-/* === SELEÇÃO MÚLTIPLA === */
-.card-grid-selection {
+.card-grid__selection {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: var(--spacing-md);
     background: var(--theme-surface-hover);
     border: 1px solid var(--primary-light);
-    border-radius: var(--border-radius);
-    margin-top: var(--spacing-md);
+    border-radius: var(--radius-md);
 }
 
-.card-grid-selection-count {
+.card-grid__selection-count {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-semibold);
     color: var(--primary-dark);
 }
 
-.card-grid-selection-actions {
+.card-grid__selection-actions {
     display: flex;
     gap: var(--spacing-sm);
 }
 
-.card-grid-selection-actions .btn {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    font-size: var(--font-size-xs);
+/* =================================================================
+   11. VARIAÇÕES
+================================================================= */
+
+/* Compacto */
+.card-grid--compact {
+    --grid-image-height: calc(var(--size-xl) * 7.5); /* ~150px */
 }
 
-/* === ANIMAÇÕES === */
-@keyframes spin {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* === MODO COMPACTO === */
-.card-grid.compact .card-grid-item-content {
+.card-grid--compact .card-grid__content {
     padding: var(--spacing-sm);
 }
 
-.card-grid.compact .card-grid-item-image {
-    height: 150px;
-}
-
-.card-grid.compact .card-grid-item-title {
+.card-grid--compact .card-grid__title {
     font-size: var(--font-size-sm);
 }
 
-.card-grid.compact .card-grid-item-subtitle {
+.card-grid--compact .card-grid__subtitle {
     font-size: var(--font-size-xs);
     -webkit-line-clamp: 2;
 }
 
-/* === TEMA ESCURO === */
-@media (prefers-color-scheme: dark) {
-    .card-grid-item-checkbox {
-        background: rgba(0, 0, 0, 0.8);
+/* Sem imagem */
+.card-grid--no-image .card-grid__image {
+    display: none;
+}
+
+/* Lista ao invés de grid */
+.card-grid--list .card-grid__container {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-grid--list .card-grid__item {
+    display: flex;
+    align-items: center;
+}
+
+.card-grid--list .card-grid__image {
+    width: calc(var(--size-xl) * 6); /* ~120px */
+    height: calc(var(--size-xl) * 4); /* ~80px */
+    flex-shrink: 0;
+}
+
+/* =================================================================
+   12. RESPONSIVIDADE
+================================================================= */
+
+@media (max-width: 1200px) {
+    .card-grid__container--6-cols,
+    .card-grid__container--5-cols {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .card-grid__container--4-cols,
+    .card-grid__container--5-cols,
+    .card-grid__container--6-cols {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .card-grid__container--3-cols,
+    .card-grid__container--4-cols,
+    .card-grid__container--5-cols,
+    .card-grid__container--6-cols {
+        grid-template-columns: repeat(2, 1fr);
     }
     
-    .card-grid-item-actions {
-        background: var(--theme-bg-tertiary);
+    .card-grid__actions {
+        opacity: 1; /* Sempre visível no mobile */
     }
+}
+
+@media (max-width: 480px) {
+    .card-grid__container {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-sm);
+    }
+    
+    .card-grid--list .card-grid__item {
+        flex-direction: column;
+    }
+    
+    .card-grid--list .card-grid__image {
+        width: 100%;
+        height: calc(var(--size-xl) * 10);
+    }
+}
+
+/* =================================================================
+   13. TEMA ESCURO
+================================================================= */
+
+[data-theme="dark"] .card-grid__checkbox {
+    background: var(--alpha-black-80, var(--theme-bg-tertiary));
+}
+
+[data-theme="dark"] .card-grid__actions {
+    background: var(--theme-bg-tertiary);
 }

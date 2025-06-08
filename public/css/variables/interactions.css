@@ -1,0 +1,28 @@
+/**
+ * interactions.css
+ * Estados de interação e cursor
+ * NÃO usar diretamente - use através de classes
+ */
+
+:root {
+    /* Cursors */
+    --cursor-default: default;
+    --cursor-pointer: pointer;
+    --cursor-wait: wait;
+    --cursor-text: text;
+    --cursor-move: move;
+    --cursor-not-allowed: not-allowed;
+    --cursor-help: help;
+    --cursor-grab: grab;
+    --cursor-grabbing: grabbing;
+    
+    /* User Select */
+    --select-none: none;
+    --select-text: text;
+    --select-all: all;
+    --select-auto: auto;
+    
+    /* Pointer Events */
+    --pointer-events-none: none;
+    --pointer-events-auto: auto;
+}

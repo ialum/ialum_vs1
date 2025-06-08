@@ -1,0 +1,83 @@
+/**
+ * theme.css
+ * Cores semânticas do sistema de temas
+ * ESTAS PODEM SER USADAS DIRETAMENTE NO CÓDIGO!
+ * 
+ * USO CORRETO:
+ * - background: var(--theme-bg-primary);     ✅ CORRETO
+ * - color: var(--theme-text-primary);       ✅ CORRETO  
+ * - border: 1px solid var(--theme-border-primary); ✅ CORRETO
+ * 
+ * COMO TROCAR TEMA:
+ * - Tema claro: <html> (sem atributo data-theme)
+ * - Tema escuro: <html data-theme="dark">
+ * - Via JavaScript: State.set('theme', 'dark')
+ */
+
+:root {
+    /* Cores principais do brand */
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-light: #3b82f6;
+    --primary-very-light: #eff6ff;
+    --secondary: #10b981;
+    --secondary-dark: #059669;
+    
+    /* Cores semânticas */
+    --success: #10b981;
+    --success-dark: #059669;
+    --warning: #f59e0b;
+    --warning-dark: #d97706;
+    --error: #ef4444;
+    --error-dark: #dc2626;
+    --info: #3b82f6;
+    --info-dark: #2563eb;
+    
+    /* Base (usar apenas em casos específicos) */
+    --dark: #1f2937;
+    --dark-dark: #111827;
+    --light: #f9fafb;
+    --white: #ffffff;
+    
+    /* ===== TEMA CLARO (padrão) ===== */
+    --theme-bg-primary: var(--white);           /* Backgrounds principais (cards, modals) */
+    --theme-bg-secondary: var(--gray-50);       /* Backgrounds secundários (containers) */
+    --theme-bg-tertiary: var(--gray-100);       /* Backgrounds terciários (sidebar, etc) */
+    --theme-bg-elevated: var(--white);          /* Elementos elevados (dropdowns) */
+    --theme-bg-overlay: rgba(0, 0, 0, 0.5);     /* Overlays e modals */
+    
+    --theme-text-primary: var(--dark);          /* Texto principal */
+    --theme-text-secondary: var(--gray-600);    /* Texto secundário */
+    --theme-text-tertiary: var(--gray-500);     /* Texto auxiliar, placeholders */
+    --theme-text-inverse: var(--white);         /* Texto em fundos escuros */
+    
+    --theme-border-primary: var(--gray-200);    /* Bordas principais */
+    --theme-border-secondary: var(--gray-300);  /* Bordas mais visíveis */
+    --theme-border-focus: var(--primary);       /* Bordas de foco */
+    
+    --theme-surface-hover: var(--gray-50);      /* Estado hover de superfícies */
+    --theme-surface-active: var(--gray-100);    /* Estado ativo de superfícies */
+    --theme-surface-disabled: var(--gray-100);  /* Estado desabilitado */
+}
+
+/* ===== TEMA ESCURO ===== */
+[data-theme="dark"] {
+    --theme-bg-primary: var(--gray-800);        /* Backgrounds principais */
+    --theme-bg-secondary: var(--gray-900);      /* Backgrounds secundários */
+    --theme-bg-tertiary: var(--gray-700);       /* Backgrounds terciários */
+    --theme-bg-elevated: var(--gray-700);       /* Elementos elevados */
+    --theme-bg-overlay: rgba(0, 0, 0, 0.7);     /* Overlays mais escuros */
+    
+    --theme-text-primary: var(--gray-100);      /* Texto principal claro */
+    --theme-text-secondary: var(--gray-400);    /* Texto secundário */
+    --theme-text-tertiary: var(--gray-500);     /* Texto auxiliar */
+    --theme-text-inverse: var(--dark);          /* Texto em fundos claros */
+    
+    --theme-border-primary: var(--gray-700);    /* Bordas principais */
+    --theme-border-secondary: var(--gray-600);  /* Bordas mais visíveis */
+    --theme-border-focus: var(--primary-light); /* Bordas de foco (mais clara) */
+    
+    --theme-surface-hover: var(--gray-700);     /* Estado hover */
+    --theme-surface-active: var(--gray-600);    /* Estado ativo */
+    --theme-surface-disabled: var(--gray-800);  /* Estado desabilitado */
+}

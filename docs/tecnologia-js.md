@@ -340,6 +340,61 @@ const cardForm = new CardForm(container, {
 });
 ```
 
+## 📐 Princípios de Design de Componentes
+
+### REGRAS FUNDAMENTAIS PARA NOVOS COMPONENTES:
+
+1. **Isolamento Total**
+   - ❌ NUNCA use `document.addEventListener` - use eventos no próprio elemento
+   - ❌ NUNCA acesse elementos fora do container passado
+   - ✅ Comunicação apenas via CustomEvent no elemento
+
+2. **DOM Mínimo**
+   - ✅ PREFIRA modificar elementos existentes (Enhancers)
+   - ⚠️ EVITE criar estruturas complexas (máximo 2 níveis)
+   - ❌ NUNCA crie popups/dropdowns globais
+
+3. **Estado Local**
+   - ✅ Todo estado na instância: `this.state = {}`
+   - ❌ SEM variáveis globais ou window
+   - ✅ Persistência apenas via `Cache.js`
+
+4. **Tipos de Componentes (ordem de preferência):**
+   - **Enhancers**: Apenas melhoram input existente (ex: masks, validators)
+   - **Wrappers**: Envolvem elemento com funcionalidade (ex: CharCounter)
+   - **Builders**: Criam estrutura nova (último recurso)
+
+5. **Exemplo de Componente Correto:**
+```javascript
+// ✅ BOM: Enhancer simples
+export class CurrencyInput {
+    constructor(element) {
+        this.element = element;
+        this.element.addEventListener('input', this.format.bind(this));
+    }
+    
+    format(e) {
+        // Formata apenas o próprio elemento
+        this.element.value = formatCurrency(e.target.value);
+        this.element.dispatchEvent(new CustomEvent('formatted'));
+    }
+    
+    destroy() {
+        // Limpa apenas seus próprios eventos
+        this.element.removeEventListener('input', this.format);
+    }
+}
+
+// ❌ RUIM: Componente invasivo
+export class BadComponent {
+    constructor(element) {
+        // NUNCA faça isso!
+        document.addEventListener('click', this.handleGlobalClick);
+        document.body.appendChild(this.createPopup());
+    }
+}
+```
+
 ## 🧩 Componentes Reutilizáveis (Nova Arquitetura)
 
 ### **CardList** (cards/CardList.js) - ⭐ O Herói dos CRUDs

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo CardList</title>
+    <link rel="stylesheet" href="../../base/theme.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="card-list.css">
+</head>
+<body>
+    
+    <h2>CardList v2 - Exemplos de Uso</h2>
+    
+    <h3>1. Lista Básica</h3>
+    <div class="card-list">
+        <div class="card-list__items">
+            <!-- Item contraído -->
+            <div class="card card-list__item">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">Configuração de Email</h4>
+                        <p class="card-list__item-subtitle">SMTP configurado para Gmail</p>
+                    </div>
+                    <div class="card-list__item-actions">
+                        <button class="btn btn-sm btn-secondary">Editar</button>
+                        <button class="btn btn-sm btn-secondary">Excluir</button>
+                    </div>
+                    <button class="card-list__item-toggle">
+                        <span class="card-list__item-toggle-icon">▼</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Item expandido -->
+            <div class="card card-list__item card-list__item--expanded card--elevated">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">Configuração de Segurança</h4>
+                        <p class="card-list__item-subtitle">Autenticação de dois fatores ativa</p>
+                    </div>
+                    <div class="card-list__item-actions">
+                        <button class="btn btn-sm btn-secondary">Editar</button>
+                        <button class="btn btn-sm btn-secondary">Excluir</button>
+                    </div>
+                    <button class="card-list__item-toggle">
+                        <span class="card-list__item-toggle-icon">▼</span>
+                    </button>
+                </div>
+                
+                <form class="card-list__item-form">
+                    <div class="card-list__form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Método de Autenticação</label>
+                            <select class="form-control">
+                                <option>SMS</option>
+                                <option>App Authenticator</option>
+                                <option>Email</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" value="+55 11 98765-4321">
+                        </div>
+                    </div>
+                    
+                    <div class="card-list__form-actions">
+                        <button type="button" class="btn btn-secondary">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Item com loading -->
+            <div class="card card-list__item card-list__item--loading">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">Salvando configurações...</h4>
+                        <p class="card-list__item-subtitle">Aguarde um momento</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botão de novo item -->
+        <button class="card card--ghost card--clickable card-list__new">
+            <span class="card-list__new-text">
+                <span>+</span>
+                Adicionar nova configuração
+            </span>
+        </button>
+    </div>
+    
+    <h3>2. Lista com Temas</h3>
+    <div class="card-list">
+        <div class="card-list__items">
+            <!-- Sucesso -->
+            <div class="card card-list__item card--soft" data-theme="success">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">✓ Backup Automático</h4>
+                        <p class="card-list__item-subtitle">Executado com sucesso há 5 minutos</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Aviso -->
+            <div class="card card-list__item card--soft" data-theme="warning">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">⚠ Certificado SSL</h4>
+                        <p class="card-list__item-subtitle">Expira em 30 dias</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Erro -->
+            <div class="card card-list__item card--soft" data-theme="error">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">✕ Conexão com API</h4>
+                        <p class="card-list__item-subtitle">Falha na última tentativa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>3. Lista Compacta e Sem Bordas</h3>
+    <div class="card-list card-list--compact card-list--borderless">
+        <div class="card-list__items">
+            <div class="card card-list__item">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">Item Compacto 1</h4>
+                    </div>
+                    <div class="card-list__item-actions">
+                        <button class="btn btn-sm">•••</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card card-list__item">
+                <div class="card-list__item-header">
+                    <div class="card-list__item-main">
+                        <h4 class="card-list__item-title">Item Compacto 2</h4>
+                    </div>
+                    <div class="card-list__item-actions">
+                        <button class="btn btn-sm">•••</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

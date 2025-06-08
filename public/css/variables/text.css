@@ -1,0 +1,49 @@
+/**
+ * text.css
+ * Propriedades de texto
+ * NÃO usar diretamente - use através de classes
+ */
+
+:root {
+    /* Text Alignment */
+    --text-align-left: left;
+    --text-align-center: center;
+    --text-align-right: right;
+    --text-align-justify: justify;
+    
+    /* Text Decoration */
+    --text-decoration-none: none;
+    --text-decoration-underline: underline;
+    --text-decoration-overline: overline;
+    --text-decoration-line-through: line-through;
+    
+    /* Text Transform */
+    --text-transform-none: none;
+    --text-transform-uppercase: uppercase;
+    --text-transform-lowercase: lowercase;
+    --text-transform-capitalize: capitalize;
+    
+    /* Text Overflow */
+    --text-overflow-clip: clip;
+    --text-overflow-ellipsis: ellipsis;
+    
+    /* White Space */
+    --whitespace-normal: normal;
+    --whitespace-nowrap: nowrap;
+    --whitespace-pre: pre;
+    --whitespace-pre-line: pre-line;
+    --whitespace-pre-wrap: pre-wrap;
+    
+    /* Word Break */
+    --word-break-normal: normal;
+    --word-break-words: break-word;
+    --word-break-all: break-all;
+    
+    /* Letter Spacing */
+    --letter-spacing-tighter: -0.05em;
+    --letter-spacing-tight: -0.025em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.025em;
+    --letter-spacing-wider: 0.05em;
+    --letter-spacing-widest: 0.1em;
+}

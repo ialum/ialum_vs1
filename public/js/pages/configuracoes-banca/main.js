@@ -330,13 +330,31 @@ function initIdentidadeVisualSection() {
         showHeader: false,
         
         // Layouts especiais por seção
-        sectionLayouts: {
-            logotipos: {
-                type: 'grid',
+        sections: [
+            {
+                id: 'logotipos',
+                title: 'Logotipos',
+                description: 'Faça upload das variações do logo da banca em PNG com fundo transparente',
+                layout: 'grid',
                 columns: 2,
                 className: 'file-upload-logo-grid'
+            },
+            {
+                id: 'cores',
+                title: 'Cores da Marca',
+                description: 'Defina as cores principais da identidade visual em RGB'
+            },
+            {
+                id: 'identidade',
+                title: 'Nome e Descrição',
+                description: 'Identifique e posicione sua banca no mercado'
+            },
+            {
+                id: 'fontes',
+                title: 'Fontes',
+                description: 'Escolha as fontes para títulos e textos'
             }
-        },
+        ],
         
         // Definir campos do formulário seguindo a estrutura especificada
         fields: [
@@ -348,10 +366,10 @@ function initIdentidadeVisualSection() {
                 placeholder: 'Selecione o logo principal',
                 accept: 'image/png',
                 maxSize: '1MB',
-                help: 'PNG com fundo transparente - 1024x1024px máximo - 1MB',
+                help: 'Logo Principal usado no sistema',
                 required: true,
                 section: 'logotipos',
-                variant: 'square',
+                variant: 'grid',
                 gridColumn: 1
             },
             {
@@ -363,7 +381,7 @@ function initIdentidadeVisualSection() {
                 maxSize: '1MB',
                 help: 'Variação horizontal do logo principal',
                 section: 'logotipos',
-                variant: 'square',
+                variant: 'grid',
                 gridColumn: 2
             },
             {
@@ -375,7 +393,7 @@ function initIdentidadeVisualSection() {
                 maxSize: '1MB',
                 help: 'Versão clara para fundos escuros',
                 section: 'logotipos',
-                variant: 'square',
+                variant: 'grid',
                 gridColumn: 1
             },
             {
@@ -387,7 +405,7 @@ function initIdentidadeVisualSection() {
                 maxSize: '1MB',
                 help: 'Variação horizontal da versão clara',
                 section: 'logotipos',
-                variant: 'square',
+                variant: 'grid',
                 gridColumn: 2
             },
             {
@@ -399,7 +417,7 @@ function initIdentidadeVisualSection() {
                 maxSize: '1MB',
                 help: 'Versão escura para fundos claros',
                 section: 'logotipos',
-                variant: 'square',
+                variant: 'grid',
                 gridColumn: 1
             },
             {
@@ -411,7 +429,7 @@ function initIdentidadeVisualSection() {
                 maxSize: '1MB',
                 help: 'Variação horizontal da versão escura',
                 section: 'logotipos',
-                variant: 'square',
+                variant: 'grid',
                 gridColumn: 2
             },
             
@@ -561,22 +579,27 @@ function initIdentidadeVisualSection() {
 
         onChange: (data) => {
             // Preview em tempo real das cores
-            applyColorPreview(data);
-            
-            // Preview visual das cores aplicadas aos fundos das logos
-            updateLogoPreview(data);
+            if (data.corPrincipal || data.corSecundaria || data.corClara || data.corEscura) {
+                applyColorPreview(data);
+                updateLogoPreview(data);
+            }
         },
         
         onRender: () => {
+            console.log('🎨 onRender chamado - criando preview de cores');
             // Criar container para preview das cores após renderizar o form
-            const formContainer = DOM.select('#identidade-visual-container');
-            if (formContainer && !DOM.select('#color-preview-container')) {
-                const previewDiv = DOM.create('div', {
-                    id: 'color-preview-container',
-                    className: 'mt-lg'
-                });
-                formContainer.appendChild(previewDiv);
-            }
+            setTimeout(() => {
+                const formContainer = DOM.select('#identidade-visual-container');
+                const cardFormElement = DOM.select('.card-form', formContainer);
+                if (cardFormElement && !DOM.select('#color-preview-container')) {
+                    const previewDiv = DOM.create('div', {
+                        id: 'color-preview-container',
+                        className: 'mt-lg'
+                    });
+                    cardFormElement.appendChild(previewDiv);
+                    console.log('✅ Container de preview criado');
+                }
+            }, 100);
         },
 
         onCancel: () => {
@@ -585,17 +608,39 @@ function initIdentidadeVisualSection() {
         },
         
         // Botão customizado para salvar identidade visual
-        submitButton: {
-            text: 'Salvar Identidade Visual',
-            class: 'btn-primary btn-lg',
-            icon: '💾'
-        }
+        submitLabel: 'Salvar Identidade Visual'
     };
 
     // Inicializar CardForm
     try {
+        console.log('🔧 Iniciando CardForm de identidade visual...');
         identidadeVisualForm = new CardForm(container, identidadeConfig);
         console.log('✅ CardForm de identidade visual inicializado');
+        
+        // Aguardar renderização e verificar componentes
+        setTimeout(() => {
+            console.log('🔍 Verificando componentes especiais...');
+            const colorPickers = DOM.selectAll('[data-field-type="color-picker"]', container);
+            const fileUploads = DOM.selectAll('[data-field-type="file-upload"]', container);
+            
+            console.log(`📊 Encontrados ${colorPickers.length} color-pickers`);
+            console.log(`📊 Encontrados ${fileUploads.length} file-uploads`);
+            
+            // Verificar se os componentes foram inicializados
+            colorPickers.forEach((el, index) => {
+                const input = el.querySelector('input');
+                console.log(`🎨 ColorPicker ${index}: input encontrado =`, !!input, 
+                           'instance =', !!input?.colorPickerInstance,
+                           'name =', input?.name);
+            });
+            
+            fileUploads.forEach((el, index) => {
+                const input = el.querySelector('input[type="file"]');
+                console.log(`📁 FileUpload ${index}: input encontrado =`, !!input, 
+                           'instance =', !!input?.fileUploadInstance,
+                           'name =', input?.name);
+            });
+        }, 500);
     } catch (error) {
         console.error('❌ Erro ao inicializar identidade visual:', error);
         showToast('Erro ao carregar identidade visual', 'error');
@@ -664,7 +709,7 @@ function updateLogoPreview(data) {
     
     let previewHTML = `
         <div class="mb-lg">
-            <h4 class="text-base font-medium mb-md">Preview das Cores</h4>
+            <h4 class="text-base font-semibold mb-md">Preview das Cores</h4>
             <div class="grid grid-cols-2 gap-md">
     `;
     

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplo CardGrid</title>
+    <link rel="stylesheet" href="../../base/theme.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="card-grid.css">
+</head>
+<body>
+    
+    <h2>CardGrid - Exemplos de Uso</h2>
+    
+    <h3>1. Grid Básico com Busca</h3>
+    <div class="card-grid">
+        <div class="card-grid__header">
+            <h3 class="card__title">Galeria de Imagens</h3>
+            <p class="card__subtitle">Selecione uma ou mais imagens</p>
+        </div>
+        
+        <div class="card-grid__search-wrapper">
+            <input type="search" 
+                   class="card-grid__search" 
+                   placeholder="Buscar imagens...">
+        </div>
+        
+        <div class="card-grid__container">
+            <!-- Item normal -->
+            <div class="card-grid__item">
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/400x300/2563eb/ffffff?text=Imagem+1" alt="Imagem 1">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Título da Imagem 1</h4>
+                    <p class="card-grid__subtitle">Descrição breve sobre esta imagem que pode ter múltiplas linhas</p>
+                </div>
+                <div class="card-grid__actions">
+                    <button class="btn btn-secondary btn-xs">Editar</button>
+                    <button class="btn btn-secondary btn-xs">Excluir</button>
+                </div>
+            </div>
+            
+            <!-- Item selecionável -->
+            <div class="card-grid__item card-grid__item--selectable">
+                <div class="card-grid__checkbox">
+                    <input type="checkbox">
+                </div>
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/400x300/10b981/ffffff?text=Imagem+2" alt="Imagem 2">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Título da Imagem 2</h4>
+                    <p class="card-grid__subtitle">Com checkbox para seleção múltipla</p>
+                </div>
+            </div>
+            
+            <!-- Item selecionado -->
+            <div class="card-grid__item card-grid__item--selectable card-grid__item--selected">
+                <div class="card-grid__checkbox">
+                    <input type="checkbox" checked>
+                </div>
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/400x300/f59e0b/ffffff?text=Imagem+3" alt="Imagem 3">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Item Selecionado</h4>
+                    <p class="card-grid__subtitle">Este item está marcado</p>
+                </div>
+            </div>
+            
+            <!-- Item loading -->
+            <div class="card-grid__item card-grid__item--loading">
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/400x300/cccccc/666666?text=Loading..." alt="Loading">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Carregando...</h4>
+                    <p class="card-grid__subtitle">Aguarde um momento</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Barra de seleção múltipla -->
+        <div class="card-grid__selection">
+            <span class="card-grid__selection-count">2 itens selecionados</span>
+            <div class="card-grid__selection-actions">
+                <button class="btn btn-secondary btn-xs">Desmarcar todos</button>
+                <button class="btn btn-primary btn-xs">Excluir selecionados</button>
+            </div>
+        </div>
+    </div>
+    
+    <h3>2. Grid com Colunas Fixas</h3>
+    <div class="card-grid">
+        <div class="card-grid__header">
+            <h3 class="card__title">Grid de 3 Colunas</h3>
+        </div>
+        
+        <div class="card-grid__container card-grid__container--3-cols">
+            <div class="card-grid__item">
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Item 1</h4>
+                </div>
+            </div>
+            <div class="card-grid__item">
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Item 2</h4>
+                </div>
+            </div>
+            <div class="card-grid__item">
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Item 3</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>3. Grid Compacto</h3>
+    <div class="card-grid card-grid--compact">
+        <div class="card-grid__container">
+            <div class="card-grid__item">
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/400x300/2563eb/ffffff?text=Compacto+1" alt="">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Título Compacto</h4>
+                    <p class="card-grid__subtitle">Menos espaço</p>
+                </div>
+            </div>
+            <div class="card-grid__item">
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/400x300/10b981/ffffff?text=Compacto+2" alt="">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Outro Compacto</h4>
+                    <p class="card-grid__subtitle">Mais itens por linha</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>4. Grid Sem Imagens</h3>
+    <div class="card-grid card-grid--no-image">
+        <div class="card-grid__container">
+            <div class="card-grid__item">
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">📄 Documento.pdf</h4>
+                    <p class="card-grid__subtitle">Tamanho: 2.5MB • Modificado: hoje</p>
+                </div>
+            </div>
+            <div class="card-grid__item">
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">📊 Planilha.xlsx</h4>
+                    <p class="card-grid__subtitle">Tamanho: 1.2MB • Modificado: ontem</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>5. Modo Lista</h3>
+    <div class="card-grid card-grid--list">
+        <div class="card-grid__container">
+            <div class="card-grid__item">
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/200x150/2563eb/ffffff?text=Lista+1" alt="">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Item em Lista 1</h4>
+                    <p class="card-grid__subtitle">Layout horizontal mais compacto para listas</p>
+                </div>
+                <div class="card-grid__actions">
+                    <button class="btn btn-secondary btn-xs">Ações</button>
+                </div>
+            </div>
+            <div class="card-grid__item">
+                <div class="card-grid__image">
+                    <img src="https://via.placeholder.com/200x150/10b981/ffffff?text=Lista+2" alt="">
+                </div>
+                <div class="card-grid__content">
+                    <h4 class="card-grid__title">Item em Lista 2</h4>
+                    <p class="card-grid__subtitle">Útil quando precisa mostrar mais informações</p>
+                </div>
+                <div class="card-grid__actions">
+                    <button class="btn btn-secondary btn-xs">Ações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>6. Estado Vazio</h3>
+    <div class="card-grid">
+        <div class="card-grid__container">
+            <div class="card card--empty card-grid__empty">
+                <div class="card__body">
+                    <div class="card__icon" style="font-size: 3rem; opacity: 0.3;">🖼️</div>
+                    <h3 class="card__title">Nenhuma imagem encontrada</h3>
+                    <p class="card__subtitle">Faça upload de imagens para começar</p>
+                    <button class="btn btn-primary" style="margin-top: 1rem;">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

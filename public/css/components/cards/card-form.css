@@ -1,158 +1,202 @@
-/* card-form.css
- * Componente CardForm - Formulário dinâmico universal
- * Dependências: Variables, forms, buttons
- * Localização: public/css/components/card-form.css
+/**
+ * card-form.css v2.0
+ * Formulário dinâmico que extende base.css
+ * Mantém apenas funcionalidades específicas de formulário
+ * 
+ * Estrutura:
+ * 1. Container e estrutura
+ * 2. Campos dinâmicos
+ * 3. Componentes UI especializados
+ * 4. Validação e estados
+ * 5. Responsividade
  */
 
-/* === CONTAINER PRINCIPAL === */
+/* =================================================================
+   1. CONTAINER E ESTRUTURA
+================================================================= */
+
 .card-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+    /* Usa .card do base.css */
+    --card-gap: 0; /* Remove gap padrão para usar estrutura própria */
 }
 
-.card-form-container {
-    background: var(--theme-bg-primary);
-    border: 1px solid var(--theme-border-primary);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-}
-
-/* === HEADER === */
-.card-form-header {
+/* Header - extende .card__header */
+.card-form__header {
     padding: var(--spacing-lg);
     border-bottom: 1px solid var(--theme-border-primary);
     background: var(--theme-bg-secondary);
 }
 
-.card-form-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--theme-text-primary);
-    margin: 0 0 var(--spacing-sm) 0;
-}
+/* Usa .card__title e .card__subtitle do base.css */
 
-.card-form-description {
-    font-size: var(--font-size-sm);
-    color: var(--theme-text-secondary);
-    margin: 0;
-    line-height: 1.5;
-}
+/* =================================================================
+   2. FORMULÁRIO E CAMPOS
+================================================================= */
 
-/* === FORMULÁRIO === */
-.card-form-form {
+.card-form__form {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.card-form-form.submitting {
-    opacity: 0.8;
-    pointer-events: none;
-}
-
-/* === CAMPOS === */
-.card-form-fields {
+/* Container de campos */
+.card-form__fields {
     padding: var(--spacing-lg);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
 }
 
-/* Layout horizontal para campos menores */
-.card-form.layout-horizontal .card-form-fields {
+/* Layout em grid (horizontal) */
+.card-form--horizontal .card-form__fields {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--container-sm), 1fr));
     gap: var(--spacing-lg);
 }
 
-/* Campos específicos para formulários */
-.card-form .form-group {
-    margin-bottom: 0;
+/* Grupos de campos com tamanhos */
+.card-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
-.card-form .form-group.size-small {
-    max-width: 200px;
-}
+.card-form__group--small { max-width: calc(var(--size-xl) * 10); /* ~200px */ }
+.card-form__group--medium { max-width: calc(var(--size-xl) * 20); /* ~400px */ }
+.card-form__group--large { max-width: calc(var(--size-xl) * 30); /* ~600px */ }
+.card-form__group--full { max-width: 100%; }
 
-.card-form .form-group.size-medium {
-    max-width: 400px;
-}
-
-.card-form .form-group.size-large {
-    max-width: 600px;
-}
-
-.card-form .form-group.hidden {
+/* Campo oculto */
+.card-form__group--hidden {
     display: none;
 }
 
-/* === COMPONENTES UI INTEGRADOS === */
+/* =================================================================
+   3. COMPONENTES UI ESPECIALIZADOS
+================================================================= */
 
 /* File Upload */
-.card-form .form-file-upload {
+.card-form__file-upload {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-sm);
 }
 
-.card-form .form-file-upload .btn {
-    align-self: flex-start;
-}
-
-.card-form .form-file-upload .file-name {
+.card-form__file-name {
     font-size: var(--font-size-sm);
     color: var(--theme-text-secondary);
     padding: var(--spacing-xs) 0;
 }
 
 /* Color Picker */
-.card-form .form-color-picker {
+.card-form__color-picker {
     display: flex;
     align-items: center;
     gap: var(--spacing-sm);
 }
 
-.card-form .form-color-picker input[type="color"] {
-    width: 40px;
-    height: 40px;
+.card-form__color-swatch {
+    width: calc(var(--size-xl) * 2); /* 40px */
+    height: calc(var(--size-xl) * 2); /* 40px */
     padding: 0;
     border: 1px solid var(--theme-border-primary);
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--radius-sm);
     cursor: pointer;
+    overflow: hidden;
 }
 
-.card-form .form-color-picker .color-input {
-    width: 100px;
-    font-family: var(--font-mono);
+.card-form__color-input {
+    width: calc(var(--size-xl) * 5); /* ~100px */
+    font-family: var(--font-family-mono);
     text-transform: uppercase;
 }
 
 /* Emoji Text */
-.card-form .form-emoji-text {
+.card-form__emoji-field {
     position: relative;
 }
 
-/* Font Selector */
-.card-form .form-font-selector select {
-    font-family: var(--font-sans);
-}
-
 /* Markdown Editor */
-.card-form .form-markdown {
+.card-form__markdown {
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-xs);
 }
 
-.card-form .form-markdown .markdown-editor {
-    min-height: 120px;
-    font-family: var(--font-mono);
+.card-form__markdown-editor {
+    min-height: calc(var(--size-xl) * 6); /* ~120px */
+    font-family: var(--font-family-mono);
     font-size: var(--font-size-sm);
-    line-height: 1.5;
+    line-height: var(--line-height-normal);
+    resize: vertical;
 }
 
-/* === AÇÕES === */
-.card-form-actions {
+/* =================================================================
+   4. VALIDAÇÃO E ESTADOS
+================================================================= */
+
+/* Estado de submissão */
+.card-form--submitting {
+    pointer-events: none;
+}
+
+.card-form--submitting .card-form__form {
+    opacity: 0.7;
+}
+
+/* Usa .card--loading do base.css para loading spinner */
+
+/* Validação de campos */
+.card-form__group--error .form-control {
+    border-color: var(--error);
+    background-color: var(--error-very-light, var(--theme-bg-secondary));
+}
+
+.card-form__group--error .form-label {
+    color: var(--error-dark);
+}
+
+/* Mensagem de erro */
+.card-form__error {
+    display: none;
+    color: var(--error-dark);
+    font-size: var(--font-size-xs);
+    margin-top: var(--spacing-xs);
+}
+
+.card-form__group--error .card-form__error {
+    display: block;
+    animation: fadeInError 0.3s ease-out;
+}
+
+@keyframes fadeInError {
+    from {
+        opacity: 0;
+        transform: translateY(calc(var(--spacing-xs) * -1));
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Shake no formulário com erro */
+.card-form--error {
+    animation: cardFormShake 0.5s ease-in-out;
+}
+
+@keyframes cardFormShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(calc(var(--spacing-xs) * -1)); }
+    75% { transform: translateX(var(--spacing-xs)); }
+}
+
+/* =================================================================
+   5. AÇÕES DO FORMULÁRIO
+================================================================= */
+
+/* Ações - extende conceitos do .card__footer */
+.card-form__actions {
     padding: var(--spacing-lg);
     border-top: 1px solid var(--theme-border-primary);
     background: var(--theme-bg-secondary);
@@ -162,134 +206,96 @@
     align-items: center;
 }
 
-.card-form-actions .btn {
-    min-width: 120px;
+.card-form__actions .btn {
+    min-width: calc(var(--size-xl) * 6); /* ~120px */
 }
 
-/* === ESTADOS DE VALIDAÇÃO === */
-.card-form .form-group.has-error .form-input {
-    border-color: var(--error);
-    background-color: var(--theme-bg-secondary);
+/* =================================================================
+   6. VARIAÇÕES
+================================================================= */
+
+/* Compacto */
+.card-form--compact {
+    --card-padding: var(--spacing-md);
 }
 
-.card-form .form-group.has-error .form-label {
-    color: var(--error-dark);
+.card-form--compact .card-form__header,
+.card-form--compact .card-form__fields,
+.card-form--compact .card-form__actions {
+    padding: var(--spacing-md);
 }
 
-.card-form .form-error.visible {
-    display: block;
-    color: var(--error-dark);
-    font-size: var(--font-size-xs);
-    margin-top: var(--spacing-xs);
-    animation: fadeInError 0.3s ease-out;
+.card-form--compact .card-form__fields {
+    gap: var(--spacing-sm);
 }
 
-/* Animação de erro */
-@keyframes fadeInError {
-    from {
-        opacity: 0;
-        transform: translateY(-4px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Inline (sem container) */
+.card-form--inline {
+    --card-bg: transparent;
+    --card-border-color: transparent;
+    --card-shadow: none;
+    --card-padding: 0;
 }
 
-/* Shake para erros de validação */
-.card-form.error {
-    animation: shake 0.5s ease-in-out;
+.card-form--inline .card-form__header {
+    padding: 0 0 var(--spacing-md) 0;
+    border-bottom: none;
+    background: transparent;
 }
 
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
+.card-form--inline .card-form__fields {
+    padding: 0;
 }
 
-/* === ESTADOS DE LOADING === */
-.card-form-form.submitting .card-form-actions .btn {
-    opacity: 0.7;
-    pointer-events: none;
+.card-form--inline .card-form__actions {
+    padding: var(--spacing-md) 0 0 0;
+    background: transparent;
 }
 
-/* === RESPONSIVIDADE === */
+/* =================================================================
+   7. RESPONSIVIDADE
+================================================================= */
+
 @media (max-width: 768px) {
-    .card-form-header,
-    .card-form-fields,
-    .card-form-actions {
+    .card-form__header,
+    .card-form__fields,
+    .card-form__actions {
         padding: var(--spacing-md);
     }
     
-    .card-form.layout-horizontal .card-form-fields {
+    /* Força layout vertical no mobile */
+    .card-form--horizontal .card-form__fields {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
     
-    .card-form-actions {
+    .card-form__actions {
         flex-direction: column-reverse;
         gap: var(--spacing-sm);
     }
     
-    .card-form-actions .btn {
+    .card-form__actions .btn {
         width: 100%;
         min-width: auto;
     }
 }
 
 @media (max-width: 480px) {
-    .card-form-header,
-    .card-form-fields,
-    .card-form-actions {
+    .card-form__header,
+    .card-form__fields,
+    .card-form__actions {
         padding: var(--spacing-sm);
     }
-    
-    .card-form-title {
-        font-size: var(--font-size-lg);
-    }
 }
 
-/* === TEMA COMPACTO === */
-.card-form.compact .card-form-header,
-.card-form.compact .card-form-fields,
-.card-form.compact .card-form-actions {
-    padding: var(--spacing-md);
+/* =================================================================
+   8. INTEGRAÇÃO COM TEMA ESCURO
+================================================================= */
+
+[data-theme="dark"] .card-form__color-swatch {
+    border-color: var(--theme-border-secondary);
 }
 
-.card-form.compact .card-form-fields {
-    gap: var(--spacing-sm);
-}
-
-.card-form.compact .card-form-title {
-    font-size: var(--font-size-lg);
-}
-
-/* === MODO INLINE (sem card) === */
-.card-form.inline .card-form-container {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-}
-
-.card-form.inline .card-form-header {
-    padding: 0 0 var(--spacing-md) 0;
-    border-bottom: none;
-    background: transparent;
-}
-
-.card-form.inline .card-form-fields {
-    padding: 0;
-}
-
-.card-form.inline .card-form-actions {
-    padding: var(--spacing-md) 0 0 0;
-    border-top: 1px solid var(--theme-border-primary);
-    background: transparent;
-}
-
-/* === TEMA ESCURO === */
-@media (prefers-color-scheme: dark) {
-    .card-form .form-color-picker input[type="color"] {
-        border-color: var(--theme-border-secondary);
-    }
+[data-theme="dark"] .card-form__group--error .form-control {
+    background-color: var(--error-very-light, var(--theme-bg-tertiary));
 }

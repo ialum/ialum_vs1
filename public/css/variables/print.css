@@ -1,0 +1,23 @@
+/**
+ * print.css
+ * Configurações para impressão
+ * NÃO usar diretamente - use através de classes
+ */
+
+:root {
+    /* Print Page Sizes */
+    --print-page-a4: 210mm 297mm;
+    --print-page-a5: 148mm 210mm;
+    --print-page-letter: 8.5in 11in;
+    --print-page-legal: 8.5in 14in;
+    
+    /* Print Margins */
+    --print-margin-normal: 2.54cm;
+    --print-margin-narrow: 1.27cm;
+    --print-margin-wide: 3.18cm;
+    
+    /* Print Colors */
+    --print-color-black: #000000;
+    --print-color-white: #ffffff;
+    --print-color-gray: #666666;
+}

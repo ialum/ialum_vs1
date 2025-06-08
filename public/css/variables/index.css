@@ -1,0 +1,33 @@
+/**
+ * variables/index.css
+ * Importa todas as variáveis do sistema (átomos)
+ * 
+ * ATENÇÃO: 
+ * - NÃO use estas variáveis diretamente no código
+ * - USE apenas variáveis de base/theme.css ou classes dos componentes
+ * - Estas variáveis são apenas para construir outros estilos
+ */
+
+/* Cores e dimensões base */
+@import './colors.css';
+@import './dimensions.css';
+
+/* Espaçamentos e layout */
+@import './spacing.css';
+@import './sizing.css';
+@import './display.css';
+@import './borders.css';
+
+/* Efeitos e interações */
+@import './shadows.css';
+@import './animations.css';
+@import './transitions.css';
+@import './transforms.css';
+@import './interactions.css';
+
+/* Texto e tipografia */
+@import './text.css';
+
+/* Responsividade e impressão */
+@import './responsive.css';
+@import './print.css';

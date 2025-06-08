@@ -7,16 +7,15 @@
  * Para a área logada (SPA), use app.css
  */
 
-/* CSS Base - Ordem crítica */
-@import 'base/01-variables.css';
-@import 'base/02-reset.css';
-@import 'base/03-typography.css';
-@import 'base/04-layouts.css';
-@import 'base/05-buttons.css';
-@import 'base/06-forms.css';
+/* Variáveis do sistema (não usar diretamente) */
+@import 'variables/index.css';
 
-/* CSS Utilities - Classes utilitárias */
-@import 'base/utilities/index.css';
+/* CSS Base - Ordem crítica */
+@import 'base/reset.css';
+@import 'base/theme.css';
+@import 'base/typography.css';
+@import 'base/buttons.css';
+@import 'base/forms.css';
 
 /* CSS Components - Layout público */
-@import 'components/layout/public-layout.css';
+@import 'components/layout/layout-public.css';

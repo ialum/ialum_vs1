@@ -1,4 +1,6 @@
 import { DOM } from '../../core/dom.js';
+import FieldManager from './shared/FieldManager.js';
+import GridTemplates from './templates/GridTemplates.js';
 
 export class CardGrid {
     constructor(container, config) {
@@ -7,7 +9,8 @@ export class CardGrid {
         this.state = {
             items: [...(config.items || [])],
             selectedItems: new Set(),
-            loading: new Set()
+            loading: new Set(),
+            searchTerm: ''
         };
         
         this.callbacks = {
@@ -16,6 +19,7 @@ export class CardGrid {
             onSelectionChanged: config.onSelectionChanged || null
         };
         
+        this.fieldManager = new FieldManager(this.container);
         this.init();
     }
     
@@ -48,55 +52,20 @@ export class CardGrid {
     }
     
     setupStructure() {
-        const columnsClass = this.config.columns === 'auto' ? 'auto-columns' : `columns-${this.config.columns}`;
+        this.container.innerHTML = GridTemplates.container(this.config);
         
-        this.container.innerHTML = `
-            <div class="card-grid">
-                ${this.createHeaderHTML()}
-                ${this.config.searchable ? this.createSearchHTML() : ''}
-                <div class="card-grid-container ${columnsClass}">
-                    <div class="card-grid-items" data-items-container></div>
-                </div>
-                ${this.config.selectable ? this.createSelectionSummaryHTML() : ''}
-            </div>
-        `;
+        this.itemsContainer = DOM.select('[data-grid-items]', this.container);
+        this.searchInput = this.config.searchable ? DOM.select('[data-search-input]', this.container) : null;
         
-        this.itemsContainer = DOM.select('[data-items-container]', this.container);
-        this.searchInput = DOM.select('.card-grid-search', this.container);
-        this.selectionSummary = DOM.select('.card-grid-selection', this.container);
+        if (this.config.selectable) {
+            const selectionBar = DOM.create('div');
+            selectionBar.innerHTML = GridTemplates.selectionBar(0, this.config);
+            this.selectionBar = selectionBar.firstElementChild;
+            this.selectionBar.style.display = 'none';
+            this.container.querySelector('.card-grid').appendChild(this.selectionBar);
+        }
     }
     
-    createHeaderHTML() {
-        if (!this.config.title && !this.config.description) return '';
-        
-        return `
-            <div class="card-grid-header">
-                ${this.config.title ? `<h2 class="card-grid-title">${this.config.title}</h2>` : ''}
-                ${this.config.description ? `<p class="card-grid-description">${this.config.description}</p>` : ''}
-            </div>
-        `;
-    }
-    
-    createSearchHTML() {
-        return `
-            <div class="card-grid-search-wrapper">
-                <input type="text" class="card-grid-search form-input" placeholder="Buscar ${this.config.type}...">
-            </div>
-        `;
-    }
-    
-    createSelectionSummaryHTML() {
-        return `
-            <div class="card-grid-selection" style="display: none;">
-                <span class="card-grid-selection-count">0 selecionados</span>
-                <div class="card-grid-selection-actions">
-                    <button type="button" class="btn btn-sm btn-secondary" data-action="clear-selection">
-                        Limpar seleção
-                    </button>
-                </div>
-            </div>
-        `;
-    }
     
     renderItems() {
         if (this.state.items.length === 0) {
@@ -109,12 +78,7 @@ export class CardGrid {
     }
     
     renderEmptyState() {
-        this.itemsContainer.innerHTML = `
-            <div class="card-grid-empty">
-                <div class="card-grid-empty-icon">${this.config.emptyIcon}</div>
-                <h3 class="card-grid-empty-title">${this.config.emptyMessage}</h3>
-            </div>
-        `;
+        this.itemsContainer.innerHTML = GridTemplates.emptyState(this.config);
     }
     
     createItemHTML(item) {
@@ -125,59 +89,7 @@ export class CardGrid {
         const isSelected = this.isSelected(item.id);
         const isLoading = this.state.loading.has(item.id);
         
-        const primaryValue = item[this.config.primaryField] || 'Sem título';
-        const secondaryValue = this.config.secondaryField ? item[this.config.secondaryField] : '';
-        const imageUrl = this.config.imageField ? item[this.config.imageField] : null;
-        
-        const cardClasses = [
-            'card',
-            'card-grid-item',
-            isSelected ? 'selected' : '',
-            isLoading ? 'loading' : '',
-            this.config.selectable ? 'selectable' : ''
-        ].filter(Boolean).join(' ');
-        
-        return `
-            <div class="${cardClasses}" data-item-id="${item.id}">
-                ${this.config.selectable ? `
-                    <div class="card-grid-item-checkbox">
-                        <input type="checkbox" ${isSelected ? 'checked' : ''} data-action="toggle-select">
-                    </div>
-                ` : ''}
-                ${imageUrl ? `
-                    <div class="card-grid-item-image">
-                        <img src="${imageUrl}" alt="${primaryValue}" loading="lazy">
-                    </div>
-                ` : ''}
-                <div class="card-grid-item-content">
-                    <h3 class="card-grid-item-title">${primaryValue}</h3>
-                    ${secondaryValue ? `<p class="card-grid-item-subtitle">${secondaryValue}</p>` : ''}
-                </div>
-                ${this.createItemActionsHTML(item)}
-            </div>
-        `;
-    }
-    
-    createItemActionsHTML(item) {
-        if (!this.config.itemActions || this.config.itemActions.length === 0) {
-            return '';
-        }
-        
-        const actionsHTML = this.config.itemActions.map(action => `
-            <button type="button" class="btn btn-sm ${action.class || 'btn-outline'}" 
-                    data-action="${action.action}" 
-                    data-item-id="${item.id}"
-                    title="${action.title || action.label}">
-                ${action.icon ? `<span>${action.icon}</span>` : ''}
-                ${action.label || ''}
-            </button>
-        `).join('');
-        
-        return `
-            <div class="card-grid-item-actions">
-                ${actionsHTML}
-            </div>
-        `;
+        return GridTemplates.gridItem(item, this.config, isSelected, isLoading);
     }
     
     bindEvents() {
@@ -265,15 +177,12 @@ export class CardGrid {
             }
         });
         
-        if (this.selectionSummary) {
+        if (this.selectionBar) {
             if (selectedCount > 0) {
-                this.selectionSummary.style.display = 'flex';
-                const countElement = this.selectionSummary.querySelector('.card-grid-selection-count');
-                if (countElement) {
-                    countElement.textContent = `${selectedCount} selecionado${selectedCount > 1 ? 's' : ''}`;
-                }
+                this.selectionBar.style.display = 'flex';
+                this.selectionBar.innerHTML = GridTemplates.selectionBar(selectedCount, this.config);
             } else {
-                this.selectionSummary.style.display = 'none';
+                this.selectionBar.style.display = 'none';
             }
         }
     }
@@ -358,6 +267,7 @@ export class CardGrid {
     }
     
     destroy() {
+        this.fieldManager.destroyAll();
         this.container.innerHTML = '';
     }
 }

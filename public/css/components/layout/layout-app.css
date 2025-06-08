@@ -1,10 +1,120 @@
 /**
- * layouts.css
- * Sistema de layouts base para todo o projeto
+ * app-layout.css
+ * App shell layout structure
+ * 
+ * Este arquivo contém os estilos de layout principal do aplicativo,
+ * incluindo o container principal e o comportamento responsivo
+ * que considera a sidebar.
+ * 
  * Dependências: variables.css
- * Usado em: Todas as páginas
- * Versão: 1.0 - Sistema de layouts modular
+ * Usado em: app.html
  */
+
+/* App Container */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    background: var(--theme-bg-secondary);
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    margin-left: 260px; /* Width of sidebar */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Page Content Wrapper */
+.page-content {
+    flex: 1;
+    padding: var(--spacing-xl);
+    overflow-y: auto;
+    background: var(--theme-bg-secondary);
+    color: var(--theme-text-primary);
+}
+
+/* =================================================================
+   PAGE STRUCTURE - Estrutura padrão para páginas
+================================================================= */
+
+/* Container de página com padding vertical */
+.page-container {
+    padding-top: var(--spacing-lg); /* py-lg */
+    padding-bottom: var(--spacing-lg); /* py-lg */
+}
+
+/* Header de página padrão */
+.page-header {
+    margin-bottom: var(--spacing-xl); /* mb-xl */
+}
+
+.page-title {
+    font-size: 1.5rem; /* equivalente a text-2xl */
+    font-weight: 700; /* equivalente a font-bold */
+    color: var(--theme-text-primary);
+    margin-bottom: var(--spacing-sm); /* mb-sm */
+    line-height: 1.2;
+}
+
+.page-description {
+    color: var(--theme-text-secondary);
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+}
+
+/* Seção de página (card wrapper) */
+.page-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.page-section:last-child {
+    margin-bottom: 0;
+}
+
+/* Card padrão já vem do cards/base.css mas adicionamos header padronizado */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+}
+
+.section-description {
+    color: var(--theme-text-secondary);
+    font-size: var(--font-size-sm);
+    margin-top: var(--spacing-xs);
+}
+
+/* Responsive Behavior */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0; /* Remove sidebar margin on mobile */
+    }
+    
+    .page-content {
+        padding: var(--spacing-md);
+    }
+    
+    .page-container {
+        padding-top: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+    }
+    
+    .page-header {
+        margin-bottom: var(--spacing-lg);
+    }
+}
+
+/* =================================================================
+   CONTEÚDO MOVIDO DE 04-layouts.css
+   Todas as classes de layout genéricas agora estão aqui
+================================================================= */
 
 /* =================================================================
    CONTAINERS
@@ -629,9 +739,8 @@
 
 /* Header padrão de página */
 .page-header {
-    background-color: var(--theme-bg-primary);
-    border-bottom: 1px solid var(--theme-border-primary);
-    padding: var(--spacing-lg) var(--spacing-xl);
+    /* Sem background e sem borda para ficar igual configurações-banca */
+    padding: 0;
     margin-bottom: var(--spacing-xl);
 }
 

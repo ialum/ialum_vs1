@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exemplos de uso do novo sistema de cards</title>
+    <link rel="stylesheet" href="../../variables/index.css">
+    <link rel="stylesheet" href="../../base/theme.css">
+    <link rel="stylesheet" href="base-v4.css">
+</head>
+<body style="padding: 20px; background: #f5f5f5;">
+    
+    <h2>Exemplos do novo sistema de cards v4.0</h2>
+    
+    <h3>1. Card básico</h3>
+    <div class="card">
+        <div class="card__header">
+            <div>
+                <h3 class="card__title">Card Básico</h3>
+                <p class="card__subtitle">Estrutura padrão sem modificadores</p>
+            </div>
+            <span class="card__icon">📦</span>
+        </div>
+        <div class="card__body">
+            <p>Conteúdo do card usando a estrutura base.</p>
+        </div>
+        <div class="card__footer">
+            <button>Cancelar</button>
+            <button>Confirmar</button>
+        </div>
+    </div>
+
+    <h3>2. Variações de tema (cores)</h3>
+    
+    <!-- Solid -->
+    <div class="card card--solid" data-theme="primary">
+        <div class="card__header">
+            <h3 class="card__title">Primary Solid</h3>
+            <p class="card__subtitle">Tema sólido com gradiente</p>
+        </div>
+        <div class="card__body">
+            <p>Usa data-theme="primary" com card--solid</p>
+        </div>
+    </div>
+
+    <!-- Soft -->
+    <div class="card card--soft" data-theme="success" style="margin-top: 10px;">
+        <div class="card__header">
+            <h3 class="card__title">Success Soft</h3>
+            <p class="card__subtitle">Tema suave com borda colorida</p>
+        </div>
+        <div class="card__body">
+            <p>Usa data-theme="success" com card--soft</p>
+        </div>
+    </div>
+
+    <!-- Outline -->
+    <div class="card card--outline" data-theme="warning" style="margin-top: 10px;">
+        <div class="card__header">
+            <h3 class="card__title">Warning Outline</h3>
+            <p class="card__subtitle">Apenas borda colorida</p>
+        </div>
+        <div class="card__body">
+            <p>Usa data-theme="warning" com card--outline</p>
+        </div>
+    </div>
+
+    <h3>3. Variações de tamanho</h3>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div class="card card--xs">
+            <div class="card__title">Extra Small</div>
+            <div class="card__body">card--xs</div>
+        </div>
+        
+        <div class="card card--sm">
+            <div class="card__title">Small</div>
+            <div class="card__body">card--sm</div>
+        </div>
+        
+        <div class="card">
+            <div class="card__title">Normal</div>
+            <div class="card__body">Sem modificador</div>
+        </div>
+        
+        <div class="card card--lg">
+            <div class="card__title">Large</div>
+            <div class="card__body">card--lg</div>
+        </div>
+    </div>
+
+    <h3>4. Estados</h3>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div class="card card--loading">
+            <div class="card__title">Loading</div>
+            <div class="card__body">card--loading</div>
+        </div>
+        
+        <div class="card card--disabled">
+            <div class="card__title">Disabled</div>
+            <div class="card__body">card--disabled</div>
+        </div>
+        
+        <div class="card card--selected">
+            <div class="card__title">Selected</div>
+            <div class="card__body">card--selected</div>
+        </div>
+    </div>
+
+    <h3>5. Composição (múltiplos modificadores)</h3>
+    <div class="card card--solid card--lg card--elevated card--clickable" data-theme="primary">
+        <div class="card__header">
+            <h3 class="card__title">Card Complexo</h3>
+            <p class="card__subtitle">Solid + Large + Elevated + Clickable + Primary</p>
+        </div>
+        <div class="card__body">
+            <p>Este card combina múltiplos modificadores sem conflitos.</p>
+            <span class="card__badge">Novo</span>
+        </div>
+        <div class="card__footer">
+            <button>Ação</button>
+        </div>
+    </div>
+
+    <h3>6. Card vazio</h3>
+    <div class="card card--empty">
+        <div class="card__body">
+            <div class="card__icon" style="font-size: 3rem; opacity: 0.3;">📭</div>
+            <h3 class="card__title">Nenhum item encontrado</h3>
+            <p class="card__subtitle">Adicione novos itens para começar</p>
+        </div>
+    </div>
+
+</body>
+</html>

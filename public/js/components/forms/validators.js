@@ -190,8 +190,39 @@ export function combineValidators(...validatorFns) {
 export function validateObject(obj, validationRules) {
     const errors = {};
     
-    for (const [field, validator] of Object.entries(validationRules)) {
-        const error = validator(obj[field]);
+    for (const [field, rules] of Object.entries(validationRules)) {
+        const value = obj[field];
+        let error = null;
+        
+        // Suportar diferentes formatos de validação
+        if (Array.isArray(rules)) {
+            // Formato: [validator1, validator2, ...]
+            for (const validator of rules) {
+                if (typeof validator === 'function') {
+                    error = validator(value);
+                    if (error) break; // Para no primeiro erro
+                }
+            }
+        } else if (typeof rules === 'function') {
+            // Formato: validator
+            error = rules(value);
+        } else if (typeof rules === 'object' && rules !== null) {
+            // Formato: {required: true, minLength: 5, maxLength: 100}
+            if (rules.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
+                error = 'Campo obrigatório';
+            } else if (value) {
+                if (rules.minLength && value.length < rules.minLength) {
+                    error = `Mínimo ${rules.minLength} caracteres`;
+                } else if (rules.maxLength && value.length > rules.maxLength) {
+                    error = `Máximo ${rules.maxLength} caracteres`;
+                } else if (rules.type === 'email' && !validators.email(value)) {
+                    error = 'Email inválido';
+                } else if (rules.type === 'cpf' && !validators.cpf(value)) {
+                    error = 'CPF inválido';
+                }
+            }
+        }
+        
         if (error) {
             errors[field] = error;
         }

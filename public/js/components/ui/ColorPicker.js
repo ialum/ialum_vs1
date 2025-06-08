@@ -1,3 +1,12 @@
+/**
+ * ColorPicker - Componente simplificado de seleção de cor
+ * Tipo: Enhancer - Melhora um input existente
+ * 
+ * Seguindo os princípios de design:
+ * - Sem eventos globais
+ * - Estrutura DOM mínima
+ * - Estado local apenas
+ */
 export class ColorPicker {
     constructor(element, options = {}) {
         this.element = typeof element === 'string' ? document.querySelector(element) : element;
@@ -11,406 +20,294 @@ export class ColorPicker {
         }
         
         this.options = {
-            format: options.format || 'rgb', // 'rgb', 'hex', 'hsl'
+            format: options.format || 'rgb', // 'rgb', 'hex', 'native'
             showPreview: options.showPreview !== false,
-            presetColors: options.presetColors || [
-                '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF',
-                '#000000', '#FFFFFF', '#808080', '#800000', '#008000', '#000080'
-            ],
-            allowCustom: options.allowCustom !== false,
+            useNative: options.useNative !== false, // Usar input type="color" nativo
             ...options
         };
-        
-        this.isOpen = false;
-        this.currentColor = this.parseColor(this.element.value) || { r: 255, g: 0, b: 0 };
         
         this.init();
         this.element.colorPickerInstance = this;
     }
     
     init() {
-        this.createStructure();
-        this.attachEvents();
-        this.updateDisplay();
+        if (this.options.useNative) {
+            this.initNativeColorPicker();
+        } else {
+            this.initCustomColorInput();
+        }
     }
     
-    createStructure() {
-        const wrapper = this.element.parentNode;
+    initNativeColorPicker() {
+        // Opção 1: Usar input color nativo do HTML5 com CSS customizado
+        const wrapper = document.createElement('div');
+        wrapper.className = 'color-picker-wrapper color-picker-native-wrapper';
         
-        this.container = document.createElement('div');
-        this.container.className = 'color-picker-container';
+        // Configurar o input original como color picker
+        this.element.type = 'color';
+        this.element.className += ' color-picker-native';
+        this.element.value = this.getInitialColor();
         
-        this.trigger = document.createElement('button');
-        this.trigger.type = 'button';
-        this.trigger.className = 'color-picker-trigger';
-        this.trigger.innerHTML = `
-            <span class="color-picker-preview"></span>
-            <span class="color-picker-arrow">▼</span>
-        `;
+        // Criar label para mostrar o valor
+        this.valueDisplay = document.createElement('span');
+        this.valueDisplay.className = 'color-picker-value';
+        this.valueDisplay.textContent = this.formatColor(this.element.value);
         
-        this.picker = document.createElement('div');
-        this.picker.className = 'color-picker-dropdown';
-        this.picker.style.display = 'none';
-        this.picker.innerHTML = `
-            ${this.options.allowCustom ? this.createCustomPickerHTML() : ''}
-            ${this.createPresetColorsHTML()}
-            <div class="color-picker-actions">
-                <button type="button" class="btn btn-sm btn-primary color-picker-apply">Aplicar</button>
-                <button type="button" class="btn btn-sm btn-secondary color-picker-cancel">Cancelar</button>
-            </div>
-        `;
+        // Evento para atualizar o display quando a cor mudar
+        this.element.addEventListener('input', this.handleNativeColorChange.bind(this));
         
-        this.container.appendChild(this.trigger);
-        this.container.appendChild(this.picker);
-        
-        wrapper.insertBefore(this.container, this.element);
-        this.element.style.display = 'none';
-        
-        this.preview = this.trigger.querySelector('.color-picker-preview');
-        this.setupCustomPicker();
+        // Estrutura simples: wrapper com input e label
+        this.element.parentNode.insertBefore(wrapper, this.element);
+        wrapper.appendChild(this.element);
+        wrapper.appendChild(this.valueDisplay);
     }
     
-    createCustomPickerHTML() {
-        return `
-            <div class="color-picker-custom">
-                <div class="color-picker-saturation">
-                    <div class="color-picker-saturation-cursor"></div>
-                </div>
-                <div class="color-picker-hue">
-                    <div class="color-picker-hue-cursor"></div>
-                </div>
-                <div class="color-picker-inputs">
-                    <input type="number" class="color-picker-input" data-channel="r" min="0" max="255" placeholder="R">
-                    <input type="number" class="color-picker-input" data-channel="g" min="0" max="255" placeholder="G">
-                    <input type="number" class="color-picker-input" data-channel="b" min="0" max="255" placeholder="B">
-                </div>
-            </div>
-        `;
+    initCustomColorInput() {
+        // Opção 2: Input de texto com validação de formato
+        const wrapper = document.createElement('div');
+        wrapper.className = 'color-picker-wrapper';
+        
+        // Preview de cor
+        if (this.options.showPreview) {
+            this.preview = document.createElement('span');
+            this.preview.className = 'color-picker-preview';
+            this.preview.style.backgroundColor = this.element.value || '#000000';
+            wrapper.appendChild(this.preview);
+        }
+        
+        // Configurar input
+        this.element.className += ' color-picker-input';
+        this.element.placeholder = this.getPlaceholder();
+        this.element.pattern = this.getPattern();
+        
+        // Eventos locais apenas
+        this.element.addEventListener('input', this.handleInputChange.bind(this));
+        this.element.addEventListener('blur', this.validateAndFormat.bind(this));
+        
+        // Inserir wrapper
+        this.element.parentNode.insertBefore(wrapper, this.element);
+        wrapper.appendChild(this.element);
     }
     
-    createPresetColorsHTML() {
-        return `
-            <div class="color-picker-presets">
-                <div class="color-picker-presets-title">Cores predefinidas:</div>
-                <div class="color-picker-presets-grid">
-                    ${this.options.presetColors.map(color => `
-                        <button type="button" class="color-picker-preset" style="background-color: ${color}" data-color="${color}"></button>
-                    `).join('')}
-                </div>
-            </div>
-        `;
+    handleNativeColorChange(e) {
+        const color = e.target.value;
+        const formatted = this.formatColor(color);
+        
+        // Atualizar display do valor
+        this.valueDisplay.textContent = formatted;
+        
+        // Disparar evento customizado
+        this.element.dispatchEvent(new CustomEvent('colorchange', { 
+            detail: { color: formatted },
+            bubbles: true 
+        }));
     }
     
-    setupCustomPicker() {
-        if (!this.options.allowCustom) return;
+    handleInputChange(e) {
+        const value = e.target.value;
         
-        this.saturationArea = this.picker.querySelector('.color-picker-saturation');
-        this.saturationCursor = this.picker.querySelector('.color-picker-saturation-cursor');
-        this.hueArea = this.picker.querySelector('.color-picker-hue');
-        this.hueCursor = this.picker.querySelector('.color-picker-hue-cursor');
-        this.inputs = this.picker.querySelectorAll('.color-picker-input');
-        
-        this.updateCustomPicker();
-    }
-    
-    attachEvents() {
-        this.trigger.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.toggle();
-        });
-        
-        this.picker.addEventListener('click', (e) => {
-            if (e.target.classList.contains('color-picker-preset')) {
-                const color = e.target.dataset.color;
-                this.currentColor = this.parseColor(color);
-                this.updateDisplay();
+        if (this.isValidColor(value)) {
+            if (this.preview) {
+                this.preview.style.backgroundColor = value;
             }
             
-            if (e.target.classList.contains('color-picker-apply')) {
-                this.apply();
-            }
-            
-            if (e.target.classList.contains('color-picker-cancel')) {
-                this.close();
-            }
-        });
+            this.element.dispatchEvent(new CustomEvent('colorchange', { 
+                detail: { color: value },
+                bubbles: true 
+            }));
+        }
+    }
+    
+    validateAndFormat(e) {
+        const value = e.target.value;
         
-        if (this.options.allowCustom) {
-            this.inputs.forEach(input => {
-                input.addEventListener('input', (e) => {
-                    const channel = e.target.dataset.channel;
-                    const value = parseInt(e.target.value) || 0;
-                    this.currentColor[channel] = Math.max(0, Math.min(255, value));
-                    this.updateDisplay();
-                    this.updateCustomPicker();
-                });
-            });
-            
-            if (this.saturationArea) {
-                this.saturationArea.addEventListener('mousedown', this.handleSaturationMouseDown.bind(this));
-            }
-            
-            if (this.hueArea) {
-                this.hueArea.addEventListener('mousedown', this.handleHueMouseDown.bind(this));
+        if (value && !this.isValidColor(value)) {
+            // Tentar corrigir formato comum
+            const corrected = this.tryCorrectFormat(value);
+            if (corrected) {
+                this.element.value = corrected;
+                if (this.preview) {
+                    this.preview.style.backgroundColor = corrected;
+                }
+            } else {
+                // Valor inválido - resetar para anterior ou padrão
+                this.element.value = this.lastValidValue || this.getDefaultColor();
             }
         }
         
-        document.addEventListener('click', (e) => {
-            if (!this.container.contains(e.target)) {
-                this.close();
-            }
-        });
+        this.lastValidValue = this.element.value;
     }
     
-    handleSaturationMouseDown(e) {
-        const handleMouseMove = (e) => {
-            const rect = this.saturationArea.getBoundingClientRect();
-            const x = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-            const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
-            
-            const hsv = this.rgbToHsv(this.currentColor.r, this.currentColor.g, this.currentColor.b);
-            hsv.s = x;
-            hsv.v = 1 - y;
-            
-            this.currentColor = this.hsvToRgb(hsv.h, hsv.s, hsv.v);
-            this.updateDisplay();
-            this.updateInputs();
-        };
+    isValidColor(value) {
+        if (!value) return false;
         
-        const handleMouseUp = () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-        
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-        handleMouseMove(e);
+        switch (this.options.format) {
+            case 'hex':
+                return /^#[0-9A-Fa-f]{6}$/.test(value);
+            case 'rgb':
+                return /^rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$/.test(value);
+            default:
+                return this.isValidHex(value) || this.isValidRgb(value);
+        }
     }
     
-    handleHueMouseDown(e) {
-        const handleMouseMove = (e) => {
-            const rect = this.hueArea.getBoundingClientRect();
-            const y = Math.max(0, Math.min(1, (e.clientY - rect.top) / rect.height));
-            
-            const hsv = this.rgbToHsv(this.currentColor.r, this.currentColor.g, this.currentColor.b);
-            hsv.h = y * 360;
-            
-            this.currentColor = this.hsvToRgb(hsv.h, hsv.s, hsv.v);
-            this.updateDisplay();
-            this.updateInputs();
-            this.updateSaturationBackground();
-        };
-        
-        const handleMouseUp = () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-        
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-        handleMouseMove(e);
+    isValidHex(value) {
+        return /^#[0-9A-Fa-f]{6}$/.test(value);
     }
     
-    updateDisplay() {
-        const colorString = this.formatColor(this.currentColor);
-        this.preview.style.backgroundColor = colorString;
-        this.element.value = colorString;
+    isValidRgb(value) {
+        return /^rgb\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*\)$/.test(value);
     }
     
-    updateCustomPicker() {
-        if (!this.options.allowCustom) return;
+    tryCorrectFormat(value) {
+        // Tentar corrigir formatos comuns
+        value = value.trim();
         
-        this.updateInputs();
-        this.updateSaturationBackground();
-        this.updateCursors();
-    }
-    
-    updateInputs() {
-        if (!this.inputs) return;
-        
-        this.inputs.forEach(input => {
-            const channel = input.dataset.channel;
-            input.value = this.currentColor[channel];
-        });
-    }
-    
-    updateSaturationBackground() {
-        if (!this.saturationArea) return;
-        
-        const hsv = this.rgbToHsv(this.currentColor.r, this.currentColor.g, this.currentColor.b);
-        const baseColor = this.hsvToRgb(hsv.h, 1, 1);
-        const baseColorString = this.formatColor(baseColor);
-        
-        this.saturationArea.style.backgroundColor = baseColorString;
-    }
-    
-    updateCursors() {
-        if (!this.saturationCursor || !this.hueCursor) return;
-        
-        const hsv = this.rgbToHsv(this.currentColor.r, this.currentColor.g, this.currentColor.b);
-        
-        this.saturationCursor.style.left = `${hsv.s * 100}%`;
-        this.saturationCursor.style.top = `${(1 - hsv.v) * 100}%`;
-        
-        this.hueCursor.style.top = `${(hsv.h / 360) * 100}%`;
-    }
-    
-    parseColor(colorString) {
-        if (!colorString) return null;
-        
-        colorString = colorString.trim();
-        
-        if (colorString.startsWith('#')) {
-            return this.hexToRgb(colorString);
+        // Hex sem #
+        if (/^[0-9A-Fa-f]{6}$/.test(value)) {
+            return '#' + value;
         }
         
-        if (colorString.startsWith('rgb')) {
-            const match = colorString.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-            if (match) {
-                return {
-                    r: parseInt(match[1]),
-                    g: parseInt(match[2]),
-                    b: parseInt(match[3])
-                };
-            }
+        // RGB sem parênteses
+        const rgbMatch = value.match(/(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/);
+        if (rgbMatch) {
+            return `rgb(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]})`;
         }
         
         return null;
     }
     
     formatColor(color) {
-        switch (this.options.format) {
-            case 'hex':
-                return this.rgbToHex(color.r, color.g, color.b);
-            case 'hsl':
-                const hsl = this.rgbToHsl(color.r, color.g, color.b);
-                return `hsl(${Math.round(hsl.h)}, ${Math.round(hsl.s * 100)}%, ${Math.round(hsl.l * 100)}%)`;
-            default:
-                return `rgb(${color.r}, ${color.g}, ${color.b})`;
+        if (!color) return this.getDefaultColor();
+        
+        // Se for hex e queremos rgb
+        if (this.options.format === 'rgb' && color.startsWith('#')) {
+            return this.hexToRgb(color);
         }
+        
+        // Se for rgb e queremos hex
+        if (this.options.format === 'hex' && color.startsWith('rgb')) {
+            return this.rgbToHex(color);
+        }
+        
+        return color;
     }
     
     hexToRgb(hex) {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : null;
+        if (!result) return hex;
+        
+        const r = parseInt(result[1], 16);
+        const g = parseInt(result[2], 16);
+        const b = parseInt(result[3], 16);
+        
+        return `rgb(${r}, ${g}, ${b})`;
     }
     
-    rgbToHex(r, g, b) {
+    rgbToHex(rgb) {
+        const match = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (!match) return rgb;
+        
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        
         return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
     
-    rgbToHsv(r, g, b) {
-        r /= 255; g /= 255; b /= 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        const d = max - min;
-        const s = max === 0 ? 0 : d / max;
-        const v = max;
-        
-        let h;
-        if (d === 0) {
-            h = 0;
-        } else {
-            switch (max) {
-                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-                case g: h = (b - r) / d + 2; break;
-                case b: h = (r - g) / d + 4; break;
-            }
-            h /= 6;
+    getInitialColor() {
+        const value = this.element.value;
+        if (value && this.isValidColor(value)) {
+            return this.options.format === 'hex' ? this.formatColor(value) : value;
         }
-        
-        return { h: h * 360, s, v };
+        return this.getDefaultColor();
     }
     
-    hsvToRgb(h, s, v) {
-        h /= 360;
-        const c = v * s;
-        const x = c * (1 - Math.abs((h * 6) % 2 - 1));
-        const m = v - c;
-        
-        let r, g, b;
-        if (h < 1/6) { r = c; g = x; b = 0; }
-        else if (h < 2/6) { r = x; g = c; b = 0; }
-        else if (h < 3/6) { r = 0; g = c; b = x; }
-        else if (h < 4/6) { r = 0; g = x; b = c; }
-        else if (h < 5/6) { r = x; g = 0; b = c; }
-        else { r = c; g = 0; b = x; }
-        
-        return {
-            r: Math.round((r + m) * 255),
-            g: Math.round((g + m) * 255),
-            b: Math.round((b + m) * 255)
-        };
+    getDefaultColor() {
+        return this.options.format === 'hex' ? '#000000' : 'rgb(0, 0, 0)';
     }
     
-    rgbToHsl(r, g, b) {
-        r /= 255; g /= 255; b /= 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        const l = (max + min) / 2;
-        
-        if (max === min) {
-            return { h: 0, s: 0, l };
+    getPlaceholder() {
+        switch (this.options.format) {
+            case 'hex':
+                return '#000000';
+            case 'rgb':
+                return 'rgb(0, 0, 0)';
+            default:
+                return '#000000 ou rgb(0, 0, 0)';
         }
-        
-        const d = max - min;
-        const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        
-        let h;
-        switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-        
-        return { h: h * 360, s, l };
     }
     
-    toggle() {
-        this.isOpen ? this.close() : this.open();
-    }
-    
-    open() {
-        this.isOpen = true;
-        this.picker.style.display = 'block';
-        this.trigger.classList.add('active');
-    }
-    
-    close() {
-        this.isOpen = false;
-        this.picker.style.display = 'none';
-        this.trigger.classList.remove('active');
-    }
-    
-    apply() {
-        this.element.dispatchEvent(new Event('change', { bubbles: true }));
-        
-        if (this.options.onChange) {
-            this.options.onChange(this.formatColor(this.currentColor));
-        }
-        
-        this.close();
-    }
-    
-    setValue(color) {
-        const parsed = this.parseColor(color);
-        if (parsed) {
-            this.currentColor = parsed;
-            this.updateDisplay();
-            this.updateCustomPicker();
+    getPattern() {
+        switch (this.options.format) {
+            case 'hex':
+                return '#[0-9A-Fa-f]{6}';
+            case 'rgb':
+                return 'rgb\\(\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*\\)';
+            default:
+                return '(#[0-9A-Fa-f]{6})|(rgb\\(\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*\\))';
         }
     }
     
     getValue() {
-        return this.formatColor(this.currentColor);
+        if (this.options.useNative) {
+            return this.formatColor(this.colorInput.value);
+        }
+        return this.element.value;
+    }
+    
+    setValue(color) {
+        if (this.isValidColor(color)) {
+            const formatted = this.formatColor(color);
+            
+            if (this.options.useNative) {
+                this.colorInput.value = color.startsWith('#') ? color : this.rgbToHex(color);
+                this.preview.style.backgroundColor = this.colorInput.value;
+                this.valueDisplay.textContent = formatted;
+            } else {
+                this.element.value = formatted;
+                if (this.preview) {
+                    this.preview.style.backgroundColor = formatted;
+                }
+            }
+            
+            this.element.value = formatted;
+        }
     }
     
     destroy() {
-        this.container?.remove();
-        this.element.style.display = '';
+        if (this.options.useNative) {
+            // Remover evento
+            this.element.removeEventListener('input', this.handleNativeColorChange);
+            
+            // Restaurar tipo original se necessário
+            this.element.type = 'text';
+            
+            // Remover wrapper
+            const wrapper = this.element.parentNode;
+            if (wrapper && wrapper.className.includes('color-picker-wrapper')) {
+                wrapper.parentNode.insertBefore(this.element, wrapper);
+                wrapper.remove();
+            }
+            
+            // Limpar classes
+            this.element.className = this.element.className.replace(' color-picker-native', '');
+        } else {
+            // Remover eventos
+            this.element.removeEventListener('input', this.handleInputChange);
+            this.element.removeEventListener('blur', this.validateAndFormat);
+            
+            // Limpar classes
+            this.element.className = this.element.className.replace(' color-picker-input', '');
+            
+            // Remover wrapper se existir
+            const wrapper = this.element.parentNode;
+            if (wrapper && wrapper.className.includes('color-picker-wrapper')) {
+                wrapper.parentNode.insertBefore(this.element, wrapper);
+                wrapper.remove();
+            }
+        }
+        
         delete this.element.colorPickerInstance;
     }
 }

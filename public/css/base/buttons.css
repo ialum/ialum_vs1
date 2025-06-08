@@ -544,6 +544,113 @@
 }
 
 /* =================================================================
+   SELETOR DE TEMA - Botão especializado
+================================================================= */
+
+.btn-theme-selector {
+    min-height: 100px;
+    padding: var(--spacing-md);
+    flex-direction: column;
+    text-align: center;
+    border: 2px solid var(--theme-border-primary);
+    background: var(--theme-bg-primary);
+    color: var(--theme-text-primary);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-theme-selector:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: var(--theme-surface-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-theme-selector.active {
+    border-color: var(--primary);
+    background: var(--theme-surface-active);
+    box-shadow: var(--shadow-inset);
+}
+
+.btn-theme-preview {
+    width: 60px;
+    height: 40px;
+    margin: 0 auto var(--spacing-sm);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--theme-border-secondary);
+}
+
+.btn-theme-preview-light {
+    background: var(--white);
+    border-color: var(--gray-200);
+}
+
+.btn-theme-preview-dark {
+    background: var(--gray-700);
+    border-color: var(--gray-600);
+}
+
+.btn-theme-preview-header {
+    height: 12px;
+    width: 100%;
+}
+
+.btn-theme-preview-light .btn-theme-preview-header {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.btn-theme-preview-dark .btn-theme-preview-header {
+    background: var(--gray-800);
+    border-bottom: 1px solid var(--gray-600);
+}
+
+.btn-theme-preview-content {
+    padding: var(--spacing-xs);
+}
+
+.btn-theme-preview-line {
+    height: 4px;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.btn-theme-preview-line.short {
+    width: 60%;
+}
+
+.btn-theme-preview-light .btn-theme-preview-line {
+    background: var(--gray-300);
+}
+
+.btn-theme-preview-dark .btn-theme-preview-line {
+    background: var(--gray-500);
+}
+
+.btn-theme-title {
+    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.btn-theme-desc {
+    font-size: var(--font-size-xs);
+    color: var(--theme-text-secondary);
+}
+
+.btn-theme-group {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+@media (max-width: var(--breakpoint-md)) {
+    .btn-theme-group {
+        flex-direction: column;
+    }
+}
+
+/* =================================================================
    ANIMAÇÕES
 ================================================================= */
 

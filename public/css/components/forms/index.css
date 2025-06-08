@@ -4,9 +4,13 @@
  * Componentes especializados para formulários:
  * - color-picker: Seletor de cores
  * - file-upload: Upload de arquivos com preview
+ * - markdown-editor: Editor Markdown com preview
+ * - font-selector: Seletor de fontes nativo
  * 
  * Base de formulários está em /base/06-forms.css
  */
 
 @import './color-picker.css';
 @import './file-upload.css';
+@import './markdown-editor.css';
+@import './font-selector.css';
