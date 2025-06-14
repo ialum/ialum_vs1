@@ -42,9 +42,9 @@ AGENTES IA: Disponíveis em cada etapa via chat lateral
 ENTRADA: Dados do escritório de advocacia
 ├── Página: /configuracoes-banca
 ├── Componente: CardList (modo: "config") - Linhas Narrativas
-│   └── Lista até 20 items: nome (25 char + emoji), descricao (1000 char)
+│   └── Lista até 20 items: nome (25 char + emoji), descricao (500 char)
 ├── Componente: CardList (modo: "config") - Temas Jurídicos
-│   └── Lista até 20 items: nome (25 char + emoji), descricao (1000 char)
+│   └── Lista até 20 items: nome (25 char + emoji), descricao (500 char), numero de publicações mensais (inteiro)
 ├── Componente: CardForm (modo: "config")
 │   └── Upload: 6 logos, 4 cores, 2 fontes, posicionamento
 └── SAÍDA: {
@@ -61,6 +61,7 @@ ENTRADA: Dados do escritório de advocacia
           id: "uuid",
           nome: "🏠 Compra e Venda",
           descricao: "Problemas em contratos...1000 caracteres",
+          quantidade_mes: "3",
           ativo: true
         }],
         // Identidade Visual
@@ -331,12 +332,16 @@ MONITORAMENTO: Status de conexão em tempo real
 
 ## 🚀 FASE 2: PRODUÇÃO DE CONTEÚDO ⏳
 
-### ETAPA 1: Ideação e Criação de Tópicos
+### ETAPA 1: Ideação e Criação de Tópicos ⏳
 ```
 ENTRADA: Sugestões IA + Input manual + Contexto banca
 ├── Página: /topicos
-├── Componente: CardList (modo: "topicos-kanban")
-│   └── Colunas: ideia | rascunho | embasado
+├── Componente: baseSearch (modo: "topicos-grid")
+│   └── Placeholder: "título, assunto ou id"
+│   └── Filtros: status do tópico, temas
+├── Componente: CardDisplay (modo: "topicos-grid")
+│   └── Tópico: titulo, status, id, ultima_modificacao, advogado, tema, assunto.
+│   └── Tópico_publicacoes: 
 ├── Componente: CardForm (modo: "topico-rapido")
 │   └── Herda: temas e narrativas da config
 ├── Agente: iAlum Editor Chefe
@@ -366,7 +371,7 @@ VALIDAÇÃO: Título único + tema/narrativa existentes
 WORKFLOW N8N: CENTRAL → SugestaoTopicos → ValidaTopico
 ```
 
-### ETAPA 2: Embasamento Jurídico Contextualizado
+### ETAPA 2: Embasamento Jurídico Contextualizado ⏳
 ```
 ENTRADA: Topico completo + Pesquisas + Uploads
 ├── Página: /embasamentos
@@ -409,7 +414,7 @@ PROCESSAMENTO: Estruturação automática do conteúdo
 WORKFLOW N8N: DataTransform → PesquisaJuridica → Estrutura
 ```
 
-### ETAPA 3: Geração Multiformato com Templates
+### ETAPA 3: Geração Multiformato com Templates ⏳
 ```
 ENTRADA: Embasamento + Templates selecionados + Identidade
 ├── Página: /publicacoes
@@ -455,7 +460,7 @@ OTIMIZAÇÃO: Adapta tom/formato por rede social
 WORKFLOW N8N: MidiaCreateIA → AdaptaConteudo → Formata
 ```
 
-### ETAPA 4: Processamento Visual com Assets
+### ETAPA 4: Processamento Visual com Assets ⏳
 ```
 ENTRADA: Publicação estruturada + Banco imagens + Identidade
 ├── Página: /redacao-instagram (por rede)
@@ -498,7 +503,7 @@ API: Bannerbear com modificações dinâmicas
 WORKFLOW N8N: TemplateProcessing → BannerbearAPI → CDN
 ```
 
-### ETAPA 5: Agendamento Inteligente Contextual
+### ETAPA 5: Agendamento Inteligente Contextual ⏳
 ```
 ENTRADA: Publicações prontas + Histórico + Calendário
 ├── Página: /agendamentos
@@ -532,7 +537,7 @@ HERANÇA: Timezone e limites das configurações
 WORKFLOW N8N: CronPublisher → AnalisaAgenda → Programa
 ```
 
-### ETAPA 6: Publicação com Credenciais Integradas
+### ETAPA 6: Publicação com Credenciais Integradas ⏳
 ```
 ENTRADA: Agendamento + Mídias + Tokens OAuth
 ├── Página: /dashboard (monitoramento real-time)
@@ -572,9 +577,9 @@ WORKFLOW N8N: CronPublisher → PublishAPI → Analytics
 ---
 
 
-## 🤖 ARQUITETURA DE COMUNICAÇÃO IA
+## 🤖 ARQUITETURA DE COMUNICAÇÃO IA  ✅
 
-### **Como os Agentes se Integram ao Sistema**
+### **Como os Agentes se Integram ao Sistema**  ✅
 
 ```
 FRONTEND                    IA (Chat)                    BACKEND
@@ -585,7 +590,7 @@ Formulários          ←    Preenche/Sugere        ←    Retorna Dados
 Interface Atualiza   ←    Responde no Chat       ←    Processa Ações
 ```
 
-### **Fluxo do Chat Lateral com IA**
+### **Fluxo do Chat Lateral com IA**  ✅
 
 1. **Abertura Contextualizada**
    - Usuário clica no botão do agente (ex: "iAlum Designer")
@@ -603,7 +608,8 @@ Interface Atualiza   ←    Responde no Chat       ←    Processa Ações
    - IA usa ferramentas MCP para executar ações
    - Pode preencher formulários automaticamente
    - Pode buscar dados adicionais no backend
-   - Pode gerar conteúdo e preview
+   - Pode gerar conteúdo, pesquisar na internet
+   - Listar demais ferramentas
 
 4. **Resultado Integrado**
    - Ação executada aparece imediatamente na interface
@@ -611,18 +617,4 @@ Interface Atualiza   ←    Responde no Chat       ←    Processa Ações
    - Dados são salvos no estado apropriado
    - Interface reflete mudanças em tempo real
 
-### **O que cada Agente pode acessar**
 
-**Do Frontend:**
-- Estado global da banca (temas, narrativas, identidade)
-- Dados da página atual (formulários, listas, grids)
-- Histórico de ações recentes
-- Preferências do usuário
-
-**Do Backend:**
-- Executar workflows específicos do N8N
-- Buscar dados adicionais no Supabase
-- Chamar APIs externas (geração de imagem, pesquisa)
-- Salvar resultados processados
-
----

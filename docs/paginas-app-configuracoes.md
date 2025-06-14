@@ -88,7 +88,7 @@ Configurações/
 
 **2.1 Banco de Imagens por Tema (image-bank)**
 - **cabeçario seletor**
-  - Seletor de tema no topo com osuma visualização tipo icones dos temas da banca
+  - Seletor de tema no topo com a visualização tipo icones dos temas da banca
   - Texto descrição do tema dinamico conforme seleciona o tema
 - **grid das imagens do tema selecionado com abas**
   - Abas de imagens ja filtradas pelo tema selecionado:
@@ -118,49 +118,37 @@ Configurações/
 
 #### **Seções da Página**
 
-**3.1 Biblioteca de Templates por rede social/ublicação**
+**3.1 Biblioteca de Templates por rede social/publicação**
+os templates são configurados pelo bannerbeer, pelo editor visual dele, pela equipe ialum. uma biblioteca de templates fica disponível para que o cliente escolha, ou solicite criação de templates personalizados para a equipe Ialum.
+
+ususario escolhe o tipo de publicação, exemplo: carrossel do instagram: este possui 4 templates distintos em sua estrturua, um de capa, um de citação para o slide 2 e 9, um de conteudos para slides de 3 a 8 e um de cta para slide 10.
+
+ususario pode apenas escolher qual template será usado para cada slide especifico do carrossel: escolhe um template para cada slide.
+
 - **cabeçario seletor**
   - Seletor de rede social que ao clicar na rede espande os tipo de publicação
+
 - **grid de templates do tipo de publicação**
-  - templates possuem tamanho e variaveis
-    - **Usuario pode criar um**: Im
+  - templates possuem tamanho e variaveis:
+    - Instagram Carrossel
+    - Instagram Stories
+    - Instagram Reels Cover
+    - LinkedIn Post
+    - LinkedIn Article
+    - Facebook Post
+    - TikTok Cover
+  - **Usuario pode criar um**: 
 - Preview em hover
-- Estatísticas de uso
-
-**3.2 Editor de Templates**
-- Canvas visual
-- Elementos arrastáveis
-- Propriedades editáveis
-- Variáveis dinâmicas
-- Preview responsivo
-
-**3.3 Categorias**
-- Instagram Carrossel
-- Instagram Stories
-- Instagram Reels Cover
-- LinkedIn Post
-- LinkedIn Article
-- Facebook Post
-- TikTok Cover
 
 **3.4 Elementos de Template**
-- Textos (título, corpo, CTA)
-- Imagens (principal, logo, ícones)
-- Formas e fundos
-- Gradientes
-- Padrões
+- Textos (título, corpo) - será preenchido pelo conteudo da publicação ao gerar a midia de publicação
+- Imagens de fundo - será preenchido pela imagem seleionada para o slide ao gerar a midia de publicação
+- Fonte - fontes da banca
+- Gradientes - cores da banca
+- logo - logos da banca
 
-**3.5 Configurações Avançadas**
-- Variáveis customizadas
-- Condicionais
-- Loops para carrossel
-- Integração com dados
+Ver api do bannerbeer se é possivel mudar tipo de fonte, cores etc via api
 
-#### **Integração Bannerbear**
-- Sincronização de templates
-- Mapeamento de variáveis
-- Preview antes de salvar
-- Histórico de versões
 
 ---
 
@@ -196,29 +184,8 @@ TikTok Business
 └── Notificar quando disponível
 ```
 
-**4.2 Ferramentas de IA**
-```
-OpenAI (ChatGPT)
-├── API Key: ****hidden****
-├── Modelo: GPT-4
-├── Limite mensal: 1000 requisições
-├── Uso atual: 234/1000
-└── Ações: Atualizar key, Ver logs
-
-DALL-E / Midjourney
-├── Status: Ativo
-├── Créditos: 500 imagens
-├── Qualidade padrão: HD
-└── Ações: Comprar créditos
-
-Bannerbear
-├── API Key: ****hidden****
-├── Projetos sincronizados: 3
-├── Templates: 15 ativos
-└── Ações: Sincronizar, Logs
-```
-
 **4.3 Analytics e Monitoramento**
+
 ```
 Google Analytics
 ├── ID de acompanhamento
@@ -231,33 +198,6 @@ Pixel Facebook
 └── Teste de eventos
 ```
 
-**4.4 Pagamentos**
-```
-Stripe
-├── Modo: Produção/Teste
-├── Webhooks configurados
-└── Logs de transação
-
-PagSeguro
-├── Email cadastrado
-├── Token de produção
-└── Notificações ativas
-```
-
-**4.5 Webhooks e APIs**
-- Endpoints cadastrados
-- Logs de requisições
-- Teste de webhook
-- Documentação da API
-
-#### **Segurança**
-- Todas as API keys criptografadas
-- Logs de acesso
-- Renovação automática de tokens
-- Alertas de expiração
-
----
-
 ### **5. SISTEMA**
 
 **Rota**: `/app/configuracoes/sistema`
@@ -269,7 +209,6 @@ PagSeguro
 - Fuso horário
 - Formato de data/hora
 - Tema (claro/escuro)
-- Densidade da interface
 
 **5.2 Notificações**
 ```
@@ -291,130 +230,22 @@ WhatsApp Business
 └── Limites diários
 ```
 
-**5.3 Segurança**
-- Sessão única
-- Tempo de inatividade
-- 2FA obrigatório
-- IPs permitidos
-- Logs de acesso
-
-**5.4 Backup e Dados**
+**5.3 Backup e Dados**
 - Backup automático
 - Frequência (diário/semanal)
 - Retenção (30/60/90 dias)
 - Exportar dados (LGPD)
 - Importar dados
 
-**5.5 Limites e Cotas**
-- Usuários simultâneos
-- Armazenamento usado
-- Limite de publicações/mês
-- Uso de IA/mês
-- Upgrade de plano
-
-**5.6 Modo Avançado**
+**5.4 Modo Avançado**
 - API Rate Limits
 - Cache settings
 - Debug mode
 - Logs do sistema
 - Performance metrics
 
-#### **Ações Globais**
+**5.5 Ações Globais**
 - Limpar cache
 - Reindexar busca
 - Verificar integridade
 - Modo manutenção
-- Reset de fábrica
-
----
-
-## 🔐 PERMISSÕES POR PÁGINA
-
-### **Níveis de Acesso**
-
-**Admin (Proprietário)**
-- Acesso total a todas as configurações
-- Pode adicionar/remover usuários
-- Gerencia billing e planos
-- Acesso aos logs de segurança
-
-**Editor**
-- Configurações de conteúdo
-- Banco de imagens (image-bank)
-- Templates
-- Integrações (visualizar)
-
-**Reviewer**
-- Apenas visualização
-- Sem edição de configurações
-- Acesso ao banco de imagens (image-bank)
-
-**Viewer**
-- Sem acesso às configurações
-- Apenas páginas operacionais
-
----
-
-## 🎯 FLUXOS ESPECIAIS
-
-### **Primeiro Acesso**
-1. Wizard de configuração inicial
-2. Dados da banca (obrigatório)
-3. Upload de logo (opcional)
-4. Conectar primeira rede social
-5. Criar primeiro tema jurídico
-
-### **Mudança de Plano**
-1. Notificação de limite próximo
-2. Link direto para upgrade
-3. Comparativo de planos
-4. Processo de pagamento
-5. Ativação imediata
-
-### **Integração de Nova Rede**
-1. Selecionar rede social
-2. Autorização OAuth
-3. Selecionar páginas/perfis
-4. Configurar permissões
-5. Teste de publicação
-
----
-
-## 📱 RESPONSIVIDADE
-
-### **Desktop (>1024px)**
-- Layout em duas colunas
-- Menu lateral fixo
-- Formulários expandidos
-
-### **Tablet (768-1024px)**
-- Menu lateral colapsável
-- Formulários adaptados
-- Modais em fullscreen
-
-### **Mobile (<768px)**
-- Menu hambúrguer
-- Uma seção por vez
-- Botões maiores
-- Formulários verticais
-
----
-
-## 💾 SALVAMENTO E VALIDAÇÃO
-
-### **Auto-save**
-- Rascunho a cada 30 segundos
-- Indicador visual de salvamento
-- Recuperação de dados não salvos
-
-### **Validações em Tempo Real**
-- Campos obrigatórios
-- Formatos específicos
-- Limites de caracteres
-- Verificação de duplicatas
-
-### **Confirmações**
-- Mudanças críticas pedem confirmação
-- Preview antes de salvar
-- Opção de desfazer (30 segundos)
-- Log de alterações
